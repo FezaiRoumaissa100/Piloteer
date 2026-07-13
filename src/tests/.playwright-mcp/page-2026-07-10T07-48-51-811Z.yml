@@ -1,0 +1,354 @@
+- generic [active] [ref=f1e1]:
+  - generic:
+    - generic:
+      - link "Passer directement au contenu principal" [ref=f1e2] [cursor=pointer]
+      - link "Aide sur l'accessibilité" [ref=f1e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=fr-TN
+  - generic [ref=f1e8]:
+    - search [ref=f1e9]:
+      - generic [ref=f1e11]:
+        - link [ref=f1e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=fr&ictx=2&sa=X&ved=0ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQPQgK
+          - 'img "Coupe du Monde 2026 : l''art de la tête" [ref=f1e14]'
+        - generic [ref=f1e15]:
+          - generic [ref=f1e16]:
+            - combobox "Rech." [ref=f1e19]: les restaurants les plus bonnes les restaurants les plus bonnes
+            - generic [ref=f1e20]:
+              - button "Effacer" [ref=f1e22] [cursor=pointer]
+              - generic [ref=f1e27]:
+                - button "Utiliser la recherche vocale" [ref=f1e28] [cursor=pointer]
+                - button "Rechercher par image" [ref=f1e31] [cursor=pointer]
+          - button "Rechercher" [ref=f1e34] [cursor=pointer]
+    - generic [ref=f1e39]:
+      - button "Paramètres" [ref=f1e41] [cursor=pointer]
+      - button "Partager" [ref=f1e42] [cursor=pointer]
+      - generic [ref=f1e48]:
+        - button "Applications Google" [ref=f1e50] [cursor=pointer]
+        - link "Connexion" [ref=f1e55] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=fr&passive=true&continue=https://www.google.com/search%3Fq%3Dles%2Brestaurants%2Bles%2Bplus%2Bbonnes%26sca_esv%3Da58e26e22b62a0d5%26source%3Dhp%26ei%3D2qNQategG-SVi-gP0-2dqAY%26iflsig%3DABILxe8AAAAAalCx6t__XGWigBRWhmaUOzbiw6SwMsQ0%26ved%3D0ahUKEwjX9c_Bz8eVAxXkygIHHdN2B2UQ4dUDCC4%26uact%3D5%26oq%3Dles%2Brestaurants%2Bles%2Bplus%2Bbonnes%26gs_lp%3DEgdnd3Mtd2l6Ih9sZXMgcmVzdGF1cmFudHMgbGVzIHBsdXMgYm9ubmVzMgUQIRigATIFECEYoAEyBRAhGJ8FSOshUABY5QJwAHgAkAEAmAGGAqAB4weqAQMyLTS4AQPIAQD4AQGYAgSgApgIwgIHECEYChigAcICBhAAGBYYHsICBRAAGO8FwgIIEAAYgAQYogSYAwCSBwMyLTSgB48QsgcDMi00uAeYCMIHBTItMy4xyAcXgAgB%26sclient%3Dgws-wiz&ec=futura_srp_og_si_72236_p
+  - generic [ref=f1e57]:
+    - navigation [ref=f1e68]:
+      - generic [ref=f1e74]:
+        - list [ref=f1e75]:
+          - listitem [ref=f1e76]:
+            - link "Mode IA" [ref=f1e79] [cursor=pointer]:
+              - /url: /search?q=les+restaurants+les+plus+bonnes&sca_esv=a58e26e22b62a0d5&udm=50&source=hp&fbs=ABfTbFUDadgeu2mn4mYJ8iEZ1GUDDuwRa4um-2LNhBFWIpqZc2YynYX1IYTff9gmCpUOwEKj7uMHWN-f2-kaTXrl8btoj9voxuT3xhDjUDcxLBijTgWpnXeJNzxbThVgGqtUDV7UFMJIrXoo-PD588Ja5FKtEvu6KARSTmQj1e7Hq7f8-1WeiU_avm5mAb-XgpTH-eK9tRjR&aep=1&ntc=1&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ2J8OegQIEhAD
+          - listitem [ref=f1e83]:
+            - link "Tous" [disabled] [ref=f1e84]
+          - listitem [ref=f1e87]:
+            - link "Images" [ref=f1e88] [cursor=pointer]:
+              - /url: /search?sca_esv=a58e26e22b62a0d5&udm=2&fbs=ABfTbFUDadgeu2mn4mYJ8iEZ1GUDDuwRa4um-2LNhBFWIpqZc2YynYX1IYTff9gmCpUOwEKj7uMHWN-f2-kaTXrl8btoj9voxuT3xhDjUDcxLBijTgWpnXeJNzxbThVgGqtUDV7UFMJIrXoo-PD588Ja5FKtEvu6KARSTmQj1e7Hq7f8-1WeiU_avm5mAb-XgpTH-eK9tRjR&q=les+restaurants+les+plus+bonnes&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQtKgLegQIGBAB
+          - listitem [ref=f1e91]:
+            - link "Vidéos courtes" [ref=f1e92] [cursor=pointer]:
+              - /url: /search?sca_esv=a58e26e22b62a0d5&udm=39&fbs=ABfTbFUDadgeu2mn4mYJ8iEZ1GUDDuwRa4um-2LNhBFWIpqZc2YynYX1IYTff9gmCpUOwEKj7uMHWN-f2-kaTXrl8btoj9voxuT3xhDjUDcxLBijTgWpnXeJNzxbThVgGqtUDV7UFMJIrXoo-PD588Ja5FKtEvu6KARSTmQj1e7Hq7f8-1WeiU_avm5mAb-XgpTH-eK9tRjR&q=les+restaurants+les+plus+bonnes&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQs6gLegQIFxAB
+          - listitem [ref=f1e95]:
+            - link "Vidéos" [ref=f1e96] [cursor=pointer]:
+              - /url: /search?sca_esv=a58e26e22b62a0d5&udm=7&fbs=ABfTbFUDadgeu2mn4mYJ8iEZ1GUDDuwRa4um-2LNhBFWIpqZc2YynYX1IYTff9gmCpUOwEKj7uMHWN-f2-kaTXrl8btoj9voxuT3xhDjUDcxLBijTgWpnXeJNzxbThVgGqtUDV7UFMJIrXoo-PD588Ja5FKtEvu6KARSTmQj1e7Hq7f8-1WeiU_avm5mAb-XgpTH-eK9tRjR&q=les+restaurants+les+plus+bonnes&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQtKgLegQIFhAB
+          - listitem [ref=f1e99]:
+            - link "Actualités" [ref=f1e100] [cursor=pointer]:
+              - /url: /search?sca_esv=a58e26e22b62a0d5&q=les+restaurants+les+plus+bonnes&tbm=nws&source=lnms&fbs=ABfTbFUDadgeu2mn4mYJ8iEZ1GUDDuwRa4um-2LNhBFWIpqZc2YynYX1IYTff9gmCpUOwEKj7uMHWN-f2-kaTXrl8btoj9voxuT3xhDjUDcxLBijTgWpnXeJNzxbThVgGqtUDV7UFMJIrXoo-PD588Ja5FKtEvu6KARSTmQj1e7Hq7f8-1WeiU_avm5mAb-XgpTH-eK9tRjR&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ0pQJegQIFRAB
+          - listitem [ref=f1e103]:
+            - link "Web" [ref=f1e104] [cursor=pointer]:
+              - /url: /search?sca_esv=a58e26e22b62a0d5&udm=web&fbs=ABfTbFUDadgeu2mn4mYJ8iEZ1GUDDuwRa4um-2LNhBFWIpqZc2YynYX1IYTff9gmCpUOwEKj7uMHWN-f2-kaTXrl8btoj9voxuT3xhDjUDcxLBijTgWpnXeJNzxbThVgGqtUDV7UFMJIrXoo-PD588Ja5FKtEvu6KARSTmQj1e7Hq7f8-1WeiU_avm5mAb-XgpTH-eK9tRjR&q=les+restaurants+les+plus+bonnes&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQs6gLegQIFBAB
+          - listitem [ref=f1e107]:
+            - button [ref=f1e108] [cursor=pointer]:
+              - generic "Plus de filtres" [ref=f1e109]: Plus
+        - button "Outils" [ref=f1e116] [cursor=pointer]
+    - navigation [ref=f1e124]:
+      - navigation [ref=f1e127]:
+        - list [ref=f1e134]:
+          - listitem [ref=f1e135]:
+            - link "Ajouter Ouvert actuellement" [ref=f1e136] [cursor=pointer]:
+              - /url: /search?sca_esv=a58e26e22b62a0d5&q=les+restaurants+les+plus+bonnes+ouvert+actuellement&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rcuXWp505InN_Cm4AfI7oWBRnumpcvAufu3mQNikuFzy31RhvN53CCWjJFVBPFGAqr_lTK2zqvAkWoqexndvbRAlwZ-gyuJsmg2y_kI4XO9c9o7nsTDlqMHU0BGzd-LLkzrjvcdtWWrSwzcTZomypmFDwfjH2BjCJVrFy57NLIM4bkFuPbT98rzy5zvdQecL48B_6sQ&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQxKsJKAB6BAgaEAE&ictx=0
+              - generic [ref=f1e137]: Ouvert actuellement
+          - listitem [ref=f1e139]:
+            - link "Ajouter Les mieux notés" [ref=f1e140] [cursor=pointer]:
+              - /url: /search?sca_esv=a58e26e22b62a0d5&q=les+restaurants+les+plus+bonnes+les+mieux+not%C3%A9s&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rH0J9BcQGsm1kKnwAKOWyULnQZ42hI-WKtYe6HejE2Tvhrc1jiFcKL73E-ZuoYZfWtxJQM4mjIMYwV4-uZN8xLaccA9M_ub_Pvd49Xvxl3yb6CZuFEvFWcOztzdCoPGkoIPpCmaPX16EKluOCVTennZGPV1e1NAI7DUsmBLz48bYCYo72cbMq_oSGLZp_5476p00Jtw&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQxKsJKAF6BAgZEAE&ictx=0
+              - generic [ref=f1e141]: Les mieux notés
+          - listitem [ref=f1e143]:
+            - button "Prix" [ref=f1e145] [cursor=pointer]
+    - heading "Résultats de recherche" [level=1] [ref=f1e152]
+    - generic [ref=f1e157]:
+      - generic [ref=f1e158]:
+        - generic [ref=f1e165]:
+          - heading [level=2] [ref=f1e166]
+          - button "Utiliser la position exacte" [ref=f1e180] [cursor=pointer]
+          - button "Comment la position est utilisée" [ref=f1e188] [cursor=pointer]
+        - generic [ref=f1e206]:
+          - heading "Recherche en cours… Réfléchit un peu plus longtemps…" [level=2] [ref=f1e210]:
+            - generic [ref=f1e211]:
+              - generic [ref=f1e212]: Recherche en cours…
+              - generic [ref=f1e222]: Réfléchit un peu plus longtemps…
+          - progressbar "Génération" [ref=f1e225]
+      - main [ref=f1e276]:
+        - generic [ref=f1e280]:
+          - generic [ref=f1e283]:
+            - heading "Résultats Web" [level=2] [ref=f1e284]
+            - generic [ref=f1e285]:
+              - generic [ref=f1e288]:
+                - link "LES 10 MEILLEURS restaurants à Tunis - Tripadvisor Tripadvisor https://www.tripadvisor.fr › ... › Tunis" [ref=f1e290] [cursor=pointer]:
+                  - /url: https://www.tripadvisor.fr/Restaurants-g293758-Tunis_Tunis_Governorate.html
+                  - heading "LES 10 MEILLEURS restaurants à Tunis - Tripadvisor" [level=3] [ref=f1e291]
+                  - generic [ref=f1e297]:
+                    - generic [ref=f1e298]: Tripadvisor
+                    - generic [ref=f1e300]: https://www.tripadvisor.fr › ... › Tunis
+                - button "À propos de ce résultat" [ref=f1e304] [cursor=pointer]
+              - generic [ref=f1e311]:
+                - text: Meilleurs restaurants à Tunis, Tunisie ·
+                - emphasis [ref=f1e312]: 1. Dar El Jeld
+                - text: . 4,4. (1 197 avis). Moyen-Orient€€€€ · 2. Restaurant Belkadhi. 4,8. (151 avis). Méditerranéenne, Saine€€-€ ...
+              - link [ref=f1e315] [cursor=pointer]:
+                - /url: https://www.tripadvisor.fr/Restaurants-g293758-Tunis_Tunis_Governorate.html
+                - img "les restaurants les plus bonnes sur www.tripadvisor.fr" [ref=f1e317]
+          - generic [ref=f1e321]:
+            - generic [ref=f1e324]:
+              - 'link "Les meilleurs restaurants à Tunis : Notre sélection Marhba.tn https://www.marhba.com › lifestyle › restaurants-chics-g..." [ref=f1e326] [cursor=pointer]':
+                - /url: https://www.marhba.com/lifestyle/restaurants-chics-gastronomiques-sur-tunis-notre-selection
+                - 'heading "Les meilleurs restaurants à Tunis : Notre sélection" [level=3] [ref=f1e327]'
+                - generic [ref=f1e336]:
+                  - generic [ref=f1e337]: Marhba.tn
+                  - generic [ref=f1e339]: https://www.marhba.com › lifestyle › restaurants-chics-g...
+              - button "À propos de ce résultat" [ref=f1e343] [cursor=pointer]
+            - generic [ref=f1e349]:
+              - generic [ref=f1e350]: 9 avr. 2026 —
+              - generic [ref=f1e351]:
+                - emphasis [ref=f1e352]: Dar El Jeld
+                - text: · Dar Belhadj · Fondouk El Attarine · The Breeze - Movenpick Hotel Gammarth · La Maison · Les Dunes · La salle à manger · L'onzième Grill - ...
+            - link [ref=f1e355] [cursor=pointer]:
+              - /url: https://www.marhba.com/lifestyle/restaurants-chics-gastronomiques-sur-tunis-notre-selection
+              - img "les restaurants les plus bonnes sur www.marhba.com" [ref=f1e357]
+          - generic [ref=f1e361]:
+            - generic [ref=f1e364]:
+              - link "LES MEILLEURS restaurants en Tunisie, prix et avis ... On a mangé pour vous https://www.onamangepourvous.tn" [ref=f1e366] [cursor=pointer]:
+                - /url: https://www.onamangepourvous.tn/
+                - heading "LES MEILLEURS restaurants en Tunisie, prix et avis ..." [level=3] [ref=f1e367]
+                - generic [ref=f1e373]:
+                  - generic [ref=f1e374]: On a mangé pour vous
+                  - generic [ref=f1e376]: https://www.onamangepourvous.tn
+              - button "À propos de ce résultat" [ref=f1e380] [cursor=pointer]
+            - generic [ref=f1e387]:
+              - text: On a mangé pour vous, un site de classement des
+              - emphasis [ref=f1e388]: restaurants
+              - text: en Tunisie, prix et avis de
+              - emphasis [ref=f1e389]: restaurant
+              - text: ",trouverez facilement les"
+              - emphasis [ref=f1e390]: bons
+              - text: plans tunisie et les ...
+            - link [ref=f1e393] [cursor=pointer]:
+              - /url: https://www.onamangepourvous.tn/
+              - img "les restaurants les plus bonnes sur www.onamangepourvous.tn" [ref=f1e395]
+            - generic [ref=f1e397]:
+              - text: "Termes manquants : bonnes ‎| Afficher les résultats avec :"
+              - link "bonnes" [ref=f1e398] [cursor=pointer]:
+                - /url: /search?sca_esv=a58e26e22b62a0d5&q=les+restaurants+les+plus+%22bonnes%22&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ5t4CegQIRxAB
+          - generic [ref=f1e402]:
+            - generic [ref=f1e405]:
+              - link "Où déjeuner sans se ruiner à Tunis ? Découvrez 7 ... Facebook · L'instant M Plus de 2,2 k réactions · il y a 8 mois" [ref=f1e407] [cursor=pointer]:
+                - /url: https://www.facebook.com/linstantmtunis/posts/o%C3%B9-d%C3%A9jeuner-sans-se-ruiner-%C3%A0-tunis-d%C3%A9couvrez-7-adresses-locales-o%C3%B9-bien-manger-s/1243370984496390/
+                - heading "Où déjeuner sans se ruiner à Tunis ? Découvrez 7 ..." [level=3] [ref=f1e408]
+                - generic [ref=f1e414]:
+                  - generic [ref=f1e415]: Facebook · L'instant M
+                  - generic [ref=f1e417]: Plus de 2,2 k réactions · il y a 8 mois
+              - button "À propos de ce résultat" [ref=f1e421] [cursor=pointer]
+            - generic [ref=f1e428]:
+              - text: Cette fois- ci direction
+              - emphasis [ref=f1e429]: Restaurant Tunisien Chez Yassine
+              - text: Validé par tous les tunisiens natifs du coin, la vraie saveur de la cuisine tunisienne ...
+          - generic [ref=f1e433]:
+            - generic [ref=f1e436]:
+              - link "Les plus beaux restaurants avec vue sur mer à Tunis Tunisie.co https://tunisie.co › article › restaurants › gastronomie › m..." [ref=f1e438] [cursor=pointer]:
+                - /url: https://tunisie.co/article/18637/restaurants/gastronomie/meilleurs-endroits-manger-mer-tunis-033711
+                - heading "Les plus beaux restaurants avec vue sur mer à Tunis" [level=3] [ref=f1e439]
+                - generic [ref=f1e445]:
+                  - generic [ref=f1e446]: Tunisie.co
+                  - generic [ref=f1e448]: https://tunisie.co › article › restaurants › gastronomie › m...
+              - button "À propos de ce résultat" [ref=f1e452] [cursor=pointer]
+            - generic [ref=f1e458]:
+              - generic [ref=f1e459]: 1 sept. 2022 —
+              - generic [ref=f1e460]:
+                - text: Les plus beaux restaurants avec vue sur mer à Tunis ;
+                - emphasis [ref=f1e461]: Le Golfe
+                - text: ": ; Adresse : 5, Rue El Arbi Zarrouk, Sidi Abdelaziz Marsa ; Zembretta - The ..."
+            - link [ref=f1e464] [cursor=pointer]:
+              - /url: https://tunisie.co/article/18637/restaurants/gastronomie/meilleurs-endroits-manger-mer-tunis-033711
+              - img "les restaurants les plus bonnes sur tunisie.co" [ref=f1e466]
+          - generic [ref=f1e470]:
+            - generic [ref=f1e473]:
+              - 'link "Guide culinaire : Les restaurants mythiques en Tunisie à ... linstant-m.tn https://linstant-m.tn › single-article › ar10055_guide-culi..." [ref=f1e475] [cursor=pointer]':
+                - /url: https://linstant-m.tn/single-article/ar10055_guide-culinaire-les-restaurants-mythiques-en-tunisie-a-tester-au-moins-une-fois
+                - 'heading "Guide culinaire : Les restaurants mythiques en Tunisie à ..." [level=3] [ref=f1e476]'
+                - generic [ref=f1e482]:
+                  - generic [ref=f1e483]: linstant-m.tn
+                  - generic [ref=f1e485]: https://linstant-m.tn › single-article › ar10055_guide-culi...
+              - button "À propos de ce résultat" [ref=f1e489] [cursor=pointer]
+            - generic [ref=f1e495]:
+              - generic [ref=f1e496]: 1 sept. 2025 —
+              - generic [ref=f1e497]:
+                - text: "Guide culinaire : Les restaurants mythiques en Tunisie à tester au moins une fois ·"
+                - emphasis [ref=f1e498]: Le restaurant La Maison – La Marsa
+                - text: · Le restaurant le Golfe – ...
+            - link [ref=f1e501] [cursor=pointer]:
+              - /url: https://linstant-m.tn/single-article/ar10055_guide-culinaire-les-restaurants-mythiques-en-tunisie-a-tester-au-moins-une-fois
+              - img "les restaurants les plus bonnes sur linstant-m.tn" [ref=f1e503]
+          - generic [ref=f1e507]:
+            - generic [ref=f1e510]:
+              - link "Les 10 meilleurs restaurants à Tunis 2026 Tripadvisor https://www.tripadvisor.fr › ... › Restaurants Tunis" [ref=f1e512] [cursor=pointer]:
+                - /url: https://www.tripadvisor.fr/Restaurants-g293758-zft10613-Tunis_Tunis_Governorate.html
+                - heading "Les 10 meilleurs restaurants à Tunis 2026" [level=3] [ref=f1e513]
+                - generic [ref=f1e519]:
+                  - generic [ref=f1e520]: Tripadvisor
+                  - generic [ref=f1e522]: https://www.tripadvisor.fr › ... › Restaurants Tunis
+              - button "À propos de ce résultat" [ref=f1e526] [cursor=pointer]
+            - generic [ref=f1e533]:
+              - emphasis [ref=f1e534]: 1. Restaurant Belkadhi
+              - text: · (151 avis). Méditerranéenne, Saine · A recommander · Très bon resto ; 2. Dar El Jeld · (1 197 avis). Moyen-Orient · Bsahtek & Choukrane, Dar ...
+            - link [ref=f1e537] [cursor=pointer]:
+              - /url: https://www.tripadvisor.fr/Restaurants-g293758-zft10613-Tunis_Tunis_Governorate.html
+              - img "les restaurants les plus bonnes sur www.tripadvisor.fr" [ref=f1e539]
+          - generic [ref=f1e545]:
+            - generic [ref=f1e548]:
+              - link "On a testé le meilleur restaurant de Tunisie ! Tague la ... Instagram · spotlistfood Plus de 270 \"J'aime\" · il y a 1 an" [ref=f1e550] [cursor=pointer]:
+                - /url: https://www.instagram.com/reel/DIwXFC3t7yl/?hl=fr
+                - heading "On a testé le meilleur restaurant de Tunisie ! Tague la ..." [level=3] [ref=f1e551]
+                - generic [ref=f1e557]:
+                  - generic [ref=f1e558]: Instagram · spotlistfood
+                  - generic [ref=f1e560]: Plus de 270 "J'aime" · il y a 1 an
+              - button "À propos de ce résultat" [ref=f1e564] [cursor=pointer]
+            - generic [ref=f1e569]:
+              - link "On a testé le meilleur restaurant de Tunisie ! Tague la ... par Spotlist Food sur Instagram. Lire sur Instagram. 0:13" [ref=f1e570] [cursor=pointer]:
+                - /url: https://www.instagram.com/reel/DIwXFC3t7yl/?hl=fr
+                - generic [ref=f1e571]: 0:13
+              - generic [ref=f1e580]: C'est vrai que c'est très bon ce resto. April 22, 2025. OCR. TUNIS Le plus beau restaurant de Tunisie LE GOLFE Depuis 1955 FRITTO SALADES ...
+          - generic [ref=f1e585]:
+            - generic [ref=f1e588]:
+              - link "Les meilleurs restaurants en Tunisie Petit Futé https://www.petitfute.com › Tunisie" [ref=f1e590] [cursor=pointer]:
+                - /url: https://www.petitfute.com/p71-tunisie/c1165-restaurants/
+                - heading "Les meilleurs restaurants en Tunisie" [level=3] [ref=f1e591]
+                - generic [ref=f1e597]:
+                  - generic [ref=f1e598]: Petit Futé
+                  - generic [ref=f1e600]: https://www.petitfute.com › Tunisie
+              - button "À propos de ce résultat" [ref=f1e604] [cursor=pointer]
+            - generic [ref=f1e611]:
+              - text: Les meilleurs restaurants en Tunisie ·
+              - emphasis [ref=f1e612]: BARBEROUSSE & WINE BAR
+              - text: · LE GOLFE · LE CAP · CHEZ ACHOUR · LA SALLE À MANGER · RESTAURANT LE LIDO · NEPTUNE RESTAURANT LOUNGE.
+            - link [ref=f1e615] [cursor=pointer]:
+              - /url: https://www.petitfute.com/p71-tunisie/c1165-restaurants/
+              - img "les restaurants les plus bonnes sur www.petitfute.com" [ref=f1e617]
+          - generic [ref=f1e621]:
+            - heading "Résultats de recherche à proximité" [level=2] [ref=f1e622]
+            - generic [ref=f1e623]:
+              - heading "Adresses" [level=2] [ref=f1e627]
+              - generic [ref=f1e628]:
+                - heading "Carte" [level=3] [ref=f1e629]
+                - link "Carte" [ref=f1e632] [cursor=pointer]:
+                  - /url: /search?q=les+restaurants+les+plus+bonnes&sca_esv=a58e26e22b62a0d5&udm=1&lsack=4qNQao2tNYmN-d8P2ZvQwAE&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQtgN6BAhMEAM
+              - generic [ref=f1e635]:
+                - 'button "Restaurant \"Le Jardin des Légumes\" Note : 4,9 sur 5 153 avis d''utilisateurs · 10–20 DT · Restaurant 43 Farhat Hached \"Vraiment excellent service très bonne cuisine prix très abordables\"" [ref=f1e640]':
+                  - generic [ref=f1e644] [cursor=pointer]:
+                    - heading "Restaurant \"Le Jardin des Légumes\"" [level=3] [ref=f1e645]
+                    - generic [ref=f1e647]:
+                      - 'img "Note : 4,9 sur 5 153 avis d''utilisateurs" [ref=f1e649]': 4,9(153)
+                      - text: · 10–20 DT · Restaurant
+                    - generic [ref=f1e653]: 43 Farhat Hached
+                    - generic [ref=f1e654]: "\"Vraiment excellent service très bonne cuisine prix très abordables\""
+                - 'button "Restaurant des Arts Note : 4,8 sur 5 502 avis d''utilisateurs · 30–40 DT · Restaurant R56P+C9J, cité de la culture chedli klibi, Av. Mohamed 5 Fermé · Ouvre à 12:00 \"Tres bonne cuisi6de qualité et service irréprochable\"" [ref=f1e671]':
+                  - generic [ref=f1e675] [cursor=pointer]:
+                    - heading "Restaurant des Arts" [level=3] [ref=f1e676]
+                    - generic [ref=f1e678]:
+                      - 'img "Note : 4,8 sur 5 502 avis d''utilisateurs" [ref=f1e680]': 4,8(502)
+                      - text: · 30–40 DT · Restaurant
+                    - generic [ref=f1e684]: R56P+C9J, cité de la culture chedli klibi, Av. Mohamed 5
+                    - generic [ref=f1e685]: Fermé · Ouvre à 12:00
+                    - generic [ref=f1e687]: "\"Tres bonne cuisi6de qualité et service irréprochable\""
+                - 'button "Homarus Restaurant Note : 4,9 sur 5 79 avis d''utilisateurs · 30–40 DT · Fruits de mer 10 Rue Mongi Slim Fermé · Ouvre à 11:00 \"Super cuisine, poisson frais et service aimable et serviable.\"" [ref=f1e704]':
+                  - generic [ref=f1e708] [cursor=pointer]:
+                    - heading "Homarus Restaurant" [level=3] [ref=f1e709]
+                    - generic [ref=f1e711]:
+                      - 'img "Note : 4,9 sur 5 79 avis d''utilisateurs" [ref=f1e713]': 4,9(79)
+                      - text: · 30–40 DT · Fruits de mer
+                    - generic [ref=f1e717]: 10 Rue Mongi Slim
+                    - generic [ref=f1e718]: Fermé · Ouvre à 11:00
+                    - generic [ref=f1e720]: "\"Super cuisine, poisson frais et service aimable et serviable.\""
+              - heading [level=3] [ref=f1e734]:
+                - link "Voir plus de lieux" [ref=f1e736] [cursor=pointer]:
+                  - /url: /search?q=les+restaurants+les+plus+bonnes&sca_esv=a58e26e22b62a0d5&udm=1&lsack=4qNQao2tNYmN-d8P2ZvQwAE&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQjGp6BAhOEAE
+                  - separator [ref=f1e737]
+        - generic [ref=f1e744]:
+          - generic [ref=f1e749]:
+            - heading "Recherches associées" [level=2] [ref=f1e751]
+            - generic [ref=f1e753]:
+              - generic [ref=f1e754]:
+                - link "Restaurant Tunis vue sur mer" [ref=f1e758] [cursor=pointer]:
+                  - /url: /search?sca_esv=a58e26e22b62a0d5&q=Restaurant+Tunis+vue+sur+mer&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ1QJ6BAgnEAE
+                - link "Meilleur restaurant Tunis Lac" [ref=f1e772] [cursor=pointer]:
+                  - /url: /search?sca_esv=a58e26e22b62a0d5&q=Meilleur+restaurant+Tunis+Lac&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ1QJ6BAg-EAE
+                - link "Restaurant chic Tunis" [ref=f1e786] [cursor=pointer]:
+                  - /url: /search?sca_esv=a58e26e22b62a0d5&q=Restaurant+chic+Tunis&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ1QJ6BAg7EAE
+                - link "Restaurant familial Tunis" [ref=f1e800] [cursor=pointer]:
+                  - /url: /search?sca_esv=a58e26e22b62a0d5&q=Restaurant+familial+Tunis&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ1QJ6BAg0EAE
+              - generic [ref=f1e811]:
+                - link "Meilleur restaurant Tunis centre ville" [ref=f1e815] [cursor=pointer]:
+                  - /url: /search?sca_esv=a58e26e22b62a0d5&q=Meilleur+restaurant+Tunis+centre+ville&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ1QJ6BAgyEAE
+                - link "Restaurant bar Tunis" [ref=f1e829] [cursor=pointer]:
+                  - /url: /search?sca_esv=a58e26e22b62a0d5&q=Restaurant+bar+Tunis&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ1QJ6BAgwEAE
+                - link "Bon plan restaurant Tunis" [ref=f1e843] [cursor=pointer]:
+                  - /url: /search?sca_esv=a58e26e22b62a0d5&q=Bon+plan+restaurant+Tunis&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ1QJ6BAgvEAE
+                - link "Bon plan restaurant Lac" [ref=f1e857] [cursor=pointer]:
+                  - /url: /search?sca_esv=a58e26e22b62a0d5&q=Bon+plan+restaurant+Lac&sa=X&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ1QJ6BAgpEAE
+          - navigation [ref=f1e868]:
+            - heading "Navigation par pages" [level=1] [ref=f1e869]
+            - text: "1"
+            - link "Page 2" [ref=f1e872] [cursor=pointer]:
+              - /url: /search?q=les+restaurants+les+plus+bonnes&sca_esv=a58e26e22b62a0d5&ei=4qNQao2tNYmN-d8P2ZvQwAE&start=10&sa=N&sstk=AU9db-DVsFJV6MPJDuOCzNVJ4o8elWaNwWtO5TPhiuLVWZE3SQ2HsrzvK3vLV01OlaHAYDI8kEDnvTtvTGF80iMtQCtBoSCTC4nG2w&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ8tMDegQIMRAE
+              - text: "2"
+            - link "Page 3" [ref=f1e874] [cursor=pointer]:
+              - /url: /search?q=les+restaurants+les+plus+bonnes&sca_esv=a58e26e22b62a0d5&ei=4qNQao2tNYmN-d8P2ZvQwAE&start=20&sa=N&sstk=AU9db-DVsFJV6MPJDuOCzNVJ4o8elWaNwWtO5TPhiuLVWZE3SQ2HsrzvK3vLV01OlaHAYDI8kEDnvTtvTGF80iMtQCtBoSCTC4nG2w&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ8tMDegQIMRAG
+              - text: "3"
+            - link "Page 4" [ref=f1e876] [cursor=pointer]:
+              - /url: /search?q=les+restaurants+les+plus+bonnes&sca_esv=a58e26e22b62a0d5&ei=4qNQao2tNYmN-d8P2ZvQwAE&start=30&sa=N&sstk=AU9db-DVsFJV6MPJDuOCzNVJ4o8elWaNwWtO5TPhiuLVWZE3SQ2HsrzvK3vLV01OlaHAYDI8kEDnvTtvTGF80iMtQCtBoSCTC4nG2w&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ8tMDegQIMRAI
+              - text: "4"
+            - link "Page 5" [ref=f1e878] [cursor=pointer]:
+              - /url: /search?q=les+restaurants+les+plus+bonnes&sca_esv=a58e26e22b62a0d5&ei=4qNQao2tNYmN-d8P2ZvQwAE&start=40&sa=N&sstk=AU9db-DVsFJV6MPJDuOCzNVJ4o8elWaNwWtO5TPhiuLVWZE3SQ2HsrzvK3vLV01OlaHAYDI8kEDnvTtvTGF80iMtQCtBoSCTC4nG2w&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ8tMDegQIMRAK
+              - text: "5"
+            - link "Page 6" [ref=f1e880] [cursor=pointer]:
+              - /url: /search?q=les+restaurants+les+plus+bonnes&sca_esv=a58e26e22b62a0d5&ei=4qNQao2tNYmN-d8P2ZvQwAE&start=50&sa=N&sstk=AU9db-DVsFJV6MPJDuOCzNVJ4o8elWaNwWtO5TPhiuLVWZE3SQ2HsrzvK3vLV01OlaHAYDI8kEDnvTtvTGF80iMtQCtBoSCTC4nG2w&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ8tMDegQIMRAM
+              - text: "6"
+            - link "Page 7" [ref=f1e882] [cursor=pointer]:
+              - /url: /search?q=les+restaurants+les+plus+bonnes&sca_esv=a58e26e22b62a0d5&ei=4qNQao2tNYmN-d8P2ZvQwAE&start=60&sa=N&sstk=AU9db-DVsFJV6MPJDuOCzNVJ4o8elWaNwWtO5TPhiuLVWZE3SQ2HsrzvK3vLV01OlaHAYDI8kEDnvTtvTGF80iMtQCtBoSCTC4nG2w&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ8tMDegQIMRAO
+              - text: "7"
+            - link "Page 8" [ref=f1e884] [cursor=pointer]:
+              - /url: /search?q=les+restaurants+les+plus+bonnes&sca_esv=a58e26e22b62a0d5&ei=4qNQao2tNYmN-d8P2ZvQwAE&start=70&sa=N&sstk=AU9db-DVsFJV6MPJDuOCzNVJ4o8elWaNwWtO5TPhiuLVWZE3SQ2HsrzvK3vLV01OlaHAYDI8kEDnvTtvTGF80iMtQCtBoSCTC4nG2w&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ8tMDegQIMRAQ
+              - text: "8"
+            - link "Page 9" [ref=f1e886] [cursor=pointer]:
+              - /url: /search?q=les+restaurants+les+plus+bonnes&sca_esv=a58e26e22b62a0d5&ei=4qNQao2tNYmN-d8P2ZvQwAE&start=80&sa=N&sstk=AU9db-DVsFJV6MPJDuOCzNVJ4o8elWaNwWtO5TPhiuLVWZE3SQ2HsrzvK3vLV01OlaHAYDI8kEDnvTtvTGF80iMtQCtBoSCTC4nG2w&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ8tMDegQIMRAS
+              - text: "9"
+            - link "Page 10" [ref=f1e888] [cursor=pointer]:
+              - /url: /search?q=les+restaurants+les+plus+bonnes&sca_esv=a58e26e22b62a0d5&ei=4qNQao2tNYmN-d8P2ZvQwAE&start=90&sa=N&sstk=AU9db-DVsFJV6MPJDuOCzNVJ4o8elWaNwWtO5TPhiuLVWZE3SQ2HsrzvK3vLV01OlaHAYDI8kEDnvTtvTGF80iMtQCtBoSCTC4nG2w&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ8tMDegQIMRAU
+              - text: "10"
+            - heading [level=2] [ref=f1e890]:
+              - link "Suivant" [ref=f1e891] [cursor=pointer]:
+                - /url: /search?q=les+restaurants+les+plus+bonnes&sca_esv=a58e26e22b62a0d5&ei=4qNQao2tNYmN-d8P2ZvQwAE&start=10&sa=N&sstk=AU9db-DVsFJV6MPJDuOCzNVJ4o8elWaNwWtO5TPhiuLVWZE3SQ2HsrzvK3vLV01OlaHAYDI8kEDnvTtvTGF80iMtQCtBoSCTC4nG2w&ved=2ahUKEwiNptLFz8eVAxWJRv4FHdkNFBgQ8NMDegQIMRAW
+        - navigation
+    - contentinfo [ref=f1e894]:
+      - heading "Liens de pied de page" [level=1] [ref=f1e895]
+      - generic [ref=f1e899]:
+        - generic [ref=f1e901]:
+          - text: Tunisie
+          - generic [ref=f1e903]:
+            - button "Tunis - D'après votre historique d'activité" [ref=f1e905] [cursor=pointer]:
+              - generic [ref=f1e906]: Tunis
+              - generic [ref=f1e908]:
+                - text: "-"
+                - generic [ref=f1e909]: D'après votre historique d'activité
+            - text: "-"
+            - button "Mettre à jour ma position" [ref=f1e911] [cursor=pointer]
+        - generic [ref=f1e914]:
+          - link "Aide" [ref=f1e915] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=fr-TN&fg=1
+          - link "Envoyer des commentaires" [ref=f1e916] [cursor=pointer]:
+            - /url: "#"
+          - link "Confidentialité" [ref=f1e917] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=fr-TN&fg=1
+          - link "Conditions" [ref=f1e918] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=fr-TN&fg=1

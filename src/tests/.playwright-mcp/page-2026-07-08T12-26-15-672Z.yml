@@ -1,0 +1,719 @@
+- generic [active] [ref=f3e1]:
+  - generic:
+    - generic:
+      - link "Passer directement au contenu principal" [ref=f3e2] [cursor=pointer]
+      - link "Aide sur l'accessibilité" [ref=f3e3] [cursor=pointer]:
+        - /url: https://support.google.com/websearch/answer/181196?hl=fr-TN
+  - generic [ref=f3e8]:
+    - search [ref=f3e9]:
+      - generic [ref=f3e11]:
+        - link "Afficher la page d'accueil de Google" [ref=f3e13] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=fr&sa=X&ved=0ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQPAgI
+          - img [ref=f3e14]
+        - generic [ref=f3e21]:
+          - generic [ref=f3e22]:
+            - combobox "Rech." [ref=f3e25]: LangGraph tutorial LangGraph tutorial
+            - generic [ref=f3e26]:
+              - button "Effacer" [ref=f3e28] [cursor=pointer]:
+                - img [ref=f3e30]
+              - generic [ref=f3e33]:
+                - button "Utiliser la recherche vocale" [ref=f3e34] [cursor=pointer]:
+                  - img [ref=f3e35]
+                - button "Rechercher par image" [ref=f3e37] [cursor=pointer]:
+                  - img [ref=f3e38]
+          - button "Rechercher" [ref=f3e40] [cursor=pointer]:
+            - img [ref=f3e43]
+    - generic [ref=f3e45]:
+      - button "Paramètres" [ref=f3e47] [cursor=pointer]:
+        - img [ref=f3e50]
+      - button "Partager" [ref=f3e53] [cursor=pointer]:
+        - img [ref=f3e57]
+      - generic [ref=f3e59]:
+        - button "Applications Google" [ref=f3e61] [cursor=pointer]:
+          - img [ref=f3e62]
+        - link "Connexion" [ref=f3e66] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=fr&passive=true&continue=https://www.google.com/search%3Fq%3DLangGraph%2Btutorial%26sca_esv%3Da897caec0716270c%26source%3Dhp%26ei%3D3kFOatfdA6Tp7M8P17_u4Ak%26iflsig%3DABILxe8AAAAAak5P7k13_FfjG1-5cJZyGlI9amHXRpTB%26ved%3D0ahUKEwjXxLrkicOVAxWkNPsDHdefG5wQ4dUDCB0%26uact%3D5%26oq%3DLangGraph%2Btutorial%26gs_lp%3DEgdnd3Mtd2l6IhJMYW5nR3JhcGggdHV0b3JpYWwyBRAAGIAEMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yBhAAGBYYHjIIEAAYFhgeGAoyBhAAGBYYHjIGEAAYFhgeMgYQABgWGB5IjBdQAFgAcAB4AJABAJgBiwGgAYsBqgEDMC4xuAEDyAEA-AEBmAIBoAKfAZgDAJIHAzAuMaAHrgWyBwMwLjG4B58BwgcDMy0xyAcPgAgB%26sclient%3Dgws-wiz%26sei%3D40FOarHnItOlkdUPo-SKuAk&ec=futura_srp_og_si_72236_p
+  - generic [ref=f3e68]:
+    - navigation [ref=f3e74]:
+      - generic [ref=f3e80]:
+        - list [ref=f3e81]:
+          - listitem [ref=f3e82]:
+            - link "Mode IA" [ref=f3e85] [cursor=pointer]:
+              - /url: /search?q=LangGraph+tutorial&sca_esv=a897caec0716270c&udm=50&source=hp&fbs=ABfTbFUDadgeu2mn4mYJ8iEZ1GUD1rsVmyrXJfQ4hj4ZThYiVvD-1t58VVInVSk8LRB-KMb2YhNtKl62v4AcBWuNgiTBKPoZ_a-QC5qhYfkNSZ0zkhRL8Xc-oXoNlAGLtMV-3pnGT24rAYTUTdwE0fHyVVtInSSvX2MhRIGFMREmfNXjz1HMb4962i9j29W66G_s5RNCd8_h&aep=1&ntc=1&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ2J8OegQIFBAD
+              - generic [ref=f3e88]: Mode IA
+          - listitem [ref=f3e89]:
+            - link "Tous" [disabled] [ref=f3e90]:
+              - generic [ref=f3e92]: Tous
+          - listitem [ref=f3e93]:
+            - link "Vidéos courtes" [ref=f3e94] [cursor=pointer]:
+              - /url: /search?sca_esv=a897caec0716270c&udm=39&fbs=ABfTbFUDadgeu2mn4mYJ8iEZ1GUD1rsVmyrXJfQ4hj4ZThYiVvD-1t58VVInVSk8LRB-KMb2YhNtKl62v4AcBWuNgiTBKPoZ_a-QC5qhYfkNSZ0zkhRL8Xc-oXoNlAGLtMV-3pnGT24rAYTUTdwE0fHyVVtInSSvX2MhRIGFMREmfNXjz1HMb4962i9j29W66G_s5RNCd8_h&q=LangGraph+tutorial&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQs6gLegQIFxAB
+              - generic [ref=f3e96]: Vidéos courtes
+          - listitem [ref=f3e97]:
+            - link "Vidéos" [ref=f3e98] [cursor=pointer]:
+              - /url: /search?sca_esv=a897caec0716270c&udm=7&fbs=ABfTbFUDadgeu2mn4mYJ8iEZ1GUD1rsVmyrXJfQ4hj4ZThYiVvD-1t58VVInVSk8LRB-KMb2YhNtKl62v4AcBWuNgiTBKPoZ_a-QC5qhYfkNSZ0zkhRL8Xc-oXoNlAGLtMV-3pnGT24rAYTUTdwE0fHyVVtInSSvX2MhRIGFMREmfNXjz1HMb4962i9j29W66G_s5RNCd8_h&q=LangGraph+tutorial&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQtKgLegQIGhAB
+              - generic [ref=f3e100]: Vidéos
+          - listitem [ref=f3e101]:
+            - link "Images" [ref=f3e102] [cursor=pointer]:
+              - /url: /search?sca_esv=a897caec0716270c&udm=2&fbs=ABfTbFUDadgeu2mn4mYJ8iEZ1GUD1rsVmyrXJfQ4hj4ZThYiVvD-1t58VVInVSk8LRB-KMb2YhNtKl62v4AcBWuNgiTBKPoZ_a-QC5qhYfkNSZ0zkhRL8Xc-oXoNlAGLtMV-3pnGT24rAYTUTdwE0fHyVVtInSSvX2MhRIGFMREmfNXjz1HMb4962i9j29W66G_s5RNCd8_h&q=LangGraph+tutorial&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQtKgLegQIFhAB
+              - generic [ref=f3e104]: Images
+          - listitem [ref=f3e105]:
+            - link "Actualités" [ref=f3e106] [cursor=pointer]:
+              - /url: /search?sca_esv=a897caec0716270c&q=LangGraph+tutorial&tbm=nws&source=lnms&fbs=ABfTbFUDadgeu2mn4mYJ8iEZ1GUD1rsVmyrXJfQ4hj4ZThYiVvD-1t58VVInVSk8LRB-KMb2YhNtKl62v4AcBWuNgiTBKPoZ_a-QC5qhYfkNSZ0zkhRL8Xc-oXoNlAGLtMV-3pnGT24rAYTUTdwE0fHyVVtInSSvX2MhRIGFMREmfNXjz1HMb4962i9j29W66G_s5RNCd8_h&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ0pQJegQIGBAB
+              - generic [ref=f3e108]: Actualités
+          - listitem [ref=f3e109]:
+            - link "Livres" [ref=f3e110] [cursor=pointer]:
+              - /url: /search?sca_esv=a897caec0716270c&q=LangGraph+tutorial&udm=36&source=lnms&fbs=ABfTbFUDadgeu2mn4mYJ8iEZ1GUD1rsVmyrXJfQ4hj4ZThYiVvD-1t58VVInVSk8LRB-KMb2YhNtKl62v4AcBWuNgiTBKPoZ_a-QC5qhYfkNSZ0zkhRL8Xc-oXoNlAGLtMV-3pnGT24rAYTUTdwE0fHyVVtInSSvX2MhRIGFMREmfNXjz1HMb4962i9j29W66G_s5RNCd8_h&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ0pQJegQIGRAB
+              - generic [ref=f3e112]: Livres
+          - listitem [ref=f3e113]:
+            - button "Plus de filtres" [ref=f3e114] [cursor=pointer]:
+              - generic "Plus de filtres" [ref=f3e115]:
+                - generic [ref=f3e116]:
+                  - generic [ref=f3e117]: Plus
+                  - img [ref=f3e119]
+        - button "Outils" [ref=f3e122] [cursor=pointer]:
+          - generic [ref=f3e124]:
+            - generic [ref=f3e125]: Outils
+            - img [ref=f3e127]
+    - heading "Résultats de recherche" [level=1] [ref=f3e130]
+    - main [ref=f3e136]:
+      - generic [ref=f3e140]:
+        - text: "Conseil :"
+        - link "Affichez les résultats en français." [ref=f3e141] [cursor=pointer]:
+          - /url: /search?q=LangGraph+tutorial&sca_esv=a897caec0716270c&lr=lang_fr&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQuAF6BAgMEAE
+          - text: Affichez les résultats en
+          - emphasis [ref=f3e142]: français
+          - text: .
+        - text: Vous pouvez aussi en savoir plus sur le
+        - link "filtrage par langue" [ref=f3e143] [cursor=pointer]:
+          - /url: https://support.google.com/websearch/?p=language_search_results&hl=fr-TN
+        - text: .
+      - generic [ref=f3e147]:
+        - generic [ref=f3e150]:
+          - heading "Web results" [level=2] [ref=f3e151]
+          - generic [ref=f3e152]:
+            - generic [ref=f3e155]:
+              - 'link "Foundation: Introduction to LangGraph - Python LangChain Academy https://academy.langchain.com › in..." [ref=f3e157] [cursor=pointer]':
+                - /url: https://academy.langchain.com/courses/intro-to-langgraph
+                - 'heading "Foundation: Introduction to LangGraph - Python" [level=3] [ref=f3e158]'
+                - generic [ref=f3e164]:
+                  - generic [ref=f3e166]: LangChain Academy
+                  - generic [ref=f3e168]: https://academy.langchain.com › in...
+              - generic [ref=f3e169]:
+                - generic [ref=f3e170]: ·
+                - link "Traduire cette page" [ref=f3e171] [cursor=pointer]:
+                  - /url: https://academy.langchain.com/courses/intro-to-langgraph
+              - button "À propos de ce résultat" [ref=f3e174] [cursor=pointer]:
+                - img [ref=f3e177]
+            - generic [ref=f3e181]:
+              - emphasis [ref=f3e182]: Learn the basics of LangGraph
+              - text: "- our framework for building agentic and multi-agent applications. Separate from the LangChain package, LangGraph helps developers ..."
+        - generic [ref=f3e183]:
+          - generic [ref=f3e187]:
+            - generic [ref=f3e189]:
+              - heading "Vidéos" [level=2] [ref=f3e190]
+              - button "À propos de ce résultat" [ref=f3e191] [cursor=pointer]:
+                - img [ref=f3e194]
+            - generic [ref=f3e197]:
+              - generic [ref=f3e203]:
+                - generic [ref=f3e204]:
+                  - generic [ref=f3e205]:
+                    - link "LangGraph Complete Course for Beginners – Complex AI ... YouTube freeCodeCamp.org 20 mai 2025" [ref=f3e207] [cursor=pointer]:
+                      - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM
+                      - heading "LangGraph Complete Course for Beginners – Complex AI ... YouTube freeCodeCamp.org 20 mai 2025" [level=3] [ref=f3e208]:
+                        - generic [ref=f3e211]: LangGraph Complete Course for Beginners – Complex AI ...
+                        - generic [ref=f3e213]:
+                          - generic [ref=f3e214]:
+                            - text: YouTube
+                            - generic [ref=f3e215]: · freeCodeCamp.org
+                          - generic [ref=f3e216]: 20 mai 2025
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - text: YouTube
+                              - generic: · freeCodeCamp.org
+                        - button "À propos de ce résultat" [ref=f3e217] [cursor=pointer]:
+                          - img [ref=f3e220]
+                  - button "LangGraph Complete Course for Beginners – Complex AI ... par freeCodeCamp.org sur YouTube. Lire sur Google. 3:09:52" [ref=f3e222] [cursor=pointer]:
+                    - generic [ref=f3e223]:
+                      - img [ref=f3e229]
+                      - generic [ref=f3e232]:
+                        - generic [ref=f3e233]: 3:09:52
+                        - img [ref=f3e236]
+                - generic [ref=f3e241]:
+                  - button "25 moments clés dans cette vidéo" [expanded] [ref=f3e242] [cursor=pointer]:
+                    - generic [ref=f3e245]:
+                      - generic [ref=f3e248]: 25 moments clés dans cette vidéo
+                      - img [ref=f3e250]
+                  - generic [ref=f3e254]:
+                    - list [ref=f3e256]:
+                      - generic [ref=f3e257]:
+                        - link "Introduction. 1 sur 25, 0 seconde." [ref=f3e258] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=0
+                          - generic [ref=f3e260]:
+                            - generic [ref=f3e261]:
+                              - text: À partir de
+                              - generic [ref=f3e262]: 00:00
+                            - generic [ref=f3e263]: Introduction
+                        - link "Type Annotations. 2 sur 25, 1 minute et 24 secondes." [ref=f3e264] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=84
+                          - generic [ref=f3e266]:
+                            - generic [ref=f3e267]:
+                              - text: À partir de
+                              - generic [ref=f3e268]: 01:24
+                            - generic [ref=f3e269]: Type Annotations
+                        - link "Elements. 3 sur 25, 8 minutes et 35 secondes." [ref=f3e270] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=515
+                          - generic [ref=f3e272]:
+                            - generic [ref=f3e273]:
+                              - text: À partir de
+                              - generic [ref=f3e274]: 08:35
+                            - generic [ref=f3e275]: Elements
+                        - link "Agent 1 Intro. 4 sur 25, 18 minutes et 39 secondes." [ref=f3e276] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=1119
+                          - generic [ref=f3e278]:
+                            - generic [ref=f3e279]:
+                              - text: À partir de
+                              - generic [ref=f3e280]: 18:39
+                            - generic [ref=f3e281]: Agent 1 Intro
+                        - link "Agent 1 Exercise. 5 sur 25, 32 minutes et 22 secondes." [ref=f3e282] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=1942
+                          - generic [ref=f3e284]:
+                            - generic [ref=f3e285]:
+                              - text: À partir de
+                              - generic [ref=f3e286]: 32:22
+                            - generic [ref=f3e287]: Agent 1 Exercise
+                        - link "Agent 2 Intro. 6 sur 25, 33 minutes et 7 secondes." [ref=f3e288] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=1987
+                          - generic [ref=f3e290]:
+                            - generic [ref=f3e291]:
+                              - text: À partir de
+                              - generic [ref=f3e292]: 33:07
+                            - generic [ref=f3e293]: Agent 2 Intro
+                        - link "Agent 2 Code. 7 sur 25, 34 minutes et 2 secondes." [ref=f3e294] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=2042
+                          - generic [ref=f3e296]:
+                            - generic [ref=f3e297]:
+                              - text: À partir de
+                              - generic [ref=f3e298]: 34:02
+                            - generic [ref=f3e299]: Agent 2 Code
+                        - link "Agent 2 Exercise. 8 sur 25, 43 minutes et 27 secondes." [ref=f3e300] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=2607
+                          - generic [ref=f3e302]:
+                            - generic [ref=f3e303]:
+                              - text: À partir de
+                              - generic [ref=f3e304]: 43:27
+                            - generic [ref=f3e305]: Agent 2 Exercise
+                        - link "Agent 3 Code. 9 sur 25, 45 minutes et 18 secondes." [ref=f3e306] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=2718
+                          - generic [ref=f3e308]:
+                            - generic [ref=f3e309]:
+                              - text: À partir de
+                              - generic [ref=f3e310]: 45:18
+                            - generic [ref=f3e311]: Agent 3 Code
+                        - link "Agent 3 Exercise. 10 sur 25, 54 minutes et 4 secondes." [ref=f3e312] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=3244
+                          - generic [ref=f3e314]:
+                            - generic [ref=f3e315]:
+                              - text: À partir de
+                              - generic [ref=f3e316]: 54:04
+                            - generic [ref=f3e317]: Agent 3 Exercise
+                        - link "Agent 4 Intro. 11 sur 25, 55 minutes et 36 secondes." [ref=f3e318] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=3336
+                          - generic [ref=f3e320]:
+                            - generic [ref=f3e321]:
+                              - text: À partir de
+                              - generic [ref=f3e322]: 55:36
+                            - generic [ref=f3e323]: Agent 4 Intro
+                        - link "Agent 4 Code. 12 sur 25, 56 minutes et 37 secondes." [ref=f3e324] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=3397
+                          - generic [ref=f3e326]:
+                            - generic [ref=f3e327]:
+                              - text: À partir de
+                              - generic [ref=f3e328]: 56:37
+                            - generic [ref=f3e329]: Agent 4 Code
+                        - link "Agent 5 Intro. 13 sur 25, 1 heure, 14 minutes et 14 secondes." [ref=f3e330] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=4454
+                          - generic [ref=f3e332]:
+                            - generic [ref=f3e333]:
+                              - text: À partir de
+                              - generic [ref=f3e334]: 01:14:14
+                            - generic [ref=f3e335]: Agent 5 Intro
+                        - link "Agent 5 Code. 14 sur 25, 1 heure, 15 minutes et 45 secondes." [ref=f3e336] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=4545
+                          - generic [ref=f3e338]:
+                            - generic [ref=f3e339]:
+                              - text: À partir de
+                              - generic [ref=f3e340]: 01:15:45
+                            - generic [ref=f3e341]: Agent 5 Code
+                        - link "Agent 5 Exercise. 15 sur 25, 1 heure, 29 minutes et 19 secondes." [ref=f3e342] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=5359
+                          - generic [ref=f3e344]:
+                            - generic [ref=f3e345]:
+                              - text: À partir de
+                              - generic [ref=f3e346]: 01:29:19
+                            - generic [ref=f3e347]: Agent 5 Exercise
+                        - link "AI Agent 1 Intro. 16 sur 25, 1 heure, 31 minutes et 1 seconde." [ref=f3e348] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=5461
+                          - generic [ref=f3e350]:
+                            - generic [ref=f3e351]:
+                              - text: À partir de
+                              - generic [ref=f3e352]: 01:31:01
+                            - generic [ref=f3e353]: AI Agent 1 Intro
+                        - link "AI Agent 2 Intro. 17 sur 25, 1 heure, 42 minutes et 54 secondes." [ref=f3e354] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=6174
+                          - generic [ref=f3e356]:
+                            - generic [ref=f3e357]:
+                              - text: À partir de
+                              - generic [ref=f3e358]: 01:42:54
+                            - generic [ref=f3e359]: AI Agent 2 Intro
+                        - link "AI Agent 2 Code. 18 sur 25, 1 heure, 43 minutes et 58 secondes." [ref=f3e360] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=6238
+                          - generic [ref=f3e362]:
+                            - generic [ref=f3e363]:
+                              - text: À partir de
+                              - generic [ref=f3e364]: 01:43:58
+                            - generic [ref=f3e365]: AI Agent 2 Code
+                        - link "AI Agent 3 Intro. 19 sur 25, 2 heures, 3 minutes et 20 secondes." [ref=f3e366] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=7400
+                          - generic [ref=f3e368]:
+                            - generic [ref=f3e369]:
+                              - text: À partir de
+                              - generic [ref=f3e370]: 02:03:20
+                            - generic [ref=f3e371]: AI Agent 3 Intro
+                        - link "AI Agent 3 Prerequisite. 20 sur 25, 2 heures et 5 minutes." [ref=f3e372] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=7500
+                          - generic [ref=f3e374]:
+                            - generic [ref=f3e375]:
+                              - text: À partir de
+                              - generic [ref=f3e376]: 02:05:00
+                            - generic [ref=f3e377]: AI Agent 3 Prerequisite
+                        - link "AI Agent 4 Intro. 21 sur 25, 2 heures, 28 minutes et 46 secondes." [ref=f3e378] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=8926
+                          - generic [ref=f3e380]:
+                            - generic [ref=f3e381]:
+                              - text: À partir de
+                              - generic [ref=f3e382]: 02:28:46
+                            - generic [ref=f3e383]: AI Agent 4 Intro
+                        - link "AI Agent 4 Code. 22 sur 25, 2 heures, 30 minutes et 59 secondes." [ref=f3e384] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=9059
+                          - generic [ref=f3e386]:
+                            - generic [ref=f3e387]:
+                              - text: À partir de
+                              - generic [ref=f3e388]: 02:30:59
+                            - generic [ref=f3e389]: AI Agent 4 Code
+                        - link "RAG Agent Intro. 23 sur 25, 2 heures, 52 minutes et 9 secondes." [ref=f3e390] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=10329
+                          - generic [ref=f3e392]:
+                            - generic [ref=f3e393]:
+                              - text: À partir de
+                              - generic [ref=f3e394]: 02:52:09
+                            - generic [ref=f3e395]: RAG Agent Intro
+                        - link "RAG Agent Code. 24 sur 25, 2 heures, 53 minutes et 1 seconde." [ref=f3e396] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=10381
+                          - generic [ref=f3e398]:
+                            - generic [ref=f3e399]:
+                              - text: À partir de
+                              - generic [ref=f3e400]: 02:53:01
+                            - generic [ref=f3e401]: RAG Agent Code
+                        - link "Course Outro. 25 sur 25, 3 heures, 9 minutes et 4 secondes." [ref=f3e402] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=jGg_1h0qzaM&t=11344
+                          - generic [ref=f3e404]:
+                            - generic [ref=f3e405]:
+                              - text: À partir de
+                              - generic [ref=f3e406]: 03:09:04
+                            - generic [ref=f3e407]: Course Outro
+                    - button [ref=f3e408] [cursor=pointer]:
+                      - img [ref=f3e411]
+              - generic [ref=f3e419]:
+                - generic [ref=f3e420]:
+                  - generic [ref=f3e421]:
+                    - link "LangGraph Tutorial - How to Build Advanced AI Agent Systems YouTube Tech With Tim 5 mai 2025" [ref=f3e423] [cursor=pointer]:
+                      - /url: https://www.youtube.com/watch?v=1w5cCXlh7JQ
+                      - heading "LangGraph Tutorial - How to Build Advanced AI Agent Systems YouTube Tech With Tim 5 mai 2025" [level=3] [ref=f3e424]:
+                        - generic [ref=f3e427]: LangGraph Tutorial - How to Build Advanced AI Agent Systems
+                        - generic [ref=f3e429]:
+                          - generic [ref=f3e430]:
+                            - text: YouTube
+                            - generic [ref=f3e431]: · Tech With Tim
+                          - generic [ref=f3e432]: 5 mai 2025
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - text: YouTube
+                              - generic: · Tech With Tim
+                        - button "À propos de ce résultat" [ref=f3e433] [cursor=pointer]:
+                          - img [ref=f3e436]
+                  - button "LangGraph Tutorial - How to Build Advanced AI Agent Systems par Tech With Tim sur YouTube. Lire sur Google. 46:49" [ref=f3e438] [cursor=pointer]:
+                    - generic [ref=f3e439]:
+                      - img [ref=f3e445]
+                      - generic [ref=f3e448]:
+                        - generic [ref=f3e449]: 46:49
+                        - img [ref=f3e452]
+                - button "9 moments clés dans cette vidéo" [ref=f3e458] [cursor=pointer]:
+                  - generic [ref=f3e467]:
+                    - generic [ref=f3e470]: 9 moments clés dans cette vidéo
+                    - img [ref=f3e472]
+              - generic [ref=f3e479]:
+                - generic [ref=f3e480]:
+                  - generic [ref=f3e481]:
+                    - link "LangGraph Complete Course For Beginners (From ZERO To ... YouTube Ansh Lamba 15 févr. 2026" [ref=f3e483] [cursor=pointer]:
+                      - /url: https://www.youtube.com/watch?v=DtW_Lc9hYoU
+                      - heading "LangGraph Complete Course For Beginners (From ZERO To ... YouTube Ansh Lamba 15 févr. 2026" [level=3] [ref=f3e484]:
+                        - generic [ref=f3e487]: LangGraph Complete Course For Beginners (From ZERO To ...
+                        - generic [ref=f3e489]:
+                          - generic [ref=f3e490]:
+                            - text: YouTube
+                            - generic [ref=f3e491]: · Ansh Lamba
+                          - generic [ref=f3e492]: 15 févr. 2026
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - text: YouTube
+                              - generic: · Ansh Lamba
+                        - button "À propos de ce résultat" [ref=f3e493] [cursor=pointer]:
+                          - img [ref=f3e496]
+                  - button "LangGraph Complete Course For Beginners (From ZERO To ... par Ansh Lamba sur YouTube. Lire sur Google. 6:12:21" [ref=f3e498] [cursor=pointer]:
+                    - generic [ref=f3e499]:
+                      - img [ref=f3e505]
+                      - generic [ref=f3e508]:
+                        - generic [ref=f3e509]: 6:12:21
+                        - img [ref=f3e512]
+                - button "19 moments clés dans cette vidéo" [ref=f3e518] [cursor=pointer]:
+                  - generic [ref=f3e521]:
+                    - generic [ref=f3e524]: 19 moments clés dans cette vidéo
+                    - img [ref=f3e526]
+              - generic [ref=f3e533]:
+                - generic [ref=f3e534]:
+                  - generic [ref=f3e535]:
+                    - 'link "LangGraph Tutorial for Beginners: Build Your First AI Agent YouTube DataCamp 27 juin 2025" [ref=f3e537] [cursor=pointer]':
+                      - /url: https://www.youtube.com/watch?v=UklCxmEvz2w
+                      - 'heading "LangGraph Tutorial for Beginners: Build Your First AI Agent YouTube DataCamp 27 juin 2025" [level=3] [ref=f3e538]':
+                        - generic [ref=f3e541]: "LangGraph Tutorial for Beginners: Build Your First AI Agent"
+                        - generic [ref=f3e543]:
+                          - generic [ref=f3e544]:
+                            - text: YouTube
+                            - generic [ref=f3e545]: · DataCamp
+                          - generic [ref=f3e546]: 27 juin 2025
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - text: YouTube
+                              - generic: · DataCamp
+                        - button "À propos de ce résultat" [ref=f3e547] [cursor=pointer]:
+                          - img [ref=f3e550]
+                  - 'button "LangGraph Tutorial for Beginners: Build Your First AI Agent par DataCamp sur YouTube. Lire sur Google. 1:10:25" [ref=f3e552] [cursor=pointer]':
+                    - generic [ref=f3e553]:
+                      - img [ref=f3e559]
+                      - generic [ref=f3e562]:
+                        - generic [ref=f3e563]: 1:10:25
+                        - img [ref=f3e566]
+                - button "16 moments clés dans cette vidéo" [ref=f3e572] [cursor=pointer]:
+                  - generic [ref=f3e581]:
+                    - generic [ref=f3e584]: 16 moments clés dans cette vidéo
+                    - img [ref=f3e586]
+            - link "Afficher toutes les vidéos" [ref=f3e590] [cursor=pointer]:
+              - /url: /search?sca_esv=a897caec0716270c&udm=7&q=LangGraph+tutorial&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ8ccDKAJ6BAgfEAQ
+              - separator [ref=f3e591]
+              - generic [ref=f3e592]:
+                - generic [ref=f3e593]: Voir plus
+                - img [ref=f3e595]
+          - generic [ref=f3e600]:
+            - generic [ref=f3e603]:
+              - 'link "LangGraph for Beginners: Build Intelligent AI Agents & ... Medium · Ashutosh Sharma Plus de 70 \"J''aime\" · il y a 1 an" [ref=f3e605] [cursor=pointer]':
+                - /url: https://medium.com/@ashutoshsharmaengg/getting-started-with-langgraph-a-beginners-guide-to-building-intelligent-workflows-67eeee0899d0
+                - 'heading "LangGraph for Beginners: Build Intelligent AI Agents & ..." [level=3] [ref=f3e606]'
+                - generic [ref=f3e612]:
+                  - generic [ref=f3e614]: Medium · Ashutosh Sharma
+                  - generic [ref=f3e616]: Plus de 70 "J'aime" · il y a 1 an
+              - button "À propos de ce résultat" [ref=f3e619] [cursor=pointer]:
+                - img [ref=f3e622]
+            - generic [ref=f3e626]:
+              - text: A comprehensive guide to
+              - emphasis [ref=f3e627]: LangGraph
+              - text: ", covering core concepts, graph construction, and tool calling. Learn to build advanced AI agent workflows ..."
+          - generic [ref=f3e631]:
+            - generic [ref=f3e634]:
+              - 'link "Quickstart: LangGraph Essentials - Python LangChain Academy https://academy.langchain.com › courses › langgraph-ess..." [ref=f3e636] [cursor=pointer]':
+                - /url: https://academy.langchain.com/courses/langgraph-essentials-python
+                - 'heading "Quickstart: LangGraph Essentials - Python" [level=3] [ref=f3e637]'
+                - generic [ref=f3e643]:
+                  - generic [ref=f3e645]: LangChain Academy
+                  - generic [ref=f3e647]: https://academy.langchain.com › courses › langgraph-ess...
+              - button "À propos de ce résultat" [ref=f3e650] [cursor=pointer]:
+                - img [ref=f3e653]
+            - generic [ref=f3e657]:
+              - emphasis [ref=f3e658]: Learn the essential components of LangGraph
+              - text: — including State, Nodes, Edges, and Memory — and put them into practice by building an email workflow.
+          - generic [ref=f3e662]:
+            - generic [ref=f3e665]:
+              - link "LangGraph overview - Docs by LangChain Docs by LangChain https://docs.langchain.com › oss" [ref=f3e667] [cursor=pointer]:
+                - /url: https://docs.langchain.com/oss/python/langgraph/overview
+                - heading "LangGraph overview - Docs by LangChain" [level=3] [ref=f3e668]
+                - generic [ref=f3e674]:
+                  - generic [ref=f3e676]: Docs by LangChain
+                  - generic [ref=f3e678]: https://docs.langchain.com › oss
+              - generic [ref=f3e679]:
+                - generic [ref=f3e680]: ·
+                - link "Traduire cette page" [ref=f3e681] [cursor=pointer]:
+                  - /url: https://docs.langchain.com/oss/python/langgraph/overview
+              - button "À propos de ce résultat" [ref=f3e684] [cursor=pointer]:
+                - img [ref=f3e687]
+            - generic [ref=f3e691]:
+              - text: Before using LangGraph, we recommend you
+              - emphasis [ref=f3e692]: familiarize yourself with some of the components used to build agents
+              - text: ", starting with models and tools. We will commonly ..."
+          - generic [ref=f3e696]:
+            - generic [ref=f3e699]:
+              - 'link "Créer un agent basique avec LangGraph : Guide pas à pas DataScientist.fr https://datascientist.fr › blog › creer-un-agent-basique-a..." [ref=f3e701] [cursor=pointer]':
+                - /url: https://datascientist.fr/blog/creer-un-agent-basique-avec-langgraph-guide-pas-a-pas
+                - 'heading "Créer un agent basique avec LangGraph : Guide pas à pas" [level=3] [ref=f3e702]'
+                - generic [ref=f3e708]:
+                  - generic [ref=f3e710]: DataScientist.fr
+                  - generic [ref=f3e712]: https://datascientist.fr › blog › creer-un-agent-basique-a...
+              - button "À propos de ce résultat" [ref=f3e715] [cursor=pointer]:
+                - img [ref=f3e718]
+            - generic [ref=f3e721]:
+              - generic [ref=f3e722]: 16 mai 2025 —
+              - generic [ref=f3e723]:
+                - emphasis [ref=f3e724]: LangGraph
+                - text: vous permet de modéliser des interactions complexes sous forme de graphes d'état, où chaque nœud correspond à une unité de traitement ...
+          - generic [ref=f3e728]:
+            - generic [ref=f3e731]:
+              - 'link "Tutorial for Langgraph , any source will help . : r/LangChain Reddit · r/LangChain Plus de 10 commentaires · il y a 1 an" [ref=f3e733] [cursor=pointer]':
+                - /url: https://www.reddit.com/r/LangChain/comments/1frgiah/tutorial_for_langgraph_any_source_will_help/
+                - 'heading "Tutorial for Langgraph , any source will help . : r/LangChain" [level=3] [ref=f3e734]'
+                - generic [ref=f3e740]:
+                  - generic [ref=f3e742]: Reddit · r/LangChain
+                  - generic [ref=f3e744]: Plus de 10 commentaires · il y a 1 an
+              - button "À propos de ce résultat" [ref=f3e747] [cursor=pointer]:
+                - img [ref=f3e750]
+            - generic [ref=f3e754]:
+              - text: I've been trying to make a project using
+              - emphasis [ref=f3e755]: Langgraph
+              - text: by connecting agents via concepts of graphs. But the thing is that the documentation is not very friendly to ...
+            - generic [ref=f3e758]:
+              - generic [ref=f3e759]:
+                - 'link "How do I learn LangGraph in a week? : r/LangChain ..." [ref=f3e762] [cursor=pointer]':
+                  - /url: https://www.reddit.com/r/LangChain/comments/1lhqzg8/how_do_i_learn_langgraph_in_a_week/
+                  - generic [ref=f3e763]:
+                    - text: How do I learn
+                    - emphasis [ref=f3e764]: LangGraph
+                    - text: "in a week? : r/LangChain ..."
+                - generic [ref=f3e766]: 38 posts
+                - generic [ref=f3e768]: 22 juin 2025
+              - generic [ref=f3e769]:
+                - 'link "LangGraph 101 - Tutorial with Practical Example : r ..." [ref=f3e772] [cursor=pointer]':
+                  - /url: https://www.reddit.com/r/LangChain/comments/1g3i734/langgraph_101_tutorial_with_practical_example/
+                  - generic [ref=f3e773]:
+                    - emphasis [ref=f3e774]: LangGraph
+                    - text: 101 -
+                    - emphasis [ref=f3e775]: Tutorial
+                    - text: "with Practical Example : r ..."
+                - generic [ref=f3e777]: 2 posts
+                - generic [ref=f3e779]: 14 oct. 2024
+              - link "Autres résultats sur www.reddit.com" [ref=f3e783] [cursor=pointer]:
+                - /url: /search?q=LangGraph+tutorial+site:www.reddit.com&sca_esv=a897caec0716270c&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQrQIoAnoECCYQAw
+          - generic [ref=f3e787]:
+            - generic [ref=f3e790]:
+              - link "LangGraph Tutorial - Build Smart AI Workflows Easily Datacouch https://datacouch.io › blog › langg..." [ref=f3e792] [cursor=pointer]:
+                - /url: https://datacouch.io/blog/langgraph-quickstart-ultimate-tutorial/
+                - heading "LangGraph Tutorial - Build Smart AI Workflows Easily" [level=3] [ref=f3e793]
+                - generic [ref=f3e799]:
+                  - generic [ref=f3e801]: Datacouch
+                  - generic [ref=f3e803]: https://datacouch.io › blog › langg...
+              - generic [ref=f3e804]:
+                - generic [ref=f3e805]: ·
+                - link "Traduire cette page" [ref=f3e806] [cursor=pointer]:
+                  - /url: https://datacouch.io/blog/langgraph-quickstart-ultimate-tutorial/
+              - button "À propos de ce résultat" [ref=f3e809] [cursor=pointer]:
+                - img [ref=f3e812]
+            - generic [ref=f3e816]:
+              - emphasis [ref=f3e817]: Learn LangGraph
+              - text: to create powerful AI workflows with stateful agents, error handling, RAG, and ReAct agents using Gemini LLM and LangChain tools.
+          - generic [ref=f3e821]:
+            - generic [ref=f3e824]:
+              - link "How to Develop AI Agents Using LangGraph freeCodeCamp https://www.freecodecamp.org › ..." [ref=f3e826] [cursor=pointer]:
+                - /url: https://www.freecodecamp.org/news/how-to-develop-ai-agents-using-langgraph-a-practical-guide/
+                - heading "How to Develop AI Agents Using LangGraph" [level=3] [ref=f3e827]
+                - generic [ref=f3e833]:
+                  - generic [ref=f3e835]: freeCodeCamp
+                  - generic [ref=f3e837]: https://www.freecodecamp.org › ...
+              - generic [ref=f3e838]:
+                - generic [ref=f3e839]: ·
+                - link "Traduire cette page" [ref=f3e840] [cursor=pointer]:
+                  - /url: https://www.freecodecamp.org/news/how-to-develop-ai-agents-using-langgraph-a-practical-guide/
+              - button "À propos de ce résultat" [ref=f3e843] [cursor=pointer]:
+                - img [ref=f3e846]
+            - generic [ref=f3e849]:
+              - generic [ref=f3e850]: 19 févr. 2026 —
+              - generic [ref=f3e851]:
+                - text: In this tutorial, I'll show you
+                - emphasis [ref=f3e852]: how to build this type of agent using LangGraph
+                - text: . We'll dig into real code from my personal project ...
+          - generic [ref=f3e856]:
+            - heading "Images" [level=2] [ref=f3e860]
+            - generic [ref=f3e864]:
+              - generic [ref=f3e868] [cursor=pointer]:
+                - 'link "LangGraph Tutorial for Beginners: Build Your First AI Agent YouTube" [ref=f3e869]':
+                  - /url: https://www.youtube.com/watch?v=UklCxmEvz2w
+                - 'button "LangGraph Tutorial for Beginners: Build Your First AI Agent" [ref=f3e871]':
+                  - 'img "LangGraph Tutorial for Beginners: Build Your First AI Agent" [ref=f3e873]'
+                - generic [ref=f3e875]:
+                  - generic [ref=f3e877]: "LangGraph Tutorial for Beginners: Build Your First AI Agent"
+                  - generic [ref=f3e878]:
+                    - generic [ref=f3e885]: YouTube
+                    - button "À propos de ce résultat" [ref=f3e888]:
+                      - img [ref=f3e891]
+              - generic [ref=f3e896] [cursor=pointer]:
+                - link "LangGraph Crash Course 2026 | LangGraph Tutorial For Beginners | LangGraph Projects | Simplilearn YouTube" [ref=f3e897]:
+                  - /url: https://www.youtube.com/watch?v=6BojQsfa2bg
+                - button "LangGraph Crash Course 2026 | LangGraph Tutorial For Beginners | LangGraph Projects | Simplilearn" [ref=f3e899]:
+                  - img "LangGraph Crash Course 2026 | LangGraph Tutorial For Beginners | LangGraph Projects | Simplilearn" [ref=f3e901]
+                - generic [ref=f3e903]:
+                  - generic [ref=f3e905]: LangGraph Crash Course 2026 | LangGraph Tutorial For Beginners | LangGraph Projects | Simplilearn
+                  - generic [ref=f3e906]:
+                    - generic [ref=f3e913]: YouTube
+                    - button "À propos de ce résultat" [ref=f3e916]:
+                      - img [ref=f3e919]
+              - generic [ref=f3e924] [cursor=pointer]:
+                - link "LangGraph Tutorial for Beginners Analytics Vidhya" [ref=f3e925]:
+                  - /url: https://www.analyticsvidhya.com/blog/2025/05/langgraph-tutorial-for-beginners/
+                - button "LangGraph Tutorial for Beginners" [ref=f3e927]:
+                  - img "LangGraph Tutorial for Beginners" [ref=f3e929]
+                - generic [ref=f3e931]:
+                  - generic [ref=f3e933]: LangGraph Tutorial for Beginners
+                  - generic [ref=f3e934]:
+                    - generic [ref=f3e941]: Analytics Vidhya
+                    - button "À propos de ce résultat" [ref=f3e944]:
+                      - img [ref=f3e947]
+            - button "Afficher plus d'images" [ref=f3e950] [cursor=pointer]:
+              - separator [ref=f3e951]
+              - generic [ref=f3e952]:
+                - generic [ref=f3e953]: Afficher plus d'images
+                - img [ref=f3e955]
+          - generic [ref=f3e961]:
+            - heading "Autres questions" [level=2] [ref=f3e963]
+            - generic [ref=f3e964]:
+              - button "Is LangGraph difficult to learn?" [ref=f3e970] [cursor=pointer]:
+                - generic [ref=f3e972]: Is LangGraph difficult to learn?
+                - img [ref=f3e975]
+              - button "How do I use LangGraph?" [ref=f3e984] [cursor=pointer]:
+                - generic [ref=f3e986]: How do I use LangGraph?
+                - img [ref=f3e989]
+              - button "What is a LangGraph and what is it used for?" [ref=f3e998] [cursor=pointer]:
+                - generic [ref=f3e1000]: What is a LangGraph and what is it used for?
+                - img [ref=f3e1003]
+              - button "Is LangGraph a Python library?" [ref=f3e1012] [cursor=pointer]:
+                - generic [ref=f3e1014]: Is LangGraph a Python library?
+                - img [ref=f3e1017]
+      - generic [ref=f3e1021]:
+        - generic [ref=f3e1026]:
+          - heading "Recherches associées" [level=2] [ref=f3e1028]
+          - generic [ref=f3e1030]:
+            - generic [ref=f3e1031]:
+              - link "Langgraph tutorial deep learning" [ref=f3e1035] [cursor=pointer]:
+                - /url: /search?sca_esv=a897caec0716270c&q=Langgraph+tutorial+deep+learning&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ1QJ6BAhAEAE
+                - generic [ref=f3e1036]:
+                  - generic [ref=f3e1041]: Langgraph tutorial deep learning
+                  - img [ref=f3e1045]
+              - link "LangGraph tutorial PDF" [ref=f3e1050] [cursor=pointer]:
+                - /url: /search?sca_esv=a897caec0716270c&q=LangGraph+tutorial+PDF&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ1QJ6BAhPEAE
+                - generic [ref=f3e1051]:
+                  - generic [ref=f3e1056]: LangGraph tutorial PDF
+                  - img [ref=f3e1060]
+              - link "Langgraph example" [ref=f3e1065] [cursor=pointer]:
+                - /url: /search?sca_esv=a897caec0716270c&q=Langgraph+example&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ1QJ6BAhNEAE
+                - generic [ref=f3e1066]:
+                  - generic [ref=f3e1071]: Langgraph example
+                  - img [ref=f3e1075]
+              - link "Best LangGraph tutorial" [ref=f3e1080] [cursor=pointer]:
+                - /url: /search?sca_esv=a897caec0716270c&q=Best+LangGraph+tutorial&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ1QJ6BAhOEAE
+                - generic [ref=f3e1081]:
+                  - generic [ref=f3e1086]: Best LangGraph tutorial
+                  - img [ref=f3e1090]
+            - generic [ref=f3e1092]:
+              - link "LangGraph project" [ref=f3e1096] [cursor=pointer]:
+                - /url: /search?sca_esv=a897caec0716270c&q=LangGraph+project&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ1QJ6BAhMEAE
+                - generic [ref=f3e1097]:
+                  - generic [ref=f3e1102]: LangGraph project
+                  - img [ref=f3e1106]
+              - link "Langgraph build command" [ref=f3e1111] [cursor=pointer]:
+                - /url: /search?sca_esv=a897caec0716270c&q=Langgraph+build+command&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ1QJ6BAhJEAE
+                - generic [ref=f3e1112]:
+                  - generic [ref=f3e1117]: Langgraph build command
+                  - img [ref=f3e1121]
+              - link "Advanced langgraph tutorial" [ref=f3e1126] [cursor=pointer]:
+                - /url: /search?sca_esv=a897caec0716270c&q=Advanced+langgraph+tutorial&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ1QJ6BAhFEAE
+                - generic [ref=f3e1127]:
+                  - generic [ref=f3e1132]: Advanced langgraph tutorial
+                  - img [ref=f3e1136]
+              - link "LangGraph server" [ref=f3e1141] [cursor=pointer]:
+                - /url: /search?sca_esv=a897caec0716270c&q=LangGraph+server&sa=X&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ1QJ6BAhBEAE
+                - generic [ref=f3e1142]:
+                  - generic [ref=f3e1147]: LangGraph server
+                  - img [ref=f3e1151]
+        - navigation [ref=f3e1153]:
+          - heading "Navigation par pages" [level=1] [ref=f3e1154]
+          - text: "1"
+          - link "Page 2" [ref=f3e1157] [cursor=pointer]:
+            - /url: /search?q=LangGraph+tutorial&sca_esv=a897caec0716270c&ei=40FOavnWM8KlkdUP2cmrmQU&start=10&sa=N&sstk=AU9db-DUm9BHuWPGWd3xS5wTNCTsmOZJ8bMmxqjP_9GKcKmGV_DNaXJIe3dH8Lu5bIatfdQCd-kd3vrtR4JQRQEq1pO4StpLrDd7FQ&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ8tMDegQIPhAE
+            - text: "2"
+          - link "Page 3" [ref=f3e1159] [cursor=pointer]:
+            - /url: /search?q=LangGraph+tutorial&sca_esv=a897caec0716270c&ei=40FOavnWM8KlkdUP2cmrmQU&start=20&sa=N&sstk=AU9db-DUm9BHuWPGWd3xS5wTNCTsmOZJ8bMmxqjP_9GKcKmGV_DNaXJIe3dH8Lu5bIatfdQCd-kd3vrtR4JQRQEq1pO4StpLrDd7FQ&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ8tMDegQIPhAG
+            - text: "3"
+          - link "Page 4" [ref=f3e1161] [cursor=pointer]:
+            - /url: /search?q=LangGraph+tutorial&sca_esv=a897caec0716270c&ei=40FOavnWM8KlkdUP2cmrmQU&start=30&sa=N&sstk=AU9db-DUm9BHuWPGWd3xS5wTNCTsmOZJ8bMmxqjP_9GKcKmGV_DNaXJIe3dH8Lu5bIatfdQCd-kd3vrtR4JQRQEq1pO4StpLrDd7FQ&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ8tMDegQIPhAI
+            - text: "4"
+          - link "Page 5" [ref=f3e1163] [cursor=pointer]:
+            - /url: /search?q=LangGraph+tutorial&sca_esv=a897caec0716270c&ei=40FOavnWM8KlkdUP2cmrmQU&start=40&sa=N&sstk=AU9db-DUm9BHuWPGWd3xS5wTNCTsmOZJ8bMmxqjP_9GKcKmGV_DNaXJIe3dH8Lu5bIatfdQCd-kd3vrtR4JQRQEq1pO4StpLrDd7FQ&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ8tMDegQIPhAK
+            - text: "5"
+          - link "Page 6" [ref=f3e1165] [cursor=pointer]:
+            - /url: /search?q=LangGraph+tutorial&sca_esv=a897caec0716270c&ei=40FOavnWM8KlkdUP2cmrmQU&start=50&sa=N&sstk=AU9db-DUm9BHuWPGWd3xS5wTNCTsmOZJ8bMmxqjP_9GKcKmGV_DNaXJIe3dH8Lu5bIatfdQCd-kd3vrtR4JQRQEq1pO4StpLrDd7FQ&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ8tMDegQIPhAM
+            - text: "6"
+          - link "Page 7" [ref=f3e1167] [cursor=pointer]:
+            - /url: /search?q=LangGraph+tutorial&sca_esv=a897caec0716270c&ei=40FOavnWM8KlkdUP2cmrmQU&start=60&sa=N&sstk=AU9db-DUm9BHuWPGWd3xS5wTNCTsmOZJ8bMmxqjP_9GKcKmGV_DNaXJIe3dH8Lu5bIatfdQCd-kd3vrtR4JQRQEq1pO4StpLrDd7FQ&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ8tMDegQIPhAO
+            - text: "7"
+          - link "Page 8" [ref=f3e1169] [cursor=pointer]:
+            - /url: /search?q=LangGraph+tutorial&sca_esv=a897caec0716270c&ei=40FOavnWM8KlkdUP2cmrmQU&start=70&sa=N&sstk=AU9db-DUm9BHuWPGWd3xS5wTNCTsmOZJ8bMmxqjP_9GKcKmGV_DNaXJIe3dH8Lu5bIatfdQCd-kd3vrtR4JQRQEq1pO4StpLrDd7FQ&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ8tMDegQIPhAQ
+            - text: "8"
+          - link "Page 9" [ref=f3e1171] [cursor=pointer]:
+            - /url: /search?q=LangGraph+tutorial&sca_esv=a897caec0716270c&ei=40FOavnWM8KlkdUP2cmrmQU&start=80&sa=N&sstk=AU9db-DUm9BHuWPGWd3xS5wTNCTsmOZJ8bMmxqjP_9GKcKmGV_DNaXJIe3dH8Lu5bIatfdQCd-kd3vrtR4JQRQEq1pO4StpLrDd7FQ&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ8tMDegQIPhAS
+            - text: "9"
+          - link "Page 10" [ref=f3e1173] [cursor=pointer]:
+            - /url: /search?q=LangGraph+tutorial&sca_esv=a897caec0716270c&ei=40FOavnWM8KlkdUP2cmrmQU&start=90&sa=N&sstk=AU9db-DUm9BHuWPGWd3xS5wTNCTsmOZJ8bMmxqjP_9GKcKmGV_DNaXJIe3dH8Lu5bIatfdQCd-kd3vrtR4JQRQEq1pO4StpLrDd7FQ&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ8tMDegQIPhAU
+            - text: "10"
+          - heading "Suivant" [level=2] [ref=f3e1175]:
+            - link "Suivant" [ref=f3e1176] [cursor=pointer]:
+              - /url: /search?q=LangGraph+tutorial&sca_esv=a897caec0716270c&ei=40FOavnWM8KlkdUP2cmrmQU&start=10&sa=N&sstk=AU9db-DUm9BHuWPGWd3xS5wTNCTsmOZJ8bMmxqjP_9GKcKmGV_DNaXJIe3dH8Lu5bIatfdQCd-kd3vrtR4JQRQEq1pO4StpLrDd7FQ&ved=2ahUKEwi51JvnicOVAxXCUqQEHdnkKlMQ8NMDegQIPhAW
+              - generic [ref=f3e1178]: Suivant
+      - navigation
+    - contentinfo [ref=f3e1179]:
+      - heading "Liens de pied de page" [level=1] [ref=f3e1180]
+      - generic [ref=f3e1184]:
+        - generic [ref=f3e1186]:
+          - text: Tunisie
+          - generic [ref=f3e1188]:
+            - button "Tunis - D'après votre adresse IP" [ref=f3e1190] [cursor=pointer]:
+              - generic [ref=f3e1191]: Tunis
+              - generic [ref=f3e1193]:
+                - text: "-"
+                - generic [ref=f3e1194]: D'après votre adresse IP
+            - text: "-"
+            - button "Mettre à jour ma position" [ref=f3e1196] [cursor=pointer]: Mettre à jour ma position
+        - generic [ref=f3e1199]:
+          - link "Aide" [ref=f3e1200] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=fr-TN&fg=1
+          - link "Envoyer des commentaires" [ref=f3e1201] [cursor=pointer]:
+            - /url: "#"
+          - link "Confidentialité" [ref=f3e1202] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=fr-TN&fg=1
+          - link "Conditions" [ref=f3e1203] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=fr-TN&fg=1

@@ -1,0 +1,56 @@
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - link "Gmail" [ref=e8] [cursor=pointer]:
+          - /url: https://mail.google.com/mail/&ogbl
+        - link "Rechercher des images" [ref=e10] [cursor=pointer]:
+          - /url: https://www.google.com/imghp?hl=fr&ogbl
+          - text: Images
+      - button "Applications Google" [ref=e13] [cursor=pointer]:
+        - img [ref=e14]
+      - link "Connexion" [ref=e18] [cursor=pointer]:
+        - /url: https://accounts.google.com/ServiceLogin?hl=fr&passive=true&continue=https://www.google.com/&ec=futura_exp_og_so_72776762_e
+  - img "Google" [ref=e21]
+  - search [ref=e29]:
+    - generic [ref=e31]:
+      - generic [ref=e33]:
+        - button "Ajouter des fichiers et des outils" [ref=e38] [cursor=pointer]:
+          - img [ref=e40]
+        - combobox "Rech." [active] [ref=e43]
+        - generic [ref=e44]:
+          - generic [ref=e45]:
+            - button "Utiliser la recherche vocale" [ref=e48] [cursor=pointer]:
+              - img [ref=e49]
+            - button "Rechercher par image" [ref=e53] [cursor=pointer]:
+              - img [ref=e54]
+          - link "Mode IA" [ref=e56] [cursor=pointer]:
+            - generic [ref=e58]:
+              - img [ref=e60]
+              - generic [ref=e67]: Mode IA
+      - generic [ref=e69]:
+        - button "Recherche Google" [ref=e70] [cursor=pointer]
+        - button "J'ai de la chance" [ref=e71] [cursor=pointer]
+  - generic [ref=e74]:
+    - text: "Google disponible en :"
+    - link "العربية" [ref=e75] [cursor=pointer]:
+      - /url: https://www.google.com/setprefs?sig=0_VXJx20lQGGjgDAIvy6Dhshw8Dtc%3D&hl=ar&source=homepage&sa=X&ved=0ahUKEwjZo_qsi8OVAxVs-QIHHRrKENAQ2ZgBCCg
+  - contentinfo [ref=e77]:
+    - generic [ref=e78]: Tunisie
+    - generic [ref=e79]:
+      - generic [ref=e80]:
+        - link "À propos" [ref=e81] [cursor=pointer]:
+          - /url: https://about.google/?utm_source=google-TN&utm_medium=referral&utm_campaign=hp-footer&fg=1
+        - link "Publicité" [ref=e82] [cursor=pointer]:
+          - /url: https://www.google.com/intl/fr_tn/ads/?subid=ww-ww-et-g-awa-a-g_hpafoot1_1!o2&utm_source=google.com&utm_medium=referral&utm_campaign=google_hpafooter&fg=1
+        - link "Entreprise" [ref=e83] [cursor=pointer]:
+          - /url: https://www.google.com/services/?subid=ww-ww-et-g-awa-a-g_hpbfoot1_1!o2&utm_source=google.com&utm_medium=referral&utm_campaign=google_hpbfooter&fg=1
+        - link "Comment fonctionne la recherche Google ?" [ref=e84] [cursor=pointer]:
+          - /url: https://google.com/search/howsearchworks/?fg=1
+      - generic [ref=e85]:
+        - link "Confidentialité" [ref=e86] [cursor=pointer]:
+          - /url: https://policies.google.com/privacy?hl=fr-TN&fg=1
+        - link "Conditions" [ref=e87] [cursor=pointer]:
+          - /url: https://policies.google.com/terms?hl=fr-TN&fg=1
+        - button "Paramètres" [ref=e91] [cursor=pointer]:
+          - generic [ref=e92]: Paramètres

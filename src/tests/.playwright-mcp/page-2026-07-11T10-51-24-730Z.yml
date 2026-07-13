@@ -1,0 +1,78 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - text: This is just a demo of TodoMVC for testing, not the
+    - link "real TodoMVC app." [ref=e3] [cursor=pointer]:
+      - /url: https://todomvc.com/
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - heading "todos" [level=1] [ref=e7]
+      - textbox "What needs to be done?" [active] [ref=e8]
+    - generic [ref=e9]:
+      - checkbox "❯Mark all as complete" [ref=e10]
+      - generic [ref=e11]: ❯Mark all as complete
+      - list [ref=e12]:
+        - listitem [ref=e13]:
+          - generic [ref=e14]:
+            - checkbox "Toggle Todo" [checked] [ref=e15]
+            - generic [ref=e16]: optimiser piloteer
+            - text: ×
+        - listitem [ref=e17]:
+          - generic [ref=e18]:
+            - checkbox "Toggle Todo" [ref=e19]
+            - generic [ref=e20]: رميساء محلاها
+            - text: ×
+        - listitem [ref=e21]:
+          - generic [ref=e22]:
+            - checkbox "Toggle Todo" [checked] [ref=e23]
+            - generic [ref=e24]: test this todo
+            - text: ×
+        - listitem [ref=e25]:
+          - generic [ref=e26]:
+            - checkbox "Toggle Todo" [checked] [ref=e27]
+            - generic [ref=e28]: call my mom at 2 pm
+            - text: ×
+        - listitem [ref=e29]:
+          - generic [ref=e30]:
+            - checkbox "Toggle Todo" [checked] [ref=e31]
+            - generic [ref=e32]: call my mom at 2 pm
+            - text: ×
+        - listitem [ref=e33]:
+          - generic [ref=e34]:
+            - checkbox "Toggle Todo" [ref=e35]
+            - generic [ref=e36]: call my husband
+            - text: ×
+        - listitem [ref=e37]:
+          - generic [ref=e38]:
+            - checkbox "Toggle Todo" [checked] [ref=e39]
+            - generic [ref=e40]: add call my husband as a task
+            - text: ×
+        - listitem [ref=e41]:
+          - generic [ref=e42]:
+            - checkbox "Toggle Todo" [checked] [ref=e43]
+            - generic [ref=e44]: call my handsome husband
+            - text: ×
+    - generic [ref=e45]:
+      - generic [ref=e46]:
+        - strong [ref=e47]: "2"
+        - text: items left
+      - list [ref=e48]:
+        - listitem [ref=e49]:
+          - link "All" [ref=e50] [cursor=pointer]:
+            - /url: "#/"
+        - listitem [ref=e51]:
+          - link "Active" [ref=e52] [cursor=pointer]:
+            - /url: "#/active"
+        - listitem [ref=e53]:
+          - link "Completed" [ref=e54] [cursor=pointer]:
+            - /url: "#/completed"
+      - button "Clear completed" [ref=e55] [cursor=pointer]
+  - contentinfo [ref=e56]:
+    - paragraph [ref=e57]: Double-click to edit a todo
+    - paragraph [ref=e58]:
+      - text: Created by
+      - link "Remo H. Jansen" [ref=e59] [cursor=pointer]:
+        - /url: http://github.com/remojansen/
+    - paragraph [ref=e60]:
+      - text: Part of
+      - link "TodoMVC" [ref=e61] [cursor=pointer]:
+        - /url: http://todomvc.com

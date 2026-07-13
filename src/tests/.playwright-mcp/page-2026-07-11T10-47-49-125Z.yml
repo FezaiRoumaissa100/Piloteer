@@ -1,0 +1,78 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - text: This is just a demo of TodoMVC for testing, not the
+    - link "real TodoMVC app." [ref=e3] [cursor=pointer]:
+      - /url: https://todomvc.com/
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - heading "todos" [level=1] [ref=e7]
+      - textbox "What needs to be done?" [active] [ref=e8]
+    - generic [ref=e9]:
+      - checkbox "❯Mark all as complete" [ref=e10]
+      - generic [ref=e11]: ❯Mark all as complete
+      - list [ref=e12]:
+        - listitem [ref=e13]:
+          - generic [ref=e14]:
+            - checkbox "Toggle Todo" [checked] [ref=e15]
+            - generic [ref=e16]: optimiser piloteer
+            - text: ×
+        - listitem [ref=e18]:
+          - generic [ref=e19]:
+            - checkbox "Toggle Todo" [ref=e20]
+            - generic [ref=e21]: رميساء محلاها
+            - text: ×
+        - listitem [ref=e22]:
+          - generic [ref=e23]:
+            - checkbox "Toggle Todo" [checked] [ref=e24]
+            - generic [ref=e25]: test this todo
+            - text: ×
+        - listitem [ref=e26]:
+          - generic [ref=e27]:
+            - checkbox "Toggle Todo" [checked] [ref=e28]
+            - generic [ref=e29]: call my mom at 2 pm
+            - text: ×
+        - listitem [ref=e30]:
+          - generic [ref=e31]:
+            - checkbox "Toggle Todo" [checked] [ref=e32]
+            - generic [ref=e33]: call my mom at 2 pm
+            - text: ×
+        - listitem [ref=e34]:
+          - generic [ref=e35]:
+            - checkbox "Toggle Todo" [ref=e36]
+            - generic [ref=e37]: call my husband
+            - text: ×
+        - listitem [ref=e38]:
+          - generic [ref=e39]:
+            - checkbox "Toggle Todo" [checked] [ref=e40]
+            - generic [ref=e41]: add call my husband as a task
+            - text: ×
+        - listitem [ref=e59]:
+          - generic [ref=e60]:
+            - checkbox "Toggle Todo" [ref=e61]
+            - generic [ref=e62]: call my handsome husband
+            - text: ×
+    - generic [ref=e42]:
+      - generic [ref=e43]:
+        - strong [ref=e44]: "3"
+        - text: items left
+      - list [ref=e45]:
+        - listitem [ref=e46]:
+          - link "All" [ref=e47] [cursor=pointer]:
+            - /url: "#/"
+        - listitem [ref=e48]:
+          - link "Active" [ref=e49] [cursor=pointer]:
+            - /url: "#/active"
+        - listitem [ref=e50]:
+          - link "Completed" [ref=e51] [cursor=pointer]:
+            - /url: "#/completed"
+      - button "Clear completed" [ref=e52] [cursor=pointer]
+  - contentinfo [ref=e53]:
+    - paragraph [ref=e54]: Double-click to edit a todo
+    - paragraph [ref=e55]:
+      - text: Created by
+      - link "Remo H. Jansen" [ref=e56] [cursor=pointer]:
+        - /url: http://github.com/remojansen/
+    - paragraph [ref=e57]:
+      - text: Part of
+      - link "TodoMVC" [ref=e58] [cursor=pointer]:
+        - /url: http://todomvc.com

@@ -1,0 +1,53 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - text: This is just a demo of TodoMVC for testing, not the
+    - link "real TodoMVC app." [ref=e3] [cursor=pointer]:
+      - /url: https://todomvc.com/
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - heading "todos" [level=1] [ref=e7]
+      - textbox "What needs to be done?" [active] [ref=e8]: call my mom at 2 pm
+    - generic [ref=e9]:
+      - checkbox "❯Mark all as complete" [ref=e10]
+      - generic [ref=e11]: ❯Mark all as complete
+      - list [ref=e12]:
+        - listitem [ref=e13]:
+          - generic [ref=e14]:
+            - checkbox "Toggle Todo" [ref=e15]
+            - generic [ref=e16]: optimiser piloteer
+            - button "Delete" [ref=e17]: ×
+        - listitem [ref=e18]:
+          - generic [ref=e19]:
+            - checkbox "Toggle Todo" [ref=e20]
+            - generic [ref=e21]: رميساء محلاها
+            - text: ×
+        - listitem [ref=e22]:
+          - generic [ref=e23]:
+            - checkbox "Toggle Todo" [checked] [ref=e24]
+            - generic [ref=e25]: test this todo
+            - text: ×
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - strong [ref=e28]: "2"
+        - text: items left
+      - list [ref=e29]:
+        - listitem [ref=e30]:
+          - link "All" [ref=e31] [cursor=pointer]:
+            - /url: "#/"
+        - listitem [ref=e32]:
+          - link "Active" [ref=e33] [cursor=pointer]:
+            - /url: "#/active"
+        - listitem [ref=e34]:
+          - link "Completed" [ref=e35] [cursor=pointer]:
+            - /url: "#/completed"
+      - button "Clear completed" [ref=e36] [cursor=pointer]
+  - contentinfo [ref=e37]:
+    - paragraph [ref=e38]: Double-click to edit a todo
+    - paragraph [ref=e39]:
+      - text: Created by
+      - link "Remo H. Jansen" [ref=e40] [cursor=pointer]:
+        - /url: http://github.com/remojansen/
+    - paragraph [ref=e41]:
+      - text: Part of
+      - link "TodoMVC" [ref=e42] [cursor=pointer]:
+        - /url: http://todomvc.com
