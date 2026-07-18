@@ -7,7 +7,7 @@ from google.genai import types
 load_dotenv()
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-#fonction 1 : ask_llm
+
 def ask_llm(prompt: str, system_prompt: str = "", model: str = "gemini-2.5-flash-lite", retries: int = 3) -> str:
     "Send the prompt to Gemini and return the response — retries on 429"
     import time, re
@@ -67,15 +67,7 @@ async def ask_llm_json(
 ) -> list:
     """
     Sends a prompt to Gemini and returns a parsed JSON list.
-    Used by the Planner to get a structured list of Steps.
-    Args:
-        prompt       : Dynamic content (snapshot + memory + task).
-        system_prompt: Stable instructions (tools, rules). Goes into cache later.
-        cache_name   : Gemini context cache reference (optional — production use).
-        model        : Gemini model to use.
-
-    Returns:
-        Parsed JSON as a Python list of dicts.
+    Used by the Validator to get structured feedback.
     """
     import time, re
     for attempt in range(retries):

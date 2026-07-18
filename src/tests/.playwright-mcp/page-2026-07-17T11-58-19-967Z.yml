@@ -1,0 +1,184 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - link "Skip to content" [ref=e4]:
+      - /url: "#skip-nav"
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - navigation [ref=e8]:
+          - generic [ref=e10]:
+            - button "Test Workspace Menu" [ref=e12]:
+              - generic [ref=e13]: TE
+              - generic [ref=e15]: Test
+            - generic [ref=e18]:
+              - button "Search workspace" [ref=e20]
+              - button "Create new issue" [ref=e27]
+          - generic [ref=e32]:
+            - generic [ref=e33]:
+              - generic [ref=e35]:
+                - button [ref=e37]:
+                  - link "Inbox 1 unread notification" [ref=e42]:
+                    - /url: /testifeen/inbox
+                    - generic [ref=e47]:
+                      - generic [ref=e48]: Inbox
+                      - generic "1 unread notification" [ref=e49]:
+                        - generic "1" [ref=e51]
+                - button [ref=e55]:
+                  - link [ref=e60]:
+                    - /url: /testifeen/my-issues/assigned
+                - generic:
+                  - button
+                - status [ref=e65]
+              - generic [ref=e67]:
+                - button "Workspace" [expanded] [ref=e69]
+                - generic [ref=e74]:
+                  - generic [ref=e75]:
+                    - button [ref=e77]:
+                      - link [ref=e82]:
+                        - /url: /testifeen/projects/all
+                    - button [ref=e88]:
+                      - link [ref=e93]:
+                        - /url: /testifeen/views
+                    - generic:
+                      - button
+                    - generic:
+                      - button
+                    - status [ref=e99]
+                  - button "Show more links" [ref=e103]:
+                    - generic [ref=e104]: More
+            - generic [ref=e109]:
+              - generic [ref=e111]:
+                - generic [ref=e112]:
+                  - button "Your teams" [expanded] [ref=e113]
+                  - button "Join a team" [ref=e118]
+                - list [ref=e126]:
+                  - button [ref=e127]:
+                    - generic [ref=e128]:
+                      - generic "Test" [ref=e129]:
+                        - link "Test Collapse team Team menu" [ref=e130]:
+                          - /url: /testifeen/team/TES/overview
+                          - generic [ref=e132]:
+                            - generic "Test" [ref=e139]
+                            - button "Collapse team" [ref=e140]
+                          - generic "Team menu" [ref=e143]
+                      - generic [ref=e147]:
+                        - link [ref=e152]:
+                          - /url: /testifeen/team/TES/overview
+                        - link [ref=e160]:
+                          - /url: /testifeen/team/TES/active
+                        - link [ref=e169]:
+                          - /url: /testifeen/team/TES/projects/all
+                        - link [ref=e177]:
+                          - /url: /testifeen/team/TES/views/issues
+                    - generic:
+                      - generic:
+                        - list:
+                          - status [ref=e182]
+                  - status [ref=e183]
+              - generic [ref=e185]:
+                - button "Try" [expanded] [ref=e187]
+                - generic [ref=e192]:
+                  - generic [ref=e193]:
+                    - link [ref=e198]:
+                      - /url: /testifeen/settings/import-export
+                    - button [ref=e205]:
+                      - img "Dismiss" [ref=e206]
+                  - generic [ref=e208]:
+                    - generic "Invite to Test…" [ref=e210]: Invite people
+                    - button [ref=e215]:
+                      - img "Dismiss" [ref=e216]
+                  - generic [ref=e218]:
+                    - link [ref=e223]:
+                      - /url: /testifeen/settings/integrations/github?source=try
+                    - button [ref=e229]:
+                      - img "Dismiss" [ref=e230]
+        - button "Open Help menu" [ref=e238]
+      - generic [ref=e242]:
+        - main [ref=e244]:
+          - generic [ref=e245]:
+            - generic [ref=e248]:
+              - generic [ref=e250]:
+                - generic [ref=e251]:
+                  - generic [ref=e260]:
+                    - generic [ref=e262]:
+                      - link [ref=e263]:
+                        - /url: /testifeen/team/TES/overview
+                        - generic "Team overview" [ref=e264]: Test
+                      - generic [ref=e270]: ›
+                    - heading "Issues" [level=2] [ref=e272]
+                  - switch "Add to favorites" [ref=e275]
+                - button "Setup active issues notifications" [ref=e281]
+              - generic [ref=e288]:
+                - generic [ref=e291]:
+                  - link "Active" [ref=e296]:
+                    - /url: /testifeen/team/TES/active
+                  - link "Backlog" [ref=e302]:
+                    - /url: /testifeen/team/TES/backlog
+                  - link "All issues" [ref=e308]:
+                    - /url: /testifeen/team/TES/all
+                  - button "Add new view" [ref=e313]
+                  - status [ref=e318]
+                - generic [ref=e319]:
+                  - button "Add filter" [ref=e322]
+                  - button "Display options" [ref=e327]
+                - button "Open details" [ref=e334]
+            - generic [ref=e343]:
+              - generic [ref=e349]:
+                - generic [ref=e353]:
+                  - button "Collapse group" [ref=e355]
+                  - generic [ref=e362]:
+                    - generic [ref=e363]: Todo
+                    - button "5" [ref=e365]
+                  - button "Create new issue" [ref=e370]
+                - link "Select issue No Priority TES-1 Get familiar with Linear Created Jul 17, 12:36:02" [ref=e375]:
+                  - /url: /testifeen/issue/TES-1/get-familiar-with-linear
+                  - generic [ref=e376]:
+                    - generic "Select issue" [ref=e379]:
+                      - checkbox [ref=e381]
+                    - img "No Priority" [ref=e385]
+                    - generic: TES-1
+                    - generic "Get familiar with Linear" [ref=e401]
+                    - generic "Created Jul 17, 12:36:02" [ref=e414]: Jul 17
+                - link "Select issue No Priority TES-5 Piloteer Test Created Jul 17, 12:40:21" [ref=e416]:
+                  - /url: /testifeen/issue/TES-5/piloteer-test
+                  - generic [ref=e417]:
+                    - generic "Select issue" [ref=e420]:
+                      - checkbox [ref=e422]
+                    - img "No Priority" [ref=e426]
+                    - generic: TES-5
+                    - generic "Piloteer Test" [ref=e442]
+                    - generic "Created Jul 17, 12:40:21" [ref=e455]: Jul 17
+                - link "Select issue No Priority TES-4 Set up your teams Created Jul 17, 12:36:02" [ref=e457]:
+                  - /url: /testifeen/issue/TES-4/set-up-your-teams
+                  - generic [ref=e458]:
+                    - generic "Select issue" [ref=e461]:
+                      - checkbox [ref=e463]
+                    - img "No Priority" [ref=e467]
+                    - generic: TES-4
+                    - generic "Set up your teams" [ref=e483]
+                    - generic "Created Jul 17, 12:36:02" [ref=e496]: Jul 17
+                - link "Select issue No Priority TES-2 Connect your tools Created Jul 17, 12:36:02" [ref=e498]:
+                  - /url: /testifeen/issue/TES-2/connect-your-tools
+                  - generic [ref=e499]:
+                    - generic "Select issue" [ref=e502]:
+                      - checkbox [ref=e504]
+                    - img "No Priority" [ref=e508]
+                    - generic: TES-2
+                    - generic "Connect your tools" [ref=e524]
+                    - generic "Created Jul 17, 12:36:02" [ref=e537]: Jul 17
+                - link "Select issue No Priority TES-3 Import your data Created Jul 17, 12:36:02" [ref=e539]:
+                  - /url: /testifeen/issue/TES-3/import-your-data
+                  - generic [ref=e540]:
+                    - generic "Select issue" [ref=e543]:
+                      - checkbox [ref=e545]
+                    - img "No Priority" [ref=e549]
+                    - generic: TES-3
+                    - generic "Import your data" [ref=e565]
+                    - generic "Created Jul 17, 12:36:02" [ref=e578]: Jul 17
+              - status [ref=e581]
+        - generic [ref=e590]:
+          - button "Ask Linear" [ref=e594]
+          - button "Chat history" [ref=e601]
+    - region "Notifications alt+T"
+  - generic [ref=e607]:
+    - heading "Surprise popup!" [level=2] [ref=e608]
+    - button "Accept" [active] [ref=e609]

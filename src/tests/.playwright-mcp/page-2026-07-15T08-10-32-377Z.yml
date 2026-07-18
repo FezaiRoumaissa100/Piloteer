@@ -1,0 +1,350 @@
+- generic [ref=e1]:
+  - main [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - button [ref=e444] [cursor=pointer]:
+          - generic [ref=e13]:
+            - generic [ref=e14]: T
+            - heading [level=4] [ref=e445]: Test
+        - generic [ref=e22]:
+          - button [ref=e25] [cursor=pointer]:
+            - textbox [ref=e446]:
+              - /placeholder: Search
+          - generic [ref=e34]:
+            - generic [ref=e35]: Search your workspace
+            - generic [ref=e36]: Start typing to search across work items, projects, cycles, modules and more
+        - generic [ref=e37]:
+          - button [ref=e447] [cursor=pointer]: Get started
+          - button [ref=e448] [cursor=pointer]:
+            - button [ref=e449]
+          - button [ref=e450] [cursor=pointer]:
+            - button [ref=e451]
+          - button [ref=e452] [cursor=pointer]:
+            - button [ref=e453]
+      - generic [ref=e60]:
+        - generic [ref=e64]:
+          - link [ref=e455] [cursor=pointer]:
+            - /url: /heloooo/
+            - generic [ref=e70]: Projects
+          - link [ref=e456] [cursor=pointer]:
+            - /url: /heloooo/wiki/
+            - generic [ref=e75]: Wiki
+          - link [ref=e457] [cursor=pointer]:
+            - /url: /heloooo/ai-chat/
+            - generic [ref=e81]: AI
+          - link [ref=e458] [cursor=pointer]:
+            - /url: /heloooo/settings/
+            - generic [ref=e88]: Settings
+        - generic [ref=e89]:
+          - generic [ref=e92]:
+            - complementary [ref=e459]:
+              - complementary [ref=e94]:
+                - generic [ref=e95]:
+                  - generic [ref=e96]:
+                    - generic [ref=e97]:
+                      - generic [ref=e98]: Projects
+                      - generic [ref=e99]:
+                        - button [ref=e460] [cursor=pointer]
+                        - button [ref=e461] [cursor=pointer]
+                    - button [ref=e462] [cursor=pointer]:
+                      - generic [ref=e110]: New work item
+                  - generic [ref=e111]:
+                    - link [ref=e463] [cursor=pointer]:
+                      - /url: /heloooo/
+                      - paragraph [ref=e117]: Home
+                    - link [ref=e464] [cursor=pointer]:
+                      - /url: /heloooo/drafts/
+                      - paragraph [ref=e123]: Drafts
+                    - link [ref=e465] [cursor=pointer]:
+                      - /url: /heloooo/profile/5a788013-cd06-479f-8e01-90f0a5da4c12/
+                      - paragraph [ref=e130]: Your work
+                    - link [ref=e466] [cursor=pointer]:
+                      - /url: /heloooo/stickies/
+                      - paragraph [ref=e136]: Stickies
+                  - generic [ref=e137]:
+                    - generic [ref=e138]:
+                      - button [expanded] [ref=e467] [cursor=pointer]:
+                        - generic [ref=e140]: Workspace
+                      - button [ref=e468] [cursor=pointer]
+                    - generic [ref=e147]:
+                      - link [ref=e469] [cursor=pointer]:
+                        - /url: /heloooo/projects/
+                        - paragraph [ref=e153]: Projects
+                      - button [ref=e470] [cursor=pointer]:
+                        - generic [ref=e160]: More
+                  - generic [ref=e162]:
+                    - generic [ref=e163]:
+                      - button [expanded] [ref=e471] [cursor=pointer]:
+                        - generic [ref=e165]: Projects
+                      - button [ref=e472] [cursor=pointer]
+                    - generic [ref=e171]:
+                      - generic [ref=e175]:
+                        - link [ref=e473] [cursor=pointer]:
+                          - /url: /heloooo/projects/9f5de294-fe00-4fba-9be5-28dd8a73781a/issues
+                          - button [ref=e474]:
+                            - generic [ref=e178]: 💼
+                            - paragraph [ref=e180]: Piloteer Test
+                        - generic [ref=e181]:
+                          - generic:
+                            - button:
+                              - button
+                      - generic [ref=e185]:
+                        - link [ref=e475] [cursor=pointer]:
+                          - /url: /heloooo/projects/5838e8a5-34e5-4050-9d5d-2214f0b814d6/issues
+                          - button [ref=e476]:
+                            - generic [ref=e188]: 👇
+                            - paragraph [ref=e190]: Test
+                        - generic [ref=e191]:
+                          - generic:
+                            - button:
+                              - button
+                  - generic [ref=e194]:
+                    - button [expanded] [ref=e477] [cursor=pointer]:
+                      - generic [ref=e196]: Try
+                    - generic [ref=e201]:
+                      - link [ref=e478] [cursor=pointer]:
+                        - /url: /heloooo/settings/integrations/
+                        - generic [ref=e207]: Connect to GitHub
+                      - link [ref=e479] [cursor=pointer]:
+                        - /url: /heloooo/settings/integrations/
+                        - generic [ref=e216]: Connect to Slack
+                  - button [ref=e480] [cursor=pointer]:
+                    - generic [ref=e221]: Business trial ends in 13d
+                - slider [ref=e481]
+            - complementary:
+              - complementary:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic: Projects
+                      - generic:
+                        - button
+                        - button
+                    - generic:
+                      - button:
+                        - generic: New work item
+                  - generic:
+                    - link:
+                      - /url: /heloooo/
+                      - generic:
+                        - generic:
+                          - paragraph: Home
+                    - link:
+                      - /url: /heloooo/drafts/
+                      - generic:
+                        - generic:
+                          - paragraph: Drafts
+                    - link:
+                      - /url: /heloooo/profile/5a788013-cd06-479f-8e01-90f0a5da4c12/
+                      - generic:
+                        - generic:
+                          - paragraph: Your work
+                    - link:
+                      - /url: /heloooo/stickies/
+                      - generic:
+                        - generic:
+                          - paragraph: Stickies
+                  - generic:
+                    - generic:
+                      - button [expanded]:
+                        - generic: Workspace
+                      - generic:
+                        - button
+                    - generic:
+                      - generic:
+                        - link:
+                          - /url: /heloooo/projects/
+                          - generic:
+                            - generic:
+                              - paragraph: Projects
+                        - generic:
+                          - button:
+                            - generic: More
+                  - generic:
+                    - generic:
+                      - generic:
+                        - button [expanded]:
+                          - generic: Projects
+                        - generic:
+                          - button
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - link:
+                                - /url: /heloooo/projects/9f5de294-fe00-4fba-9be5-28dd8a73781a/issues
+                                - button:
+                                  - generic: 💼
+                                  - paragraph: Piloteer Test
+                              - generic:
+                                - generic:
+                                  - button:
+                                    - button
+                        - generic:
+                          - generic:
+                            - generic:
+                              - link:
+                                - /url: /heloooo/projects/5838e8a5-34e5-4050-9d5d-2214f0b814d6/issues
+                                - button:
+                                  - generic: 👇
+                                  - paragraph: Test
+                              - generic:
+                                - generic:
+                                  - button:
+                                    - button
+                  - generic:
+                    - generic:
+                      - button [expanded]:
+                        - generic: Try
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /heloooo/settings/integrations/
+                              - generic: Connect to GitHub
+                          - generic:
+                            - link:
+                              - /url: /heloooo/settings/integrations/
+                              - generic: Connect to Slack
+                  - generic:
+                    - generic:
+                      - generic:
+                        - button:
+                          - generic: Business trial ends in 13d
+                - slider
+            - main [ref=e223]:
+              - generic [ref=e228]:
+                - generic [ref=e229]: Home
+                - button [ref=e482] [cursor=pointer]:
+                  - generic [ref=e244]: Manage widgets
+              - generic [ref=e248]:
+                - generic [ref=e249]:
+                  - heading [level=2] [ref=e483]: Good morning, Roumaissa Fezai
+                  - heading [level=5] [ref=e484]:
+                    - generic [ref=e252]: 🌤️
+                    - generic [ref=e253]: Wednesday, Jul 15 08:10
+                - generic [ref=e254]:
+                  - generic [ref=e255]:
+                    - generic [ref=e256]:
+                      - generic [ref=e257]: Ask Plane AI
+                      - link [ref=e259] [cursor=pointer]:
+                        - /url: /heloooo/projects/ai-chat/
+                    - generic [ref=e265]:
+                      - button [ref=e485] [cursor=pointer]:
+                        - button [ref=e486]
+                        - generic [ref=e271]:
+                          - generic [ref=e272]:
+                            - combobox [ref=e273]:
+                              - generic [ref=e274]:
+                                - generic [ref=e275]: T
+                                - generic [ref=e276]: Test
+                            - textbox [ref=e277]: workspace_id%a145c494-9b65-43a0-933e-9511f7fa0fd9
+                          - button [ref=e278]:
+                            - textbox [ref=e281]:
+                              - paragraph [ref=e282]: How can I help you today?
+                          - generic [ref=e283]:
+                            - button [ref=e284]
+                            - combobox [ref=e287]:
+                              - generic [ref=e292]: Build
+                            - textbox [ref=e295]: build
+                            - button [ref=e296]
+                            - generic [ref=e303]:
+                              - button [ref=e305]
+                              - button [ref=e487]:
+                                - generic [ref=e311]: GPT-5.4
+                              - button [disabled] [ref=e318]
+                      - generic [ref=e321]: Plane AI can make mistakes, please double-check responses.
+                  - generic [ref=e323]:
+                    - generic [ref=e325]:
+                      - generic [ref=e326]:
+                        - generic [ref=e327]: Quicklinks
+                        - button [ref=e488] [cursor=pointer]:
+                          - generic [ref=e331]: Add quick Link
+                      - generic [ref=e336]:
+                        - button [ref=e489] [cursor=pointer]:
+                          - generic [ref=e344]:
+                            - generic [ref=e345]: Plane Changelog
+                            - generic [ref=e346]: about 23 hours ago
+                        - button [ref=e490] [cursor=pointer]:
+                          - generic [ref=e352]:
+                            - generic [ref=e353]: Plane Docs
+                            - generic [ref=e354]: about 23 hours ago
+                        - button [ref=e491] [cursor=pointer]:
+                          - generic [ref=e362]:
+                            - generic [ref=e363]: Plane Blogs
+                            - generic [ref=e364]: about 23 hours ago
+                    - generic [ref=e367]:
+                      - generic [ref=e368]:
+                        - generic [ref=e369]: Recents
+                        - button [ref=e492] [cursor=pointer]:
+                          - button [ref=e493]:
+                            - generic [ref=e373]: All
+                      - generic [ref=e381]:
+                        - link [ref=e494] [cursor=pointer]:
+                          - /url: /heloooo/projects/9f5de294-fe00-4fba-9be5-28dd8a73781a/issues
+                          - generic [ref=e383]:
+                            - generic [ref=e385]:
+                              - generic [ref=e386]: 💼
+                              - generic [ref=e388]: PILOTEERTE
+                            - generic [ref=e389]: Piloteer Test
+                          - generic [ref=e390]: 16 minutes ago
+                        - button [disabled] [ref=e495]
+                    - generic [ref=e402]:
+                      - generic [ref=e403]:
+                        - generic [ref=e404]: Your stickies
+                        - generic [ref=e405]:
+                          - button [ref=e407] [cursor=pointer]
+                          - button [ref=e497] [cursor=pointer]:
+                            - generic [ref=e416]: Add sticky
+                      - paragraph [ref=e437]: Jot down an idea, capture an aha, or record a brainwave. Add a sticky to get started.
+          - button [ref=e440] [cursor=pointer]
+  - generic:
+    - region "Notifications"
+  - iframe
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - iframe
+  - generic:
+    - generic:
+      - generic:
+        - dialog:
+          - generic [ref=e504]:
+            - generic [ref=e505]:
+              - heading "Create new work item" [level=3] [ref=e506]
+              - generic [ref=e508]:
+                - button [ref=e510] [cursor=pointer]:
+                  - button "👇 Test" [ref=e511]:
+                    - generic [ref=e512]: 👇
+                    - generic [ref=e514]: Test
+                - button [ref=e521] [cursor=pointer]
+              - textbox "Title" [active] [ref=e529]: Piloteer Test
+            - generic [ref=e532]:
+              - button [ref=e534]:
+                - paragraph [ref=e539]: Click to add description
+              - generic [ref=e540]:
+                - button "I'm feeling lucky" [ref=e638] [cursor=pointer]
+                - button [ref=e542] [cursor=pointer]:
+                  - button "AI" [ref=e543]
+            - generic [ref=e546]:
+              - generic [ref=e548]:
+                - button "State" [ref=e549] [cursor=pointer]
+                - button "None" [ref=e581] [cursor=pointer]
+                - button "Assignees" [ref=e586] [cursor=pointer]
+                - button "Labels" [ref=e590] [cursor=pointer]
+                - button [ref=e597] [cursor=pointer]:
+                  - button "Start date" [ref=e598]
+                - button [ref=e603] [cursor=pointer]:
+                  - button "Due date" [ref=e604]
+                - button "Cycle" [ref=e608] [cursor=pointer]
+                - button "Modules" [ref=e614] [cursor=pointer]
+                - button "Add parent" [ref=e622] [cursor=pointer]
+              - generic [ref=e627]:
+                - button "Create more" [ref=e628] [cursor=pointer]:
+                  - switch [ref=e629]
+                  - checkbox [ref=e631]
+                - generic [ref=e633]:
+                  - button "Discard" [ref=e635] [cursor=pointer]
+                  - button "Save" [ref=e637] [cursor=pointer]

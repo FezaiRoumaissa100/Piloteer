@@ -19,13 +19,11 @@ from orchestration.state import initiate_state
 from orchestration.graph import build_graph
 
 
-USER_TASK = "search for 'Piloteer' on Google and click on the first search result"
+USER_TASK = "i want a project named 'Piloteer' on the workspace"
 
 SAAS_CONTEXT = """
-Google is a search engine.
-When you first visit Google, there is often a cookie consent popup. You must accept all cookies (e.g. clicking 'Accept all' or 'Tout accepter') before you can interact with the page.
-The main page features a central search input field. You enter your search query there and press 'Enter' to submit.
-After searching, you are taken to a results page containing a list of web pages. The titles of these pages are typically formatted as headings (h3), which you can click to navigate to the corresponding website.
+Linear (linear.app) is a project management tool for software teams.
+
 """
 
 
@@ -45,8 +43,8 @@ async def test_pipeline():
             print("\n[Setup] MCP server connected")
 
             # Navigate to starting page
-            await navigate(session, "https://www.google.com")
-            print("[Setup] Navigated to Google")
+            await navigate(session, "https://linear.app")
+            print("[Setup] Navigated to Linear")
 
             # Show cursor + action highlights (must be AFTER navigate)
             await session.call_tool("browser_video_show_actions", arguments={
@@ -55,7 +53,11 @@ async def test_pipeline():
                 "position": "top-right"
             })
 
-            # Get initial snapshot to inject into state
+            # Manual login pause for SaaS
+            print("MANUAL ACTION REQUIRED: Please log in manually in the browser.")
+            await asyncio.to_thread(input, "Press [ENTER] here once you are on the dashboard...")
+
+            # Get initial snapshot to inject into state AFTER login
             initial_snapshot = await get_snapshot(session)
             # Build initial state
             state = initiate_state(

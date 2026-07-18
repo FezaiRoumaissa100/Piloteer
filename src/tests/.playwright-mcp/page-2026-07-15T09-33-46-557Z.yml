@@ -1,0 +1,48 @@
+- generic [ref=f7e1]:
+  - main [ref=f7e3]:
+    - generic [ref=f7e7]:
+      - generic [ref=f7e11]:
+        - button [ref=f7e13] [cursor=pointer]
+        - button "remissa.fezi ROUMAISSA FEZAI" [ref=f7e25] [cursor=pointer]:
+          - img "remissa.fezi" [ref=f7e27]
+          - generic [ref=f7e28]: ROUMAISSA FEZAI
+      - generic [ref=f7e69]:
+        - generic [ref=f7e70]:
+          - heading "Create your workspace" [level=1] [ref=f7e71]
+          - paragraph [ref=f7e72]: All your work — unified.
+        - generic [ref=f7e73]:
+          - generic [ref=f7e74]:
+            - generic [ref=f7e75]: Name your workspace*
+            - textbox "Name your workspace*" [active] [ref=f7e77]:
+              - /placeholder: Enter workspace name
+              - text: Piloteer Testhiiiiiii
+          - generic [ref=f7e78]:
+            - generic [ref=f7e79]: Set your workspace's URL*
+            - generic [ref=f7e80]:
+              - generic [ref=f7e81]: app.plane.so/
+              - textbox "Set your workspace's URL*" [ref=f7e82]:
+                - /placeholder: Type or paste a URL
+                - text: piloteer-testhiiiiiii
+            - paragraph [ref=f7e83]: You can only edit the slug of the URL
+          - generic [ref=f7e84]:
+            - generic [ref=f7e85]: How many people will use this workspace?*
+            - generic [ref=f7e87]:
+              - button "Just myself" [ref=f7e88] [cursor=pointer]
+              - button "2-10" [ref=f7e93] [cursor=pointer]
+              - button "11-50" [ref=f7e98] [cursor=pointer]
+              - button "51-200" [ref=f7e103] [cursor=pointer]
+              - button "201-500" [ref=f7e108] [cursor=pointer]
+              - button "500+" [ref=f7e113] [cursor=pointer]
+        - generic [ref=f7e118]:
+          - button [disabled]:
+            - status:
+              - generic: Loading...
+  - generic:
+    - region "Notifications"
+  - iframe
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - iframe

@@ -1,0 +1,203 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - link "Skip to content" [ref=e4]:
+      - /url: "#skip-nav"
+    - generic [ref=e5]:
+      - generic [ref=e10]:
+        - navigation [ref=e11]:
+          - generic [ref=e13]:
+            - button "Test Workspace Menu" [ref=e15]:
+              - generic [ref=e16]: TE
+              - generic [ref=e18]: Test
+            - generic [ref=e21]:
+              - button "Search workspace" [ref=e23]
+              - button "Create new issue" [ref=e30]
+          - generic [ref=e35]:
+            - generic [ref=e36]:
+              - generic [ref=e38]:
+                - button [ref=e40]:
+                  - link "Inbox 1 unread notification" [ref=e45]:
+                    - /url: /testifeen/inbox
+                    - generic [ref=e50]:
+                      - generic [ref=e51]: Inbox
+                      - generic "1 unread notification" [ref=e52]:
+                        - generic "1" [ref=e54]
+                - button [ref=e58]:
+                  - link [ref=e63]:
+                    - /url: /testifeen/my-issues/assigned
+                - generic:
+                  - button
+                - status [ref=e68]
+              - generic [ref=e70]:
+                - button "Workspace" [expanded] [ref=e72]
+                - generic [ref=e77]:
+                  - generic [ref=e78]:
+                    - button [ref=e80]:
+                      - link [ref=e85]:
+                        - /url: /testifeen/projects/all
+                    - button [ref=e91]:
+                      - link [ref=e96]:
+                        - /url: /testifeen/views
+                    - generic:
+                      - button
+                    - generic:
+                      - button
+                    - status [ref=e102]
+                  - button "Show more links" [ref=e106]:
+                    - generic [ref=e107]: More
+            - generic [ref=e112]:
+              - generic [ref=e114]:
+                - generic [ref=e115]:
+                  - button "Your teams" [expanded] [ref=e116]
+                  - button "Join a team" [ref=e121]
+                - list [ref=e129]:
+                  - button [ref=e130]:
+                    - generic [ref=e131]:
+                      - generic "Test" [ref=e132]:
+                        - link "Test Collapse team Team menu" [ref=e133]:
+                          - /url: /testifeen/team/TES/overview
+                          - generic [ref=e135]:
+                            - generic "Test" [ref=e142]
+                            - button "Collapse team" [ref=e143]
+                          - generic "Team menu" [ref=e146]
+                      - generic [ref=e150]:
+                        - link [ref=e155]:
+                          - /url: /testifeen/team/TES/overview
+                        - link [ref=e163]:
+                          - /url: /testifeen/team/TES/active
+                        - link [ref=e172]:
+                          - /url: /testifeen/team/TES/projects/all
+                        - link [ref=e180]:
+                          - /url: /testifeen/team/TES/views/issues
+                    - generic:
+                      - generic:
+                        - list:
+                          - status [ref=e185]
+                  - status [ref=e186]
+              - generic [ref=e188]:
+                - button "Try" [expanded] [ref=e190]
+                - generic [ref=e195]:
+                  - generic [ref=e196]:
+                    - link [ref=e201]:
+                      - /url: /testifeen/settings/import-export
+                    - button [ref=e208]:
+                      - img "Dismiss" [ref=e209]
+                  - generic [ref=e211]:
+                    - generic "Invite to Test…" [ref=e213]: Invite people
+                    - button [ref=e218]:
+                      - img "Dismiss" [ref=e219]
+                  - generic [ref=e221]:
+                    - link [ref=e226]:
+                      - /url: /testifeen/settings/integrations/github?source=try
+                    - button [ref=e232]:
+                      - img "Dismiss" [ref=e233]
+        - button "Open Help menu" [ref=e241]
+      - generic [ref=e246]:
+        - main [ref=e248]:
+          - generic [ref=e249]:
+            - generic [ref=e252]:
+              - generic [ref=e254]:
+                - heading "Projects" [level=2] [ref=e257]
+                - button "New project" [ref=e260]
+              - generic [ref=e264]:
+                - generic [ref=e267]:
+                  - link "All projects" [ref=e272]:
+                    - /url: /testifeen/team/TES/projects/all
+                  - button "Add new view" [ref=e277]
+                  - status [ref=e282]
+                - generic [ref=e283]:
+                  - generic [ref=e284]:
+                    - button "Add filter" [ref=e287]
+                    - button "Display options" [ref=e292]
+                  - button "Close sidebar" [expanded] [ref=e299]
+            - generic [ref=e306]:
+              - generic [ref=e308]:
+                - generic [ref=e312]:
+                  - generic [ref=e313]:
+                    - button "Order by Name" [ref=e316]:
+                      - generic [ref=e317]: Name
+                    - button "Order by Health" [ref=e325]:
+                      - generic [ref=e326]: Health
+                    - button "Order by Priority" [ref=e333]:
+                      - generic [ref=e334]: Priority
+                    - generic [ref=e340]: Lead
+                    - button "Order by Target date" [ref=e342]:
+                      - generic [ref=e343]: Target date
+                    - generic [ref=e349]: Issues
+                    - button "Order by Status" [ref=e351]:
+                      - generic [ref=e352]: Status
+                  - link "Select project Choose icon Piloteer There are no updates for this project No Priority No lead Change project target date 0 0%" [ref=e360]:
+                    - /url: /testifeen/project/piloteer-cc096195e75a/overview
+                    - generic [ref=e361]:
+                      - generic "Select project" [ref=e364]:
+                        - checkbox [ref=e366]
+                      - generic [ref=e368]:
+                        - button "Choose icon" [ref=e369]
+                        - generic "Piloteer" [ref=e375]
+                      - button "There are no updates for this project" [ref=e378]
+                      - button [ref=e385]:
+                        - img "No Priority" [ref=e386]
+                      - button [ref=e393]:
+                        - img "No lead" [ref=e394]
+                      - button "Change project target date" [ref=e403]:
+                        - generic "Change project target date" [ref=e406]
+                      - button "0" [ref=e409]
+                      - button "0%" [ref=e415]
+                - status [ref=e423]
+              - complementary [ref=e426]:
+                - generic [ref=e431]:
+                  - tablist [ref=e433]:
+                    - tab "Health" [selected] [ref=e434]
+                    - tab "Leads" [ref=e436]
+                  - button "No update expected Project count" [ref=e440]:
+                    - generic [ref=e441]: No update expected
+                    - generic "Project count" [ref=e447]: "1"
+        - generic [ref=e457]:
+          - button "Ask Linear" [ref=e461]
+          - button "Chat history" [ref=e468]
+    - region "Notifications alt+T"
+  - dialog "Create project" [ref=e475]:
+    - generic [ref=e480]:
+      - generic [ref=e481]:
+        - generic [ref=e482]:
+          - generic [ref=e483]:
+            - button "Change project teams" [disabled]:
+              - generic: TES
+          - generic [ref=e484]: ›
+          - generic [ref=e485]: New project
+        - button "Discard project" [ref=e488]
+      - generic [ref=e493]:
+        - generic [ref=e494]:
+          - generic [ref=e495]:
+            - button "Choose icon" [ref=e496]
+            - textbox "Project name" [active] [ref=e501]:
+              - paragraph [ref=e502]: Project name
+          - textbox "Project summary" [ref=e505]:
+            - paragraph [ref=e506]: Add a short summary…
+          - generic [ref=e507]:
+            - combobox "Change project status" [ref=e509]:
+              - generic [ref=e515]: Backlog
+            - combobox "Change project priority" [ref=e518]:
+              - generic [ref=e524]: No priority
+            - combobox "Set project lead" [ref=e527]:
+              - generic [ref=e537]: Lead
+            - combobox "Change project members" [ref=e540]:
+              - generic [ref=e547]: Members
+            - button "Change project start date" [ref=e549]:
+              - combobox "Change start date" [ref=e552]:
+                - generic [ref=e557]: Start
+            - button "Change project target date" [ref=e559]:
+              - combobox "Change target date" [ref=e562]:
+                - generic [ref=e566]: Target
+            - combobox "Change labels" [ref=e569]:
+              - generic [ref=e574]: Labels
+            - combobox "Add dependencies" [ref=e577]:
+              - generic [ref=e581]: Dependencies
+          - textbox "Project description" [ref=e588]:
+            - paragraph [ref=e589]: Write a description, a project brief, or collect ideas…
+        - generic [ref=e596]:
+          - button "Milestones" [ref=e597]
+          - button "Add" [ref=e602]
+      - generic [ref=e607]:
+        - button "Discard" [ref=e609]: Cancel
+        - button "Create project" [ref=e611]

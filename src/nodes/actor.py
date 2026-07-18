@@ -1,17 +1,9 @@
-"""
-actor.py — Piloteer
-Actor agent node for LangGraph.
-
-Executes the single current_step from state using the MCP session.
-Zero reasoning — just dispatches the exact tool call.
-"""
-
 import asyncio
 from mcp import ClientSession
 from orchestration.state import SharedState
 from tools.mcp_client import get_snapshot, wait_for
 
-# Tools that trigger navigation — need extra wait before snapshot
+# Tools that trigger navigation :need extra wait before snapshot
 NAVIGATION_TOOLS = {"browser_click", "browser_navigate", "browser_press_key"}
 
 
@@ -29,51 +21,53 @@ def make_actor_node(session: ClientSession):
           - current_step
 
         Writes to state:
-          - snapshot_before, snapshot_after, last_action_result
+          - snapshot_before, snapshot_after, last_action_result, last_action_is_error
         """
 
         step = state["current_step"]
 
-        # Guard: Planner returned no step (task_done or error)
         if not step:
-            print("[Actor] No step to execute (task_done or no valid action).")
+            print("[Actor] No step to execute.")
             return {
                 "snapshot_before":    None,
                 "snapshot_after":     None,
                 "last_action_result": "error: no step"
             }
 
-        print(f"\n[Actor] Executing: {step.get('description', '')}")
-        print(f"        Tool: {step['tool']} | Args: {step['arguments']}")
-
-        # 1. Capture snapshot BEFORE
+        print("[Actor] Executing:", step.get('description', ''))
+        print("[Actor] Tool:", step['tool'], "| Args:", step['arguments'])
         snapshot_before = await get_snapshot(session)
 
-        # 2. Execute the MCP tool call
         arguments = step["arguments"].copy()
         if step["tool"] == "browser_type":
-            arguments["slowly"] = True  # character-by-character for visual demo
+            arguments["slowly"] = True
 
-        result = await session.call_tool(
-            name=step["tool"],
-            arguments=arguments
-        )
-
-        # 3. Wait for page to stabilize if action triggers navigation
-        if step["tool"] in NAVIGATION_TOOLS:
-            print("[Actor] Waiting for page to stabilize...")
-            await wait_for(session, time=1)
-
-        # 4. Capture snapshot AFTER
-        snapshot_after = await get_snapshot(session)
-
-        action_result = result.content[0].text if result.content else "done"
-        print(f"[Actor] Result: {action_result[:120]}...")
+        if step["tool"] == "finish_task":
+            print("[Actor] Intercepting finish_task...")
+            action_result = "The Planner indicates the task is complete. Validator, please perform a final double-check by analyzing the snapshots."
+            snapshot_after = snapshot_before
+            is_error = False
+        else:
+            result = await session.call_tool(
+                name=step["tool"],
+                arguments=arguments
+            )
+           
+            if step["tool"] in NAVIGATION_TOOLS:
+                print("[Actor] Waiting for page to stabilize...")
+                await wait_for(session, time=1)
+        
+            snapshot_after = await get_snapshot(session)
+            is_error = getattr(result, "isError", False)
+            action_result = result.content[0].text if result.content else "Command executed with no text output."
+            
+        print("[Actor] Result:", action_result)
 
         return {
-            "snapshot_before":    snapshot_before,
-            "snapshot_after":     snapshot_after,
-            "last_action_result": action_result
+            "snapshot_before":      snapshot_before,
+            "snapshot_after":       snapshot_after,
+            "last_action_result":   action_result,
+            "last_action_is_error": is_error
         }
 
     return actor_node

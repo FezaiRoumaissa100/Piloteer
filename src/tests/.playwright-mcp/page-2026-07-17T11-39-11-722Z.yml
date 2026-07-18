@@ -1,0 +1,206 @@
+- generic [ref=f10e1]:
+  - generic [ref=f10e3]:
+    - link "Skip to content" [ref=f10e4]:
+      - /url: "#skip-nav"
+    - generic [ref=f10e5]:
+      - generic [ref=f10e10]:
+        - navigation [ref=f10e11]:
+          - generic [ref=f10e13]:
+            - button "Test Workspace Menu" [ref=f10e15]:
+              - generic [ref=f10e16]: TE
+              - generic [ref=f10e18]: Test
+            - generic [ref=f10e21]:
+              - button "Search workspace" [ref=f10e23]
+              - button "Create new issue" [ref=f10e30]
+          - generic [ref=f10e35]:
+            - generic [ref=f10e36]:
+              - generic [ref=f10e38]:
+                - button [ref=f10e40]:
+                  - link "Inbox 1 unread notification" [ref=f10e45]:
+                    - /url: /testifeen/inbox
+                    - generic [ref=f10e50]:
+                      - generic [ref=f10e51]: Inbox
+                      - generic "1 unread notification" [ref=f10e52]:
+                        - generic "1" [ref=f10e54]
+                - button [ref=f10e58]:
+                  - link [ref=f10e63]:
+                    - /url: /testifeen/my-issues/assigned
+                - generic:
+                  - button
+                - status [ref=f10e68]
+              - generic [ref=f10e70]:
+                - button "Workspace" [expanded] [ref=f10e72]
+                - generic [ref=f10e77]:
+                  - generic [ref=f10e78]:
+                    - button [ref=f10e80]:
+                      - link [ref=f10e85]:
+                        - /url: /testifeen/projects/all
+                    - button [ref=f10e91]:
+                      - link [ref=f10e96]:
+                        - /url: /testifeen/views
+                    - generic:
+                      - button
+                    - generic:
+                      - button
+                    - status [ref=f10e102]
+                  - button "Show more links" [ref=f10e106]:
+                    - generic [ref=f10e107]: More
+            - generic [ref=f10e112]:
+              - generic [ref=f10e114]:
+                - generic [ref=f10e115]:
+                  - button "Your teams" [expanded] [ref=f10e116]
+                  - button "Join a team" [ref=f10e121]
+                - list [ref=f10e129]:
+                  - button [ref=f10e130]:
+                    - generic [ref=f10e131]:
+                      - generic "Test" [ref=f10e132]:
+                        - link "Test Collapse team Team menu" [ref=f10e133]:
+                          - /url: /testifeen/team/TES/overview
+                          - generic [ref=f10e135]:
+                            - generic "Test" [ref=f10e142]
+                            - button "Collapse team" [ref=f10e143]
+                          - generic "Team menu" [ref=f10e146]
+                      - generic [ref=f10e150]:
+                        - link [ref=f10e155]:
+                          - /url: /testifeen/team/TES/overview
+                        - link [ref=f10e163]:
+                          - /url: /testifeen/team/TES/active
+                        - link [ref=f10e172]:
+                          - /url: /testifeen/team/TES/projects/all
+                        - link [ref=f10e180]:
+                          - /url: /testifeen/team/TES/views/issues
+                    - generic:
+                      - generic:
+                        - list:
+                          - status [ref=f10e185]
+                  - status [ref=f10e186]
+              - generic [ref=f10e188]:
+                - button "Try" [expanded] [ref=f10e190]
+                - generic [ref=f10e195]:
+                  - generic [ref=f10e196]:
+                    - link [ref=f10e201]:
+                      - /url: /testifeen/settings/import-export
+                    - button [ref=f10e208]:
+                      - img "Dismiss" [ref=f10e209]
+                  - generic [ref=f10e211]:
+                    - generic "Invite to Test…" [ref=f10e213]: Invite people
+                    - button [ref=f10e218]:
+                      - img "Dismiss" [ref=f10e219]
+                  - generic [ref=f10e221]:
+                    - link [ref=f10e226]:
+                      - /url: /testifeen/settings/integrations/github?source=try
+                    - button [ref=f10e232]:
+                      - img "Dismiss" [ref=f10e233]
+        - button "Open Help menu" [ref=f10e241]
+      - generic [ref=f10e246]:
+        - main [ref=f10e248]:
+          - generic [ref=f10e249]:
+            - generic [ref=f10e252]:
+              - generic [ref=f10e254]:
+                - generic [ref=f10e255]:
+                  - generic [ref=f10e257]:
+                    - generic [ref=f10e259]:
+                      - link [ref=f10e260]:
+                        - /url: /testifeen/team/TES/overview
+                        - generic "Team overview" [ref=f10e261]: Test
+                      - generic [ref=f10e267]: ›
+                    - heading "Issues" [level=2] [ref=f10e269]
+                  - switch "Add to favorites" [ref=f10e272]
+                - button "Setup active issues notifications" [ref=f10e278]
+              - generic [ref=f10e285]:
+                - generic [ref=f10e288]:
+                  - link "Active" [ref=f10e293]:
+                    - /url: /testifeen/team/TES/active
+                  - link "Backlog" [ref=f10e299]:
+                    - /url: /testifeen/team/TES/backlog
+                  - link "All issues" [ref=f10e305]:
+                    - /url: /testifeen/team/TES/all
+                  - button "Add new view" [ref=f10e310]
+                  - status [ref=f10e315]
+                - generic [ref=f10e316]:
+                  - button "Add filter" [ref=f10e319]
+                  - button "Display options" [ref=f10e324]
+                - button "Open details" [ref=f10e331]
+            - generic [ref=f10e340]:
+              - generic [ref=f10e346]:
+                - generic [ref=f10e350]:
+                  - button "Collapse group" [ref=f10e352]
+                  - generic [ref=f10e359]:
+                    - generic [ref=f10e360]: Todo
+                    - button "4" [ref=f10e362]
+                  - button "Create new issue" [ref=f10e367]
+                - link "Select issue No Priority TES-1 Get familiar with Linear Created Jul 17, 12:36:02" [ref=f10e372]:
+                  - /url: /testifeen/issue/TES-1/get-familiar-with-linear
+                  - generic [ref=f10e373]:
+                    - generic "Select issue" [ref=f10e376]:
+                      - checkbox [ref=f10e378]
+                    - img "No Priority" [ref=f10e382]
+                    - generic: TES-1
+                    - generic "Get familiar with Linear" [ref=f10e398]
+                    - generic "Created Jul 17, 12:36:02" [ref=f10e411]: Jul 17
+                - link "Select issue No Priority TES-4 Set up your teams Created Jul 17, 12:36:02" [ref=f10e413]:
+                  - /url: /testifeen/issue/TES-4/set-up-your-teams
+                  - generic [ref=f10e414]:
+                    - generic "Select issue" [ref=f10e417]:
+                      - checkbox [ref=f10e419]
+                    - img "No Priority" [ref=f10e423]
+                    - generic: TES-4
+                    - generic "Set up your teams" [ref=f10e439]
+                    - generic "Created Jul 17, 12:36:02" [ref=f10e452]: Jul 17
+                - link "Select issue No Priority TES-2 Connect your tools Created Jul 17, 12:36:02" [ref=f10e454]:
+                  - /url: /testifeen/issue/TES-2/connect-your-tools
+                  - generic [ref=f10e455]:
+                    - generic "Select issue" [ref=f10e458]:
+                      - checkbox [ref=f10e460]
+                    - img "No Priority" [ref=f10e464]
+                    - generic: TES-2
+                    - generic "Connect your tools" [ref=f10e480]
+                    - generic "Created Jul 17, 12:36:02" [ref=f10e493]: Jul 17
+                - link "Select issue No Priority TES-3 Import your data Created Jul 17, 12:36:02" [ref=f10e495]:
+                  - /url: /testifeen/issue/TES-3/import-your-data
+                  - generic [ref=f10e496]:
+                    - generic "Select issue" [ref=f10e499]:
+                      - checkbox [ref=f10e501]
+                    - img "No Priority" [ref=f10e505]
+                    - generic: TES-3
+                    - generic "Import your data" [ref=f10e521]
+                    - generic "Created Jul 17, 12:36:02" [ref=f10e534]: Jul 17
+              - status [ref=f10e537]
+        - generic [ref=f10e546]:
+          - button "Ask Linear" [ref=f10e550]
+          - button "Chat history" [ref=f10e557]
+    - region "Notifications alt+T"
+  - dialog "Create issue" [ref=f10e564]:
+    - generic [ref=f10e569]:
+      - generic [ref=f10e570]:
+        - generic [ref=f10e571]:
+          - generic [ref=f10e572]:
+            - button "Set team" [disabled]:
+              - generic: TES
+          - generic [ref=f10e573]: ›
+          - generic [ref=f10e574]: New issue
+        - generic [ref=f10e575]:
+          - button "Expand" [ref=f10e577]
+          - button "Close" [ref=f10e583]
+      - generic [ref=f10e588]:
+        - textbox "Issue title" [active] [ref=f10e592]:
+          - paragraph [ref=f10e593]: Issue title
+        - textbox "Issue description" [ref=f10e599]:
+          - paragraph [ref=f10e600]: Add description…
+      - generic [ref=f10e601]:
+        - combobox "Change status" [ref=f10e603]:
+          - generic [ref=f10e607]: Todo
+        - combobox "Change priority. No priority is selected" [ref=f10e610]:
+          - generic [ref=f10e616]: Priority
+        - combobox "Change assignee. Currently no one is assigned." [ref=f10e619]:
+          - generic [ref=f10e629]: Assignee
+        - combobox "Change labels" [ref=f10e632]:
+          - generic [ref=f10e637]: Labels
+        - button "More actions" [ref=f10e641]
+      - generic [ref=f10e645]:
+        - button "Attach images, files, or videos" [ref=f10e648]
+        - generic [ref=f10e652]:
+          - generic [ref=f10e655]:
+            - checkbox "Create more" [ref=f10e656]
+            - generic [ref=f10e657]: Create more
+          - button "Create issue" [ref=f10e659]

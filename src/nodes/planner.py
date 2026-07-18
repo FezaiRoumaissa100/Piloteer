@@ -1,14 +1,7 @@
-"""
-planner.py — Piloteer
-Planner agent node for LangGraph.
-
-Receives the current page snapshot + user task,
-calls Gemini, and returns the SINGLE NEXT step to execute.
-"""
-
 from orchestration.state import SharedState
-from tools.llm_client import ask_llm_json
+from tools.client_gemini import ask_llm_json
 from prompts.planner_prompt import planner_system_prompt, planner_content_prompt
+from utils.tree_pruner import prune_snapshot
 
 
 async def planner_node(state: SharedState) -> dict:
@@ -25,10 +18,13 @@ async def planner_node(state: SharedState) -> dict:
 
     task         = state["user_task"]
     saas_context = state["saas_context"]
-    snapshot     = state["snapshot_after"]
+    raw_snapshot = state["snapshot_after"]
     memory       = state.get("memory", [])
 
-    # Format memory into string
+    # Prune snapshot before sending to LLM (Level-1 tree pruning)
+    snapshot = prune_snapshot(raw_snapshot) if raw_snapshot else ""
+
+   
     memory_str = "No past actions yet."
     if memory:
         memory_str = "\n".join(
@@ -40,7 +36,7 @@ async def planner_node(state: SharedState) -> dict:
     system_prompt = planner_system_prompt(snapshot, task, saas_context)
     prompt        = planner_content_prompt(snapshot, task, memory_str)
 
-    # Call Gemini — returns {"reasoning": ..., "step": ...}
+    # Call Gemini
     response = await ask_llm_json(
         prompt=prompt,
         system_prompt=system_prompt,
@@ -55,8 +51,8 @@ async def planner_node(state: SharedState) -> dict:
         reasoning = ""
         step      = None
 
-    print(f"\n[Planner] Reasoning : {reasoning}")
-    print(f"[Planner] Next step : {step}")
+    print("\n[Planner] Reasoning :", reasoning)
+    print("[Planner] Next step : ",step)
 
     return {
         "current_step": step,

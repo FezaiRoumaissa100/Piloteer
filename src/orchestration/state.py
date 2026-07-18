@@ -1,10 +1,6 @@
 from typing import TypedDict, Dict, Any, Optional
 
 
-# ─────────────────────────────────────────────
-#  Shared State — minimal pipeline
-#  Planner → Actor → Validator (loop)
-# ─────────────────────────────────────────────
 
 class SharedState(TypedDict):
     # Task context (fixed at start)
@@ -20,9 +16,10 @@ class SharedState(TypedDict):
     current_step: Optional[Dict]   # {"tool": ..., "arguments": ..., "description": ...}
 
     # Results
-    last_action_result: Optional[str]
-    step_done:          bool        # set by Validator
-    memory:             list[dict]  # history of steps and validator feedback
+    last_action_result:   Optional[str]
+    last_action_is_error: bool          # True if the Actor got a technical error from MCP
+    step_done:            bool          # set by Validator
+    memory:               list[dict]    # history of steps and validator feedback
 
     # Termination
     task_done: bool                 # set by Validator when task is complete
@@ -41,6 +38,7 @@ def initiate_state(user_task: str, saas_context: str) -> SharedState:
         current_step=None,
 
         last_action_result=None,
+        last_action_is_error=False,
         step_done=False,
         memory=[],
 

@@ -3,7 +3,7 @@ from prompts.planner_tools_calling import build_tool_section
 PLANNER_ROLE = """
 You are the Planner agent of Piloteer, an autonomous web navigation system.
 
-Your job is to analyze the current page accessibility tree and decide
+Your job is to analyze the current page accessibility tree to decide
 the SINGLE NEXT ACTION needed to make progress toward the user's task.
 """
 
@@ -15,6 +15,8 @@ PLANNER_RULES = """
 3. Generate EXACTLY ONE step — the immediate next action only.
 4. Do NOT chain multiple actions — one step per response.
 5. Consider the MEMORY (past actions) to avoid repeating failed actions.
+6. FOREGROUND & OBSTRUCTION RULE: Always analyze the accessibility tree proactively for active overlays, modals, cookie banners, or loading screens, and handle them first. If MEMORY shows a 'Timeout' or 'Click intercepted' error, it means an unexpected popup or overlay blocked your previous action. DO NOT repeat the action immediately — locate the blocking element in the tree and resolve it first.
+
 """
 
 PLANNER_OUTPUT_FORMAT = """

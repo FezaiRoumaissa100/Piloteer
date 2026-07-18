@@ -1,0 +1,136 @@
+- generic [ref=e3]:
+  - link "Skip to content" [ref=e4]:
+    - /url: "#skip-nav"
+  - generic [ref=e5]:
+    - generic [ref=e10]:
+      - navigation [ref=e11]:
+        - generic [ref=e13]:
+          - button "Test Workspace Menu" [ref=e15]:
+            - generic [ref=e16]: TE
+            - generic [ref=e18]: Test
+          - generic [ref=e21]:
+            - button "Search workspace" [ref=e23]
+            - button "Create new issue" [ref=e30]
+        - generic [ref=e35]:
+          - generic [ref=e36]:
+            - generic [ref=e38]:
+              - button [ref=e40]:
+                - link "Inbox 1 unread notification" [ref=e45]:
+                  - /url: /testifeen/inbox
+                  - generic [ref=e50]:
+                    - generic [ref=e51]: Inbox
+                    - generic "1 unread notification" [ref=e52]:
+                      - generic "1" [ref=e54]
+              - button [ref=e58]:
+                - link [ref=e63]:
+                  - /url: /testifeen/my-issues/assigned
+              - generic:
+                - button
+              - status [ref=e68]
+            - generic [ref=e70]:
+              - button "Workspace" [expanded] [ref=e72]
+              - generic [ref=e77]:
+                - generic [ref=e78]:
+                  - button [ref=e80]:
+                    - link [active] [ref=e85]:
+                      - /url: /testifeen/projects/all
+                  - button [ref=e91]:
+                    - link [ref=e96]:
+                      - /url: /testifeen/views
+                  - generic:
+                    - button
+                  - generic:
+                    - button
+                  - status [ref=e102]
+                - button "Show more links" [ref=e106]:
+                  - generic [ref=e107]: More
+          - generic [ref=e112]:
+            - generic [ref=e114]:
+              - generic [ref=e115]:
+                - button "Your teams" [expanded] [ref=e116]
+                - button "Join a team" [ref=e121]
+              - list [ref=e129]:
+                - button [ref=e130]:
+                  - generic [ref=e131]:
+                    - generic "Test" [ref=e132]:
+                      - link "Test Collapse team Team menu" [ref=e133]:
+                        - /url: /testifeen/team/TES/overview
+                        - generic [ref=e135]:
+                          - generic "Test" [ref=e142]
+                          - button "Collapse team" [ref=e143]
+                        - generic "Team menu" [ref=e146]
+                    - generic [ref=e150]:
+                      - link [ref=e155]:
+                        - /url: /testifeen/team/TES/overview
+                      - link [ref=e163]:
+                        - /url: /testifeen/team/TES/active
+                      - link [ref=e172]:
+                        - /url: /testifeen/team/TES/projects/all
+                      - link [ref=e180]:
+                        - /url: /testifeen/team/TES/views/issues
+                  - generic:
+                    - generic:
+                      - list:
+                        - status [ref=e185]
+                - status [ref=e186]
+            - generic [ref=e188]:
+              - button "Try" [expanded] [ref=e190]
+              - generic [ref=e195]:
+                - generic [ref=e196]:
+                  - link [ref=e201]:
+                    - /url: /testifeen/settings/import-export
+                  - button [ref=e208]:
+                    - img "Dismiss" [ref=e209]
+                - generic [ref=e211]:
+                  - generic "Invite to Test…" [ref=e213]: Invite people
+                  - button [ref=e218]:
+                    - img "Dismiss" [ref=e219]
+                - generic [ref=e221]:
+                  - link [ref=e226]:
+                    - /url: /testifeen/settings/integrations/github?source=try
+                  - button [ref=e232]:
+                    - img "Dismiss" [ref=e233]
+      - button "Open Help menu" [ref=e241]
+    - generic [ref=e246]:
+      - main [ref=e248]:
+        - generic [ref=e249]:
+          - generic [ref=e606]:
+            - generic [ref=e608]:
+              - heading "Projects" [level=2] [ref=e611]
+              - button "New project" [ref=e614]
+            - generic [ref=e618]:
+              - generic [ref=e621]:
+                - link "All projects" [ref=e626]:
+                  - /url: /testifeen/projects/all
+                - button "Add new view" [ref=e631]
+                - status [ref=e636]
+              - generic [ref=e637]:
+                - generic [ref=e638]:
+                  - button "Add filter" [ref=e640]
+                  - button "Display options" [ref=e645]
+                - button "Close sidebar" [expanded] [ref=e652]
+          - generic [ref=e659]:
+            - generic [ref=e661]:
+              - generic [ref=e666]:
+                - img "No projects illustration" [ref=e668]
+                - generic [ref=e683]:
+                  - generic [ref=e684]:
+                    - generic [ref=e685]: Projects
+                    - generic [ref=e686]: Projects are larger units of work with a clear outcome, such as a new feature you want to ship. They can be shared across multiple teams and are comprised of issues and optional documents.
+                  - generic [ref=e688]:
+                    - button "Create new project" [ref=e690]:
+                      - generic [ref=e691]:
+                        - text: Create new project
+                        - generic [ref=e692]:
+                          - generic "N" [ref=e693]
+                          - generic "then" [ref=e695]
+                          - generic "P" [ref=e696]
+                    - link "Documentation" [ref=e698] [cursor=pointer]:
+                      - /url: https://linear.app/docs/projects
+              - status [ref=e699]
+            - complementary [ref=e702]:
+              - generic [ref=e703]: No project details
+      - generic [ref=e587]:
+        - button "Ask Linear" [ref=e591]
+        - button "Chat history" [ref=e598]
+  - region "Notifications alt+T"

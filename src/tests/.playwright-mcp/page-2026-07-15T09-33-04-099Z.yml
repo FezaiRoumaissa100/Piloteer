@@ -1,0 +1,33 @@
+- generic [ref=f7e1]:
+  - main [ref=f7e3]:
+    - generic [ref=f7e7]:
+      - generic [ref=f7e11]:
+        - button [ref=f7e13] [cursor=pointer]
+        - button "remissa.fezi ROUMAISSA FEZAI" [ref=f7e25] [cursor=pointer]:
+          - img "remissa.fezi" [ref=f7e27]
+          - generic [ref=f7e28]: ROUMAISSA FEZAI
+      - generic [ref=f7e32]:
+        - generic [ref=f7e33]:
+          - heading "What brings you to Plane?" [level=1] [ref=f7e34]
+          - paragraph [ref=f7e35]: Tell us your goals and team size.
+        - generic [ref=f7e36]:
+          - paragraph [ref=f7e37]: Select one or more
+          - generic [ref=f7e38]:
+            - button "Plan and track product roadmaps" [active] [ref=f7e39] [cursor=pointer]
+            - button "Manage engineering sprints" [ref=f7e44] [cursor=pointer]
+            - button "Coordinate cross-functional projects" [ref=f7e49] [cursor=pointer]
+            - button "Replace our current tool" [ref=f7e54] [cursor=pointer]
+            - button "Just exploring" [ref=f7e59] [cursor=pointer]
+          - generic [ref=f7e68]: Please select at least one option
+        - generic [ref=f7e64]:
+          - button "Continue" [disabled]
+          - button "Skip" [ref=f7e65] [cursor=pointer]
+  - generic:
+    - region "Notifications"
+  - iframe
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - iframe

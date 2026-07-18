@@ -1,0 +1,353 @@
+- generic [ref=e5]:
+  - main [ref=e7]:
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - button [ref=e13] [cursor=pointer]:
+          - generic [ref=e14]:
+            - generic [ref=e15]: H
+            - heading [level=4] [ref=e18]: hiiiiiii
+        - generic [ref=e23]:
+          - button [ref=e26] [cursor=pointer]:
+            - textbox [ref=e29]:
+              - /placeholder: Search
+          - generic [ref=e35]:
+            - generic [ref=e36]: Search your workspace
+            - generic [ref=e37]: Start typing to search across work items, projects, cycles, modules and more
+        - generic [ref=e38]:
+          - button [ref=e39] [cursor=pointer]: Get started
+          - button [ref=e40] [cursor=pointer]:
+            - button [ref=e41]
+          - button [ref=e48] [cursor=pointer]:
+            - button [ref=e49]
+          - button [ref=e55] [cursor=pointer]:
+            - button [ref=e56]
+      - generic [ref=e61]:
+        - generic [ref=e65]:
+          - link [ref=e66] [cursor=pointer]:
+            - /url: /hiiiiiii/
+            - generic [ref=e71]: Projects
+          - link [ref=e72] [cursor=pointer]:
+            - /url: /hiiiiiii/wiki/
+            - generic [ref=e76]: Wiki
+          - link [ref=e77] [cursor=pointer]:
+            - /url: /hiiiiiii/ai-chat/
+            - generic [ref=e82]: AI
+          - link [ref=e84] [cursor=pointer]:
+            - /url: /hiiiiiii/settings/
+            - generic [ref=e89]: Settings
+        - generic [ref=e90]:
+          - generic [ref=e93]:
+            - complementary [ref=e94]:
+              - complementary [ref=e95]:
+                - generic [ref=e96]:
+                  - generic [ref=e97]:
+                    - generic [ref=e98]:
+                      - generic [ref=e99]: Projects
+                      - generic [ref=e100]:
+                        - button [ref=e101] [cursor=pointer]
+                        - button [ref=e104] [cursor=pointer]
+                    - button [ref=e108] [cursor=pointer]:
+                      - generic [ref=e111]: New work item
+                  - generic [ref=e112]:
+                    - link [ref=e113] [cursor=pointer]:
+                      - /url: /hiiiiiii/
+                      - paragraph [ref=e118]: Home
+                    - link [ref=e119] [cursor=pointer]:
+                      - /url: /hiiiiiii/drafts/
+                      - paragraph [ref=e124]: Drafts
+                    - link [ref=e125] [cursor=pointer]:
+                      - /url: /hiiiiiii/profile/cc060fad-1ae0-44a4-bcf6-5d4f419a30b8/
+                      - paragraph [ref=e131]: Your work
+                    - link [ref=e132] [cursor=pointer]:
+                      - /url: /hiiiiiii/stickies/
+                      - paragraph [ref=e137]: Stickies
+                  - generic [ref=e138]:
+                    - generic [ref=e139]:
+                      - button [expanded] [ref=e140] [cursor=pointer]:
+                        - generic [ref=e141]: Workspace
+                      - button [ref=e143] [cursor=pointer]
+                    - generic [ref=e148]:
+                      - link [ref=e149] [cursor=pointer]:
+                        - /url: /hiiiiiii/projects/
+                        - paragraph [ref=e154]: Projects
+                      - button [ref=e156] [cursor=pointer]:
+                        - generic [ref=e161]: More
+                  - generic [ref=e163]:
+                    - generic [ref=e164]:
+                      - button [expanded] [ref=e165] [cursor=pointer]:
+                        - generic [ref=e166]: Projects
+                      - button [ref=e168] [cursor=pointer]
+                    - generic [ref=e176]:
+                      - link [ref=e177] [cursor=pointer]:
+                        - /url: /hiiiiiii/projects/64a3a79d-7112-4f1b-9610-b9ef26edf08b/issues
+                        - button [ref=e178]:
+                          - generic [ref=e179]: 👇
+                          - paragraph [ref=e181]: hiiiiiii
+                      - generic [ref=e182]:
+                        - generic:
+                          - button:
+                            - button
+                  - generic [ref=e184]:
+                    - generic [ref=e185]:
+                      - button [expanded] [ref=e186] [cursor=pointer]:
+                        - generic [ref=e187]: Try
+                      - generic [ref=e192]:
+                        - link [ref=e194] [cursor=pointer]:
+                          - /url: /hiiiiiii/settings/integrations/
+                          - generic [ref=e198]: Connect to GitHub
+                        - link [ref=e200] [cursor=pointer]:
+                          - /url: /hiiiiiii/settings/integrations/
+                          - generic [ref=e207]: Connect to Slack
+                        - link [ref=e209] [cursor=pointer]:
+                          - /url: /hiiiiiii/ai-chat/
+                          - generic [ref=e213]: Try Plane AI
+                    - generic [ref=e215]:
+                      - button [ref=e218] [cursor=pointer]
+                      - generic [ref=e222]:
+                        - generic [ref=e223]: Download Plane for mobile
+                        - paragraph [ref=e224]: Manage your work on the go. Download Plane on Play Store and App Store.
+                  - button [ref=e228] [cursor=pointer]:
+                    - generic [ref=e229]: Business trial ends in 13d
+                - slider [ref=e230]
+            - complementary:
+              - complementary:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic: Projects
+                      - generic:
+                        - button
+                        - button
+                    - generic:
+                      - button:
+                        - generic: New work item
+                  - generic:
+                    - link:
+                      - /url: /hiiiiiii/
+                      - generic:
+                        - generic:
+                          - paragraph: Home
+                    - link:
+                      - /url: /hiiiiiii/drafts/
+                      - generic:
+                        - generic:
+                          - paragraph: Drafts
+                    - link:
+                      - /url: /hiiiiiii/profile/cc060fad-1ae0-44a4-bcf6-5d4f419a30b8/
+                      - generic:
+                        - generic:
+                          - paragraph: Your work
+                    - link:
+                      - /url: /hiiiiiii/stickies/
+                      - generic:
+                        - generic:
+                          - paragraph: Stickies
+                  - generic:
+                    - generic:
+                      - button [expanded]:
+                        - generic: Workspace
+                      - generic:
+                        - button
+                    - generic:
+                      - generic:
+                        - link:
+                          - /url: /hiiiiiii/projects/
+                          - generic:
+                            - generic:
+                              - paragraph: Projects
+                        - generic:
+                          - button:
+                            - generic: More
+                  - generic:
+                    - generic:
+                      - generic:
+                        - button [expanded]:
+                          - generic: Projects
+                        - generic:
+                          - button
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - link:
+                                - /url: /hiiiiiii/projects/64a3a79d-7112-4f1b-9610-b9ef26edf08b/issues
+                                - button:
+                                  - generic: 👇
+                                  - paragraph: hiiiiiii
+                              - generic:
+                                - generic:
+                                  - button:
+                                    - button
+                  - generic:
+                    - generic:
+                      - button [expanded]:
+                        - generic: Try
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link:
+                              - /url: /hiiiiiii/settings/integrations/
+                              - generic: Connect to GitHub
+                          - generic:
+                            - link:
+                              - /url: /hiiiiiii/settings/integrations/
+                              - generic: Connect to Slack
+                          - generic:
+                            - link:
+                              - /url: /hiiiiiii/ai-chat/
+                              - generic: Try Plane AI
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - button
+                        - generic:
+                          - generic: Download Plane for mobile
+                          - paragraph: Manage your work on the go. Download Plane on Play Store and App Store.
+                  - generic:
+                    - generic:
+                      - generic:
+                        - button:
+                          - generic: Business trial ends in 13d
+                - slider
+            - main [ref=e231]:
+              - generic [ref=e232]: Get started
+              - main [ref=e249]:
+                - generic [ref=e250]:
+                  - heading [level=2] [ref=e251]: Hey ROUMAISSA FEZAI, welcome aboard! 👋
+                  - paragraph [ref=e252]: Here's everything you need to kickstart your journey with Plane.
+                - generic [ref=e253]:
+                  - generic [ref=e254]:
+                    - generic [ref=e260]:
+                      - generic [ref=e261]:
+                        - heading [level=3] [ref=e262]: Your 14-day Business plan trial is live!
+                        - generic [ref=e263]: Trial ends in 13 days
+                      - paragraph [ref=e264]: Explore all Business features. When you're ready, choose to subscribe. You'll not be billed automatically.
+                    - generic [ref=e265]:
+                      - button [ref=e266] [cursor=pointer]: Start subscription
+                      - button [ref=e267] [cursor=pointer]: Explore Business features
+                  - generic [ref=e268]:
+                    - generic [ref=e270]:
+                      - heading [level=3] [ref=e271]: Get started
+                      - paragraph [ref=e272]: Begin your setup and see your ideas come to life faster.
+                    - list [ref=e273]:
+                      - listitem [ref=e274]:
+                        - button [ref=e275] [cursor=pointer]:
+                          - generic:
+                            - generic:
+                              - checkbox
+                            - generic: Create a project
+                      - listitem [ref=e276]:
+                        - button [ref=e277] [cursor=pointer]:
+                          - generic:
+                            - generic:
+                              - checkbox
+                            - generic: Create a work item
+                      - listitem [ref=e278]:
+                        - button [ref=e279] [cursor=pointer]:
+                          - generic:
+                            - generic:
+                              - checkbox
+                            - generic: Invite team members
+                      - listitem [ref=e280]:
+                        - button [ref=e281] [cursor=pointer]:
+                          - generic:
+                            - generic:
+                              - checkbox
+                            - generic: Try creating a page
+                      - listitem [ref=e282]:
+                        - button [ref=e283] [cursor=pointer]:
+                          - generic:
+                            - generic:
+                              - checkbox
+                            - generic: Try Plane AI chat
+                      - listitem [ref=e284]:
+                        - button [ref=e285] [cursor=pointer]:
+                          - generic:
+                            - generic:
+                              - checkbox
+                            - generic: Link an integration
+                      - listitem [ref=e286]:
+                        - button [ref=e287] [cursor=pointer]:
+                          - generic:
+                            - generic:
+                              - checkbox
+                            - generic: Create a view
+                      - listitem [ref=e288]:
+                        - button [ref=e289] [cursor=pointer]:
+                          - generic:
+                            - generic:
+                              - checkbox
+                            - generic: Create a sticky
+                  - generic [ref=e290]:
+                    - generic [ref=e292]:
+                      - heading [level=3] [ref=e293]: Get your team on board
+                      - paragraph [ref=e294]: Invite your colleagues to collaborate and build together.
+                    - list [ref=e295]:
+                      - generic [ref=e296]: remissa.fezi
+                  - generic [ref=e303]:
+                    - generic [ref=e304]:
+                      - heading [level=4] [ref=e305]: Power up your workspace
+                      - generic [ref=e306]:
+                        - button [ref=e307] [cursor=pointer]:
+                          - generic [ref=e311]: Connect GitHub
+                        - button [ref=e312] [cursor=pointer]:
+                          - generic [ref=e318]: Connect GitLab
+                        - button [ref=e319] [cursor=pointer]:
+                          - generic [ref=e326]: Connect Slack
+                        - button [ref=e327] [cursor=pointer]:
+                          - generic [ref=e330]: Connect Sentry
+                        - button [ref=e331] [cursor=pointer]:
+                          - generic [ref=e334]: Connect Raycast
+                        - button [ref=e335] [cursor=pointer]:
+                          - generic [ref=e340]: Connect Jira
+                      - link [ref=e341] [cursor=pointer]:
+                        - /url: /hiiiiiii/settings/integrations/
+                        - generic [ref=e342]: Browse more integrations
+                    - navigation [ref=e346]:
+                      - button [ref=e347] [cursor=pointer]:
+                        - generic [ref=e350]: Documentation
+                      - button [ref=e351] [cursor=pointer]:
+                        - generic [ref=e354]: Contact Sales
+                      - button [ref=e355] [cursor=pointer]:
+                        - generic [ref=e358]: Message Support
+                      - button [ref=e359] [cursor=pointer]:
+                        - generic [ref=e362]: Keyboard Shortcuts
+                      - button [ref=e363] [cursor=pointer]:
+                        - generic [ref=e366]: Join Forum community
+                  - generic [ref=e367]:
+                    - generic [ref=e369]:
+                      - heading [level=3] [ref=e370]: Discover why teams switch to Plane
+                      - paragraph [ref=e371]: Compare Plane with the tools you use today and see the difference.
+                    - list [ref=e372]:
+                      - button [ref=e373] [cursor=pointer]:
+                        - generic [ref=e376]: Compare with Linear
+                      - button [ref=e380] [cursor=pointer]:
+                        - generic [ref=e385]: Compare with Jira
+                      - button [ref=e389] [cursor=pointer]:
+                        - generic [ref=e392]: Compare with Asana
+                      - button [ref=e396] [cursor=pointer]:
+                        - generic [ref=e401]: Compare with Monday
+                      - button [ref=e405] [cursor=pointer]:
+                        - generic [ref=e408]: Compare with Clickup
+          - button [ref=e414] [cursor=pointer]
+  - generic:
+    - region "Notifications"
+  - dialog [ref=e449]:
+    - generic [ref=e424]:
+      - generic [ref=e425]: Step 2 of 3
+      - heading "Your data and workflows are intact." [level=2] [ref=e450]
+      - paragraph [ref=e427]: Nothing about your existing setup needs to change and one new capability is now available for every work item.
+      - list [ref=e428]:
+        - listitem [ref=e429]:
+          - generic [ref=e432]: Properties, comments, and history are preserved.
+        - listitem [ref=e433]:
+          - generic [ref=e436]: Post updates on any work item including epics.
+        - listitem [ref=e437]:
+          - generic [ref=e440]: Filters and views behave the same.
+      - generic [ref=e441]:
+        - button "Back" [ref=e451] [cursor=pointer]
+        - generic [ref=e442]:
+          - link "Learn more" [ref=e443] [cursor=pointer]:
+            - /url: https://go.plane.so/epics
+          - button "Next" [active] [ref=e447] [cursor=pointer]

@@ -1,0 +1,332 @@
+- generic [active] [ref=e1]:
+  - main [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - button "Open workspace switcher" [ref=e12] [cursor=pointer]:
+          - generic [ref=e13]:
+            - generic [ref=e14]: T
+            - heading "Test" [level=4] [ref=e17]
+        - generic [ref=e22]:
+          - button [ref=e25] [cursor=pointer]:
+            - textbox "Search" [ref=e28]
+          - generic [ref=e34]:
+            - generic [ref=e35]: Search your workspace
+            - generic [ref=e36]: Start typing to search across work items, projects, cycles, modules and more
+        - generic [ref=e37]:
+          - button "Get started" [ref=e38] [cursor=pointer]
+          - button "Inbox" [ref=e39] [cursor=pointer]:
+            - button "Inbox" [ref=e40]
+          - button "Help" [ref=e47] [cursor=pointer]:
+            - button "Help" [ref=e48]
+          - button [ref=e54] [cursor=pointer]:
+            - button [ref=e55]:
+              - img "roumaissafezai100" [ref=e59]
+      - generic [ref=e60]:
+        - generic [ref=e64]:
+          - link "Projects" [ref=e65] [cursor=pointer]:
+            - /url: /heloooo/
+          - link "Wiki" [ref=e71] [cursor=pointer]:
+            - /url: /heloooo/wiki/
+          - link "AI" [ref=e76] [cursor=pointer]:
+            - /url: /heloooo/ai-chat/
+          - link "Settings" [ref=e83] [cursor=pointer]:
+            - /url: /heloooo/settings/
+        - generic [ref=e89]:
+          - generic [ref=e92]:
+            - complementary "Main sidebar" [ref=e93]:
+              - complementary [ref=e94]:
+                - generic [ref=e95]:
+                  - generic [ref=e96]:
+                    - generic [ref=e97]:
+                      - generic [ref=e98]: Projects
+                      - generic [ref=e99]:
+                        - button "Customize navigation" [ref=e100] [cursor=pointer]
+                        - button "Toggle sidebar" [ref=e103] [cursor=pointer]
+                    - button "New work item" [ref=e107] [cursor=pointer]
+                  - generic [ref=e111]:
+                    - link [ref=e112] [cursor=pointer]:
+                      - /url: /heloooo/
+                      - paragraph [ref=e117]: Home
+                    - link [ref=e118] [cursor=pointer]:
+                      - /url: /heloooo/drafts/
+                      - paragraph [ref=e123]: Drafts
+                    - link [ref=e124] [cursor=pointer]:
+                      - /url: /heloooo/profile/5a788013-cd06-479f-8e01-90f0a5da4c12/
+                      - paragraph [ref=e130]: Your work
+                    - link [ref=e131] [cursor=pointer]:
+                      - /url: /heloooo/stickies/
+                      - paragraph [ref=e136]: Stickies
+                  - generic [ref=e137]:
+                    - generic [ref=e138]:
+                      - button "aria_labels.app_sidebar.close_workspace_menu" [expanded] [ref=e139] [cursor=pointer]:
+                        - generic [ref=e140]: Workspace
+                      - button "aria_labels.app_sidebar.close_workspace_menu" [ref=e142] [cursor=pointer]
+                    - generic [ref=e147]:
+                      - link [ref=e148] [cursor=pointer]:
+                        - /url: /heloooo/projects/
+                        - paragraph [ref=e153]: Projects
+                      - button "aria_labels.app_sidebar.open_extended_sidebar" [ref=e155] [cursor=pointer]:
+                        - generic [ref=e160]: More
+                  - generic [ref=e162]:
+                    - generic [ref=e163]:
+                      - button "Close projects menu" [expanded] [ref=e164] [cursor=pointer]:
+                        - generic [ref=e165]: Projects
+                      - button "Close projects menu" [ref=e167] [cursor=pointer]
+                    - generic [ref=e171]:
+                      - generic [ref=e175]:
+                        - link [ref=e176] [cursor=pointer]:
+                          - /url: /heloooo/projects/9f5de294-fe00-4fba-9be5-28dd8a73781a/issues
+                          - button "Open project menu" [ref=e177]:
+                            - generic [ref=e178]: 💼
+                            - paragraph [ref=e180]: Piloteer Test
+                        - generic [ref=e181]:
+                          - generic:
+                            - button "Toggle quick actions menu":
+                              - button
+                      - generic [ref=e185]:
+                        - link [ref=e186] [cursor=pointer]:
+                          - /url: /heloooo/projects/5838e8a5-34e5-4050-9d5d-2214f0b814d6/issues
+                          - button "Open project menu" [ref=e187]:
+                            - generic [ref=e188]: 👇
+                            - paragraph [ref=e190]: Test
+                        - generic [ref=e191]:
+                          - generic:
+                            - button "Toggle quick actions menu":
+                              - button
+                  - generic [ref=e194]:
+                    - button "Try" [expanded] [ref=e195] [cursor=pointer]
+                    - generic [ref=e201]:
+                      - link "Connect to GitHub" [ref=e203] [cursor=pointer]:
+                        - /url: /heloooo/settings/integrations/
+                      - link "Connect to Slack" [ref=e209] [cursor=pointer]:
+                        - /url: /heloooo/settings/integrations/
+                      - link "Try Plane AI" [ref=e218] [cursor=pointer]:
+                        - /url: /heloooo/ai-chat/
+                  - button "Business trial ends in 13d" [ref=e226] [cursor=pointer]
+                - slider "Resize sidebar" [ref=e228]
+            - complementary "Sidebar peek view":
+              - complementary:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic: Projects
+                      - generic:
+                        - button "Customize navigation"
+                        - button "Toggle sidebar"
+                    - generic:
+                      - button "New work item"
+                  - generic:
+                    - link "Home":
+                      - /url: /heloooo/
+                      - generic:
+                        - generic:
+                          - paragraph: Home
+                    - link "Drafts":
+                      - /url: /heloooo/drafts/
+                      - generic:
+                        - generic:
+                          - paragraph: Drafts
+                    - link "Your work":
+                      - /url: /heloooo/profile/5a788013-cd06-479f-8e01-90f0a5da4c12/
+                      - generic:
+                        - generic:
+                          - paragraph: Your work
+                    - link "Stickies":
+                      - /url: /heloooo/stickies/
+                      - generic:
+                        - generic:
+                          - paragraph: Stickies
+                  - generic:
+                    - generic:
+                      - button "aria_labels.app_sidebar.close_workspace_menu" [expanded]:
+                        - generic: Workspace
+                      - generic:
+                        - button "aria_labels.app_sidebar.close_workspace_menu"
+                    - generic:
+                      - generic:
+                        - link "Projects":
+                          - /url: /heloooo/projects/
+                          - generic:
+                            - generic:
+                              - paragraph: Projects
+                        - generic:
+                          - button "aria_labels.app_sidebar.open_extended_sidebar":
+                            - generic: More
+                  - generic:
+                    - generic:
+                      - generic:
+                        - button "Close projects menu" [expanded]:
+                          - generic: Projects
+                        - generic:
+                          - button "Close projects menu"
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - link "Open project menu":
+                                - /url: /heloooo/projects/9f5de294-fe00-4fba-9be5-28dd8a73781a/issues
+                                - button "Open project menu":
+                                  - generic: 💼
+                                  - paragraph: Piloteer Test
+                              - generic:
+                                - generic:
+                                  - button "Toggle quick actions menu":
+                                    - button
+                        - generic:
+                          - generic:
+                            - generic:
+                              - link "Open project menu":
+                                - /url: /heloooo/projects/5838e8a5-34e5-4050-9d5d-2214f0b814d6/issues
+                                - button "Open project menu":
+                                  - generic: 👇
+                                  - paragraph: Test
+                              - generic:
+                                - generic:
+                                  - button "Toggle quick actions menu":
+                                    - button
+                  - generic:
+                    - generic:
+                      - button "Try" [expanded]
+                      - generic:
+                        - generic:
+                          - generic:
+                            - link "Connect to GitHub":
+                              - /url: /heloooo/settings/integrations/
+                          - generic:
+                            - link "Connect to Slack":
+                              - /url: /heloooo/settings/integrations/
+                          - generic:
+                            - link "Try Plane AI":
+                              - /url: /heloooo/ai-chat/
+                  - generic:
+                    - generic:
+                      - generic:
+                        - button "Business trial ends in 13d"
+                - slider "Resize sidebar"
+            - main [ref=e229]:
+              - generic [ref=e234]:
+                - generic [ref=e235]: Home
+                - button "Manage widgets" [ref=e245] [cursor=pointer]
+              - generic [ref=e252]:
+                - generic [ref=e254]:
+                  - generic [ref=e255]:
+                    - generic [ref=e256]: Business
+                    - generic [ref=e266]:
+                      - paragraph [ref=e267]: Your trial is active now!
+                      - paragraph [ref=e268]: Unlock your team's full potential for 14 days
+                    - img "Welcome" [ref=e270]
+                    - paragraph [ref=e271]: You can use free plan after your trial ends
+                  - generic [ref=e273]:
+                    - paragraph [ref=e274]: Features you'll get with Business plan
+                    - generic [ref=e275]: T
+                    - paragraph [ref=e279]: Test workspace with Business
+                    - table [ref=e280]:
+                      - rowgroup [ref=e281]:
+                        - row [ref=e282]:
+                          - columnheader "Free" [ref=e283]
+                          - columnheader [ref=e285]
+                          - columnheader "Business" [ref=e286]
+                      - rowgroup [ref=e288]:
+                        - row [ref=e289]:
+                          - cell "12 Seats" [ref=e290]
+                          - cell [ref=e291]
+                          - cell "Unlimited Seats" [ref=e294]
+                        - row [ref=e295]:
+                          - cell "Work items only" [ref=e296]
+                          - cell [ref=e297]
+                          - cell "Initiatives and Epics" [ref=e300]
+                        - row [ref=e301]:
+                          - cell "Default workflow" [ref=e302]
+                          - cell [ref=e303]
+                          - cell "Custom workflows and approvals" [ref=e306]
+                        - row [ref=e307]:
+                          - cell "No insights" [ref=e308]
+                          - cell [ref=e309]
+                          - cell "Dashboards and analytics" [ref=e312]
+                        - row [ref=e313]:
+                          - cell "No collaboration" [ref=e314]
+                          - cell [ref=e315]
+                          - cell "Teamspaces and shared pages" [ref=e318]
+                        - row [ref=e319]:
+                          - cell "No tracking" [ref=e320]
+                          - cell [ref=e321]
+                          - cell "Time tracking and reports" [ref=e324]
+                    - button "Let's get started" [ref=e325] [cursor=pointer]
+                - generic [ref=e327]:
+                  - generic [ref=e328]:
+                    - heading "Good morning, Roumaissa Fezai" [level=2] [ref=e329]
+                    - heading "🌤️ Tuesday, Jul 14 11:07" [level=5] [ref=e330]:
+                      - generic [ref=e331]: 🌤️
+                      - generic [ref=e332]: Tuesday, Jul 14 11:07
+                  - generic [ref=e333]:
+                    - generic [ref=e334]:
+                      - generic [ref=e335]:
+                        - generic [ref=e336]: Ask Plane AI
+                        - link [ref=e338] [cursor=pointer]:
+                          - /url: /heloooo/projects/ai-chat/
+                      - generic [ref=e345]:
+                        - img "Unauthorized" [ref=e347]
+                        - generic [ref=e348]:
+                          - generic [ref=e349]:
+                            - generic [ref=e350]: Plane AI can now take actions for you.
+                            - generic [ref=e351]: Use Build mode to create work items, cycles and more. Activate now to start Plane AI actions.
+                          - link "Activate Build mode" [ref=e352] [cursor=pointer]:
+                            - /url: https://pi.plane.so/api/v1/oauth/authorize/Z0FBQUFBQnFWaGh3Z0hDdVJVYmJWUDJobXpTRVlISThpSUdScTV3VjBKNTV1YnhuOWNrbEx0U3JvTVBldVVxNUtMQUJKV1hKaksyMGo1YlREclpHVTNSTHFmaXY1VWJzMUk3enJZMXJrTWdPU1huTWQwd1RXbUxXNkVubExkUGZjUGZjVUVINFhvSEpMMVo3R3Z0VjMyZkQ3Mk5kT1RSSjF1bEExb2NvNXVjM3AwQk5nRlgyUlVHX1lfRkJTaFBSXzI4UlBFbEktaHNmbmNld1hJV3ZtdE9QZTdrWE5zUTlpQT09?sidebar_open_url=/heloooo/
+                    - generic [ref=e353]:
+                      - generic [ref=e355]:
+                        - generic [ref=e356]:
+                          - generic [ref=e357]: Quicklinks
+                          - button "Add quick Link" [ref=e358] [cursor=pointer]
+                        - generic [ref=e366]:
+                          - button "Plane Changelog about 2 hours ago" [ref=e367] [cursor=pointer]:
+                            - generic [ref=e374]:
+                              - generic [ref=e375]: Plane Changelog
+                              - generic [ref=e376]: about 2 hours ago
+                          - button "Plane Docs about 2 hours ago" [ref=e377] [cursor=pointer]:
+                            - generic [ref=e382]:
+                              - generic [ref=e383]: Plane Docs
+                              - generic [ref=e384]: about 2 hours ago
+                          - button "Plane Blogs about 2 hours ago" [ref=e385] [cursor=pointer]:
+                            - generic [ref=e392]:
+                              - generic [ref=e393]: Plane Blogs
+                              - generic [ref=e394]: about 2 hours ago
+                      - generic [ref=e397]:
+                        - generic [ref=e398]:
+                          - generic [ref=e399]: Recents
+                          - button [ref=e401] [cursor=pointer]:
+                            - button "All" [ref=e402]
+                        - generic [ref=e411]:
+                          - link "💼 PILOTEERTE Piloteer Test about 1 hour ago" [ref=e412] [cursor=pointer]:
+                            - /url: /heloooo/projects/9f5de294-fe00-4fba-9be5-28dd8a73781a/issues
+                            - generic [ref=e413]:
+                              - generic [ref=e415]:
+                                - generic [ref=e416]: 💼
+                                - generic [ref=e418]: PILOTEERTE
+                              - generic [ref=e419]: Piloteer Test
+                            - generic [ref=e420]: about 1 hour ago
+                          - button [disabled] [ref=e424]:
+                            - img "roumaissafezai100 (you)" [ref=e430]
+                      - generic [ref=e432]:
+                        - generic [ref=e433]:
+                          - generic [ref=e434]: Your stickies
+                          - generic [ref=e435]:
+                            - generic [ref=e436]:
+                              - button [ref=e437] [cursor=pointer]
+                              - generic [ref=e440]:
+                                - textbox "Search by title"
+                            - button "Add sticky" [ref=e443] [cursor=pointer]
+                        - paragraph [ref=e467]: Jot down an idea, capture an aha, or record a brainwave. Add a sticky to get started.
+          - generic [ref=e469]:
+            - generic:
+              - button
+              - button
+            - button [ref=e470] [cursor=pointer]
+  - generic:
+    - region "Notifications"
+  - iframe
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - iframe
