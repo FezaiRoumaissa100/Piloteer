@@ -6,3 +6,4 @@ venv/
 logs/*.jsonl
 node_modules/
 .DS_Store
+.playwright-mcp/

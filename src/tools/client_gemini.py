@@ -8,9 +8,10 @@ load_dotenv()
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-def ask_llm(prompt: str, system_prompt: str = "", model: str = "gemini-2.5-flash-lite", retries: int = 3) -> str:
-    "Send the prompt to Gemini and return the response — retries on 429"
-    import time, re
+def ask_llm(prompt: str, system_prompt: str = "", model: str = "gemini-2.0-flash", retries: int = 3) -> str:
+    "Send the prompt to Gemini and return the response — waits on 429 before retrying"
+    import time
+    WAIT_SECONDS = [15, 30]  # wait durations between retries
     for attempt in range(retries):
         try:
             config = types.GenerateContentConfig()
@@ -26,9 +27,9 @@ def ask_llm(prompt: str, system_prompt: str = "", model: str = "gemini-2.5-flash
         except Exception as e:
             msg = str(e)
             if "429" in msg:
-                fallback_model = "gemini-2.5-flash-lite" if model == "gemini-2.5-flash" else "gemini-2.5-flash"
-                print(f"[LLM] Rate limit hit on {model} — switching to {fallback_model} (attempt {attempt+1}/{retries})...")
-                model = fallback_model
+                wait = WAIT_SECONDS[min(attempt, len(WAIT_SECONDS) - 1)]
+                print(f"[LLM] Rate limit hit on {model} — waiting {wait}s before retry (attempt {attempt+1}/{retries})...")
+                time.sleep(wait)
             else:
                 print(f"Unexpected error : {e}")
                 return "Error : " + str(e)
@@ -37,7 +38,7 @@ def ask_llm(prompt: str, system_prompt: str = "", model: str = "gemini-2.5-flash
 
 
 
-def ask_vision(image_path: str, prompt: str, model : str = "gemini-2.5-flash") -> str:
+def ask_vision(image_path: str, prompt: str, model : str = "gemini-2.0-flash") -> str:
     "Send the image and the prompt to Gemini and return the response"
     try:
         with open(image_path, "rb") as image_file:
@@ -62,14 +63,15 @@ async def ask_llm_json(
     prompt: str,
     system_prompt: str = "",
     cache_name: str = None,
-    model: str = "gemini-2.5-flash",
-    retries: int = 3
+    model: str = "gemini-2.0-flash",
+    retries: int = 4
 ) -> list:
     """
-    Sends a prompt to Gemini and returns a parsed JSON list.
-    Used by the Validator to get structured feedback.
+    Sends a prompt to Gemini and returns a parsed JSON object.
+    On rate limit (429): waits and retries on the SAME model — preserves reasoning quality.
     """
-    import time, re
+    import asyncio
+    WAIT_SECONDS = [60, 90, 120]  # must cover the full 1-min RPM reset window
     for attempt in range(retries):
         try:
             config = types.GenerateContentConfig(
@@ -86,15 +88,19 @@ async def ask_llm_json(
             return json.loads(response.text)
 
         except json.JSONDecodeError as e:
-            print(f"JSON parsing error: {e}")
-            return []
+            print(f"JSON parsing error (attempt {attempt+1}/{retries}): {e}")
+            continue
         except Exception as e:
             msg = str(e)
             if "429" in msg:
-                fallback_model = "gemini-2.5-flash-lite" if model == "gemini-2.5-flash" else "gemini-2.5-flash"
-                print(f"[LLM] Rate limit hit on {model} — switching to {fallback_model} (attempt {attempt+1}/{retries})...")
-                model = fallback_model
+                if attempt < retries - 1:
+                    wait = WAIT_SECONDS[min(attempt, len(WAIT_SECONDS) - 1)]
+                    print(f"[LLM] Rate limit hit on {model} — waiting {wait}s before retry (attempt {attempt+1}/{retries})...")
+                    await asyncio.sleep(wait)
+                else:
+                    print(f"[LLM] Rate limit hit on {model} — max retries reached. Giving up.")
             else:
-                print(f"Unexpected error in ask_json: {e}")
-                return []
+                print(f"Unexpected error in ask_json (attempt {attempt+1}/{retries}): {e}")
+                await asyncio.sleep(2) # Give the API a moment to recover before retrying
+                continue
     return []

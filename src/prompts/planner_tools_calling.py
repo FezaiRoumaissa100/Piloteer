@@ -21,7 +21,7 @@ CORE_TOOLS = """
   Crucial: If the page clearly shows an action is still executing (e.g., a button is disabled and says "Loading", "Saving", "Creating..."), DO NOT give up and return null. Use this tool to wait for that temporary state to finish.
   {"text": "<text_to_wait_for>"} OR {"text_gone": "<text_that_should_disappear>"}
 
-- finish_task: Use this ONLY when you see that the user's overall task is already 100% completed on the current screen and absolutely no more actions are needed. This triggers a final double-check by the Validator.
+- browser_finish_subgoal: Use this ONLY when you see that the current SUBGOAL is already 100% completed on the current screen and absolutely no more actions are needed. This triggers a double-check by the Validator.
   {}
 """
 

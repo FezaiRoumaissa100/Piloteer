@@ -38,13 +38,11 @@ def make_actor_node(session: ClientSession):
         print("[Actor] Tool:", step['tool'], "| Args:", step['arguments'])
         snapshot_before = await get_snapshot(session)
 
-        arguments = step["arguments"].copy()
-        if step["tool"] == "browser_type":
-            arguments["slowly"] = True
+        arguments = step.get("arguments", {}).copy()
 
-        if step["tool"] == "finish_task":
-            print("[Actor] Intercepting finish_task...")
-            action_result = "The Planner indicates the task is complete. Validator, please perform a final double-check by analyzing the snapshots."
+        if step["tool"] == "browser_finish_subgoal":
+            print("[Actor] Intercepting browser_finish_subgoal...")
+            action_result = "The Planner indicates the current subgoal is complete. Validator, please perform a final double-check by analyzing the snapshots."
             snapshot_after = snapshot_before
             is_error = False
         else:

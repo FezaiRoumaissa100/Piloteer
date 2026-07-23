@@ -4,6 +4,7 @@ from orchestration.state import SharedState
 from nodes.planner import planner_node
 from nodes.actor import make_actor_node
 from nodes.validator import validator_node
+from nodes.high_level_planner import high_level_planner_node
 
 
 MAX_STEPS = 15
@@ -22,22 +23,26 @@ def route_after_planner(state: SharedState) -> str:
 
 def route_after_validator(state: SharedState) -> str:
     """
-    Routing function called after the Validator execution.
-    Always routes back to the Planner for the next step or replanning,
-    unless there's a critical error.
+    Hierarchical routing after Validator execution.
     """
-    # error from Actor
-    if state.get("last_action_result", "").startswith("error:"):
+    if state.get("last_action_result", "").startswith("error: no step"):
         print(f"\n[LangGraph] Actor error detected — stopping.")
         return "stop"
 
-    # Validator determined the task is fully complete
-    if state.get("task_done"):
-        print("\n[LangGraph] Task is marked as DONE by Validator. Stopping.")
+    if state.get("task_status") == "completed":
+        print("\n[LangGraph] Task is marked as COMPLETED. Stopping.")
         return "stop"
 
+    # Check if current subgoal needs escalation
+    subgoals = state.get("subgoals", [])
+    current_index = state.get("current_subgoal_index", 0)
+    
+    if subgoals and current_index < len(subgoals):
+        if subgoals[current_index].get("status") == "failed":
+            print("\n[LangGraph] Escalating to High-Level Planner for revision.")
+            return "high_level_planner"
 
-    print("\n[LangGraph] Returning to Planner for next instruction.")
+    print("\n[LangGraph] Returning to Low-Level Planner for next instruction.")
     return "planning"
 
 
@@ -51,13 +56,20 @@ def build_graph(session: ClientSession):
     """
     actor_node = make_actor_node(session)
     graph = StateGraph(SharedState)
+    
     # Register nodes
-    graph.add_node("planner",   planner_node)
-    graph.add_node("actor",     actor_node)
-    graph.add_node("validator", validator_node)
-    # Entry point
-    graph.add_edge(START, "planner")
-    # from planner
+    graph.add_node("high_level_planner", high_level_planner_node)
+    graph.add_node("planner",            planner_node)
+    graph.add_node("actor",              actor_node)
+    graph.add_node("validator",          validator_node)
+    
+    # Entry point is now the high level planner
+    graph.add_edge(START, "high_level_planner")
+    
+    # High-level planner always delegates to low-level planner
+    graph.add_edge("high_level_planner", "planner")
+    
+    # Low-level planner -> Actor
     graph.add_conditional_edges(
         "planner",
         route_after_planner,
@@ -66,16 +78,18 @@ def build_graph(session: ClientSession):
             "stop":   END
         }
     )
-    # actor to validator
+    
+    # Actor -> Validator
     graph.add_edge("actor", "validator")
 
-    # validator to planner
+    # Validator -> routing
     graph.add_conditional_edges(
         "validator",
         route_after_validator,
         {
-            "planning": "planner",
-            "stop":     END
+            "planning":           "planner",
+            "high_level_planner": "high_level_planner",
+            "stop":               END
         }
     )
     return graph.compile()

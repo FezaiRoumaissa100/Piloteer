@@ -1,11 +1,3 @@
-"""
-test_pipeline.py — Piloteer / tests
-End-to-end test of the minimal pipeline:
-  Planner → Actor → Validator (loop) → END
-
-Test scenario: Search on Google using the full agent loop.
-"""
-
 import sys
 import os
 import asyncio
@@ -19,23 +11,17 @@ from orchestration.state import initiate_state
 from orchestration.graph import build_graph
 
 
-USER_TASK = "i want a project named 'Piloteer' on the workspace"
+USER_TASK = "how can i create a new project and configure it in linear.app?"
 
 SAAS_CONTEXT = """
+
 Linear (linear.app) is a project management tool for software teams.
 
 """
 
 
-# ─────────────────────────────────────────────
-#  Test
-# ─────────────────────────────────────────────
 
 async def test_pipeline():
-    print("\n" + "="*60)
-    print("PILOTEER — Full Pipeline Test")
-    print("Planner → Actor → Validator (loop)")
-    print("="*60)
 
     async with stdio_client(SERVER_PARAMS) as (read, write):
         async with ClientSession(read, write) as session:
@@ -72,20 +58,13 @@ async def test_pipeline():
             app = build_graph(session)
             final_state = await app.ainvoke(state)
 
-            # Print results
-            print("\n" + "="*60)
-            print("PIPELINE COMPLETE — Final State")
-            print("="*60)
-            print(f"  Task done      : {final_state.get('task_done', False)}")
+           
+            print(f"  Task status    : {final_state.get('task_status', 'unknown')}")
             print(f"  Step done      : {final_state.get('step_done', False)}")
-            print("="*60)
-
-            input("\nBrowser is open. Press Enter to close it...")
+            
 
 
-# ─────────────────────────────────────────────
-#  Entry point
-# ─────────────────────────────────────────────
+
 
 if __name__ == "__main__":
     asyncio.run(test_pipeline())

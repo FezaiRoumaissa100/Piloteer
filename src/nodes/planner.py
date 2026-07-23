@@ -16,7 +16,10 @@ async def planner_node(state: SharedState) -> dict:
       - step_done     (reset to False for new step)
     """
 
-    task         = state["user_task"]
+    subgoals      = state.get("subgoals", [])
+    current_index = state.get("current_subgoal_index", 0)
+    current_subgoal_desc = subgoals[current_index]["description"] if subgoals else state["user_task"]
+    
     saas_context = state["saas_context"]
     raw_snapshot = state["snapshot_after"]
     memory       = state.get("memory", [])
@@ -33,14 +36,14 @@ async def planner_node(state: SharedState) -> dict:
         )
 
     # Build prompts
-    system_prompt = planner_system_prompt(snapshot, task, saas_context)
-    prompt        = planner_content_prompt(snapshot, task, memory_str)
+    system_prompt = planner_system_prompt(snapshot, current_subgoal_desc, saas_context)
+    prompt        = planner_content_prompt(snapshot, current_subgoal_desc, memory_str)
 
     # Call Gemini
     response = await ask_llm_json(
         prompt=prompt,
         system_prompt=system_prompt,
-        model="gemini-2.5-flash"
+        model="gemini-3.5-flash"
     )
 
     # Extract fields

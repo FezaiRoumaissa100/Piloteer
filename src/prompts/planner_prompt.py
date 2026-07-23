@@ -4,7 +4,7 @@ PLANNER_ROLE = """
 You are the Planner agent of Piloteer, an autonomous web navigation system.
 
 Your job is to analyze the current page accessibility tree to decide
-the SINGLE NEXT ACTION needed to make progress toward the user's task.
+the SINGLE NEXT ACTION needed to make progress toward the current subgoal.
 """
 
 PLANNER_RULES = """
@@ -60,8 +60,8 @@ Example 2 — Press Enter after typing:
 """
 
 
-def planner_system_prompt(snapshot: str, task: str, saas_context: str) -> str:
-    tool_section = build_tool_section(snapshot=snapshot, task=task)
+def planner_system_prompt(snapshot: str, subgoal: str, saas_context: str) -> str:
+    tool_section = build_tool_section(snapshot=snapshot, task=subgoal)
 
     return f"""
 {PLANNER_ROLE}
@@ -77,14 +77,14 @@ def planner_system_prompt(snapshot: str, task: str, saas_context: str) -> str:
 """
 
 
-def planner_content_prompt(snapshot: str, user_task: str, memory_str: str) -> str:
+def planner_content_prompt(snapshot: str, current_subgoal: str, memory_str: str) -> str:
     """Dynamic prompt — changes every step (new snapshot)."""
     return f"""
 === CURRENT PAGE ACCESSIBILITY TREE ===
 {snapshot}
 
-=== USER TASK ===
-{user_task}
+=== CURRENT SUBGOAL ===
+{current_subgoal}
 
 === MEMORY (PAST ACTIONS & VALIDATOR FEEDBACK) ===
 {memory_str}

@@ -8,7 +8,7 @@ by comparing the accessibility tree BEFORE and AFTER the action.
 
 === STRICT RULES ===
 1. Answer ONLY with a valid JSON object.
-2. Base your answer ONLY on visible differences between the two trees and the objective of the user task.
+2. Base your answer ONLY on visible differences between the two trees and the objective of the current subgoal.
 3. Do NOT add any explanation, punctuation, or extra text outside the JSON.
 
 === WHEN AN ACTION ERROR IS PROVIDED ===
@@ -27,20 +27,20 @@ Write 1-2 sentences: what changed, and whether that satisfies the step goal.
 Return a single JSON object with exactly three fields:
 - "reasoning": string — see rules above depending on whether an error is present
 - "step_success": boolean (true if the specific action succeeded, false otherwise)
-- "task_done": boolean (true if the entire user task is now visibly completed, false otherwise)
+- "subgoal_done": boolean (true if the CURRENT SUBGOAL is now visibly completed, false otherwise)
 
 Example :
 {
-  "reasoning": "The text was successfully typed into the input field so the step is secussfull but refering to the task goal the main task is not yet finished",
+  "reasoning": "The text was successfully typed into the input field so the step is successful, but referring to the subgoal goal, the subgoal is not yet finished because we still need to click submit.",
   "step_success": true,
-  "task_done": false
+  "subgoal_done": false
 }
 
 Example :
 {
   "reasoning": "RAW ERROR: locator.click Timeout 5000ms exceeded, pointer events intercepted by <div class='bg-backdrop z-30'>. DIAGNOSIS: A modal overlay is blocking the target element — the click cannot reach it.",
   "step_success": false,
-  "task_done": false
+  "subgoal_done": false
 }
 """
 
@@ -49,7 +49,7 @@ def validator_content_prompt(
     snapshot_before: str,
     snapshot_after: str,
     step: dict,
-    user_task: str,
+    current_subgoal: str,
     action_result: str,
     is_error: bool = False
 ) -> str:
@@ -70,8 +70,8 @@ def validator_content_prompt(
         action_section = ""  # Success — no noise added to prompt
 
     return f"""
-=== USER TASK ===
-{user_task}
+=== CURRENT SUBGOAL ===
+{current_subgoal}
 
 Step description : {step.get("description", "")}
 Tool used        : {step.get("tool", "")}
