@@ -13,9 +13,9 @@ CORE_TOOLS = """
   Do NOT use for a single field — use browser_type instead.
   {"fields": [{"target": "<ref>", "name": "<field_name>", "type": "<textbox|checkbox|radio|combobox>", "value": "<value>", "element": "<human_description>"}]}
 
-- browser_press_key: Use for special keys only (Enter, Escape, Tab, ArrowDown, etc.), not for typing text.
+- browser_press_key: Use for special keys (Enter, Escape, Tab, ArrowDown) OR combinations (e.g. "Shift+P", "Control+A").
   ALWAYS use with "Enter" after typing in a search bar instead of clicking a submit/search icon button — more reliable.
-  {"key": "<Enter|Escape|Tab|ArrowDown|...>"}
+  {"key": "<Enter|Escape|Tab|Shift+P|...>"}
 
 - browser_wait_for: Use to pause and wait when the page is transitioning or processing a previous action.
   Crucial: If the page clearly shows an action is still executing (e.g., a button is disabled and says "Loading", "Saving", "Creating..."), DO NOT give up and return null. Use this tool to wait for that temporary state to finish.

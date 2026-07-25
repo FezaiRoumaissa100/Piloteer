@@ -11,13 +11,7 @@ from orchestration.state import initiate_state
 from orchestration.graph import build_graph
 
 
-USER_TASK = "how can i create a new project and configure it in linear.app?"
-
-SAAS_CONTEXT = """
-
-Linear (linear.app) is a project management tool for software teams.
-
-"""
+USER_TASK = "create a new project 'STAGE' and add the issue 'commnce' on it"
 
 
 
@@ -48,7 +42,7 @@ async def test_pipeline():
             # Build initial state
             state = initiate_state(
                 user_task=USER_TASK,
-                saas_context=SAAS_CONTEXT
+                saas_context=""
             )
             state["snapshot_after"] = initial_snapshot
             state["current_url"]    = "https://www.google.com"

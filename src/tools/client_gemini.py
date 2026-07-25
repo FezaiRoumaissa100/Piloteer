@@ -66,12 +66,8 @@ async def ask_llm_json(
     model: str = "gemini-2.0-flash",
     retries: int = 4
 ) -> list:
-    """
-    Sends a prompt to Gemini and returns a parsed JSON object.
-    On rate limit (429): waits and retries on the SAME model — preserves reasoning quality.
-    """
     import asyncio
-    WAIT_SECONDS = [60, 90, 120]  # must cover the full 1-min RPM reset window
+    WAIT_SECONDS = [60, 90, 120]  
     for attempt in range(retries):
         try:
             config = types.GenerateContentConfig(
@@ -92,7 +88,13 @@ async def ask_llm_json(
             continue
         except Exception as e:
             msg = str(e)
-            if "429" in msg:
+            is_rate_limit = "429" in msg or "503" in msg
+            if is_rate_limit:
+                if model == "gemini-3.5-flash":
+                    print(f"[LLM] Error {msg[:20]} on {model} — falling back to gemini-3.5-flash-lite for attempt {attempt+1}/{retries}...")
+                    model = "gemini-3.5-flash-lite"
+                    continue 
+                
                 if attempt < retries - 1:
                     wait = WAIT_SECONDS[min(attempt, len(WAIT_SECONDS) - 1)]
                     print(f"[LLM] Rate limit hit on {model} — waiting {wait}s before retry (attempt {attempt+1}/{retries})...")
@@ -101,6 +103,6 @@ async def ask_llm_json(
                     print(f"[LLM] Rate limit hit on {model} — max retries reached. Giving up.")
             else:
                 print(f"Unexpected error in ask_json (attempt {attempt+1}/{retries}): {e}")
-                await asyncio.sleep(2) # Give the API a moment to recover before retrying
+                await asyncio.sleep(2)
                 continue
     return []

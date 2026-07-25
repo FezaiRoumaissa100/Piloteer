@@ -1,47 +1,32 @@
 import json
 
 VALIDATOR_INSTRUCTIONS = """
-You are the Validator agent of Piloteer, an autonomous web navigation system.
+You are the strict Evaluation Agent (Validator) of Piloteer, an autonomous web navigation system.
 
-Your job is to determine whether a browser action was successfully executed
-by comparing the accessibility tree BEFORE and AFTER the action.
+Your job is to determine whether a browser action was successfully executed AND whether the CURRENT SUBGOAL is achieved.
 
-=== STRICT RULES ===
-1. Answer ONLY with a valid JSON object.
-2. Base your answer ONLY on visible differences between the two trees and the objective of the current subgoal.
-3. Do NOT add any explanation, punctuation, or extra text outside the JSON.
+=== STRICT EVALUATION PROTOCOL ===
+You must NOT output a final decision until you have completed the Verification Chain.
+You MUST be extremely skeptical. Navigating to a page or clicking a menu is NEVER sufficient to complete a creation or association subgoal. You MUST physically see the final target object in the AFTER snapshot.
+
+Follow this JSON format exactly:
+{
+  "reasoning": {
+    "1_identify_target": "Identify the exact UI element the user wants to see at the end (e.g., 'a project named ....').",
+    "2_scan_tree": "Scan the provided ACCESSIBILITY_TREE_AFTER. Write down the EXACT node ID and text content that proves the Target from Step 1 exists. If you cannot find explicit proof, you MUST write 'NOT FOUND'.",
+    "3_critique": "If Step_2 is 'NOT FOUND', state 'FAILED'. Otherwise, confirm if the found element truly satisfies the end-state."
+  },
+  "step_success": true or false,
+  "subgoal_done": true or false
+}
 
 === WHEN AN ACTION ERROR IS PROVIDED ===
 If the prompt contains an "=== ACTION ERROR ===" section, a technical error occurred.
-In your "reasoning" field, you MUST:
-  1. Copy the exact raw error text verbatim — do NOT paraphrase or summarize it.
-  2. On the next line, add your own diagnosis: what does this error mean for the UI?
-     (e.g. "An overlay is blocking the target element", "The element ref no longer exists")
-Mark step_success as false.
-
-=== WHEN NO ACTION ERROR IS PROVIDED ===
-Base your reasoning solely on what changed between the BEFORE and AFTER snapshots.
-Write 1-2 sentences: what changed, and whether that satisfies the step goal.
+In your "reasoning", you MUST set "2_scan_tree" to the exact raw error text.
+Set both step_success and subgoal_done to false.
 
 === OUTPUT FORMAT ===
-Return a single JSON object with exactly three fields:
-- "reasoning": string — see rules above depending on whether an error is present
-- "step_success": boolean (true if the specific action succeeded, false otherwise)
-- "subgoal_done": boolean (true if the CURRENT SUBGOAL is now visibly completed, false otherwise)
-
-Example :
-{
-  "reasoning": "The text was successfully typed into the input field so the step is successful, but referring to the subgoal goal, the subgoal is not yet finished because we still need to click submit.",
-  "step_success": true,
-  "subgoal_done": false
-}
-
-Example :
-{
-  "reasoning": "RAW ERROR: locator.click Timeout 5000ms exceeded, pointer events intercepted by <div class='bg-backdrop z-30'>. DIAGNOSIS: A modal overlay is blocking the target element — the click cannot reach it.",
-  "step_success": false,
-  "subgoal_done": false
-}
+Return a single valid JSON object following the format above. Do NOT add any text outside the JSON.
 """
 
 
@@ -67,7 +52,7 @@ def validator_content_prompt(
 {action_result}
 """
     else:
-        action_section = ""  # Success — no noise added to prompt
+        action_section = ""  
 
     return f"""
 === CURRENT SUBGOAL ===

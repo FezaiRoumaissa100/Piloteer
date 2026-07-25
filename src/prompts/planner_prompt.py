@@ -77,8 +77,9 @@ def planner_system_prompt(snapshot: str, subgoal: str, saas_context: str) -> str
 """
 
 
-def planner_content_prompt(snapshot: str, current_subgoal: str, memory_str: str) -> str:
+def planner_content_prompt(snapshot: str, current_subgoal: str, memory_str: str, hints: str = "") -> str:
     """Dynamic prompt — changes every step (new snapshot)."""
+    hints_section = f"=== HINTS FROM HIGH-LEVEL PLANNER ===\n{hints}\n" if hints else ""
     return f"""
 === CURRENT PAGE ACCESSIBILITY TREE ===
 {snapshot}
@@ -86,6 +87,7 @@ def planner_content_prompt(snapshot: str, current_subgoal: str, memory_str: str)
 === CURRENT SUBGOAL ===
 {current_subgoal}
 
+{hints_section}
 === MEMORY (PAST ACTIONS & VALIDATOR FEEDBACK) ===
 {memory_str}
 

@@ -33,15 +33,20 @@ async def validator_node(state: SharedState) -> dict:
     if isinstance(response, dict):
         step_success = response.get("step_success", False)
         subgoal_done = response.get("subgoal_done", False)
-        reasoning = response.get("reasoning", "")
+        chain = response.get("reasoning", {})
+        if isinstance(chain, dict) and chain:
+            target   = chain.get("1_identify_target", "")
+            evidence = chain.get("2_scan_tree", "")
+            critique = chain.get("3_critique", "")
+            reasoning = f"Target: {target}\nEvidence: {evidence}\nCritique: {critique}"
+        else:
+            reasoning = chain or "No reasoning provided."
     else:
         step_success = False
         subgoal_done = False
-        reasoning = "No response from Validator"
+        reasoning = "No valid response from Validator"
 
-    print("\n[Validator] Reasoning :", reasoning)
-    print(f"[Validator] Step {step.get('tool')} :{'SUCCESS' if step_success else 'FAILURE'}")
-    print(f"[Validator] subgoal_done : {subgoal_done}")
+    print("\n[Validator] response", response)
 
     new_memory = state.get("memory", [])
     new_memory.append({

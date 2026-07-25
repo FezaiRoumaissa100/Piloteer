@@ -5,7 +5,8 @@ Your ONLY job is to break down the user's task into a sequence of END-STATE subg
 ==== Strict Rules ====
 1. Phrase each subgoal as a VERIFIABLE END-STATE.
 2. Granularity rule: one subgoal = one distinct "thing that must exist or be true" in the target application. If a step requires navigating to a different page/section, it is usually its own subgoal.
-3. Return ONLY a JSON object matching the schema below.
+3. Rule for Hints: You MUST extract facts from the SAAS CONTEXT that match the EXACT object type you are creating. Do NOT invent shortcuts or assume an action applies to a different object. Use 'rag_verification' to quote the context first.
+4. Return ONLY a JSON object matching the schema below.
 
 
 === Examples ===
@@ -21,17 +22,21 @@ Example 2 (too granular — AVOID this style):
   3. "Click Save."
   (This is wrong — these are individual clicks, not subgoals)
 
-Example 3 (too coarse — AVOID this style):
-  1. "Set up everything for the user."
-  (This is wrong — not verifiable, gives no clear stopping point.)
-
 
 === EXPECTED OUTPUT FORMAT ===
 ```json
 {
     "subgoals": [
-        {"description": "A project named 'Q3 Report' must exist in the workspace."},
-        {"description": "john@mail.com must be a member of the 'Q3 Report' project."}
+        {
+            "description": "A project named 'Q3 Report' must exist in the workspace.",
+            "rag_verification": "The context explicitly states 'projects can be created by clicking the New Project button in the sidebar or using the C shortcut'.",
+            "mini_planner_hints": "Click 'New Project' in sidebar or press C."
+        },
+        {
+            "description": "An issue named 'Fix bug' must exist.",
+            "rag_verification": "No explicit mention of how to create an issue in the context.",
+            "mini_planner_hints": ""
+        }
     ]
 }
 ```
@@ -39,34 +44,24 @@ Example 3 (too coarse — AVOID this style):
 
 REVISE_SYSTEM_PROMPT = """You are the Strategic High-Level Planner for an autonomous web navigation agent.
 Your agent has been executing a sequence of END-STATE subgoals to accomplish a larger task, but it is currently BLOCKED on one specific subgoal.
-Your job is to revise the blocked subgoal, and DECIDE if the failure only affects this specific step (local) or if it changes the entire rest of the plan (downstream).
+Your job is to revise the plan starting from the blocked subgoal to the end of the task.
 
 ==== Strict Rules ====
 1. Phrase all revised subgoals as VERIFIABLE END-STATES, not imperative actions.
-2. Analyze the "Reason for failure". Decide the "scope" of the required fix:
-   - "local": The error is a minor obstacle (e.g., a modal is open, a button moved). Only revise the current blocked subgoal.
-   - "downstream": The error is a fundamental shift (e.g., missing permissions, target object already exists requiring edit instead of create). Revise the current subgoal AND provide a completely new list of downstream subgoals to replace the old ones.
-3. Return ONLY a JSON object matching the schema below.
+2. Analyze the "Reason for failure". You must generate a NEW list of subgoals that will replace the blocked subgoal and all remaining subgoals.
+   - If the error is a minor obstacle (e.g., a modal is open), insert a new subgoal to clear the obstacle, THEN re-add the original blocked subgoal and the remaining subgoals exactly as they were.
+   - If the error is a fundamental shift, generate a completely new logical sequence to finish the task.
+3. Be careful not to unnecessarily change future subgoals if the obstacle was just a minor local issue.
+4. Return ONLY a JSON object matching the schema below.
 
-=== EXPECTED OUTPUT FORMAT (LOCAL) ===
+=== EXPECTED OUTPUT FORMAT ===
 ```json
 {
     "diagnosis": "The agent clicked the search button but a dropdown menu blocked it.",
-    "scope": "local",
-    "revised_current": "The blocking dropdown menu must be closed.",
-    "revised_downstream": []
-}
-```
-
-=== EXPECTED OUTPUT FORMAT (DOWNSTREAM) ===
-```json
-{
-    "diagnosis": "The project already exists, so we cannot create it. We must open it instead, which changes the subsequent steps.",
-    "scope": "downstream",
-    "revised_current": "The existing project must be opened.",
-    "revised_downstream": [
-        "The collaborator must be invited to the opened project.",
-        "The confirmation message must be verified."
+    "new_subgoals": [
+        {"description": "The blocking dropdown menu must be closed."},
+        {"description": "The target item must be clicked (original goal)."},
+        {"description": "The confirmation message must be verified."}
     ]
 }
 ```
