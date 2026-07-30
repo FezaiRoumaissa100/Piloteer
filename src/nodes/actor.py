@@ -45,6 +45,20 @@ def make_actor_node(session: ClientSession):
             action_result = "The Planner indicates the current subgoal is complete. Validator, please perform a final double-check by analyzing the snapshots."
             snapshot_after = snapshot_before
             is_error = False
+
+        elif step["tool"] == "ask_user":
+            question = step.get("arguments", {}).get("question", "Please provide a value.")
+            field    = step.get("arguments", {}).get("field", "")
+            print(f"\n[Agent]  {question}")
+            return {
+                "pending_question": question,
+                "current_step":     step,
+                "snapshot_before":  snapshot_before,
+                "snapshot_after":   snapshot_before,
+                "last_action_result":   f"Waiting for user input on field: {field}",
+                "last_action_is_error": False,
+            }
+
         else:
             result = await session.call_tool(
                 name=step["tool"],
@@ -53,7 +67,7 @@ def make_actor_node(session: ClientSession):
            
             if step["tool"] in NAVIGATION_TOOLS:
                 print("[Actor] Waiting for page to stabilize...")
-                await wait_for(session, time=1)
+                await wait_for(session, time=3)
         
             snapshot_after = await get_snapshot(session)
             is_error = getattr(result, "isError", False)

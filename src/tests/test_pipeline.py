@@ -11,7 +11,7 @@ from orchestration.state import initiate_state
 from orchestration.graph import build_graph
 
 
-USER_TASK = "create a new project 'STAGE' and add the issue 'commnce' on it"
+USER_TASK = "help me create a project "
 
 
 

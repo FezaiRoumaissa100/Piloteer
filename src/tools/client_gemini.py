@@ -10,8 +10,6 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 def ask_llm(prompt: str, system_prompt: str = "", model: str = "gemini-2.0-flash", retries: int = 3) -> str:
     "Send the prompt to Gemini and return the response — waits on 429 before retrying"
-    import time
-    WAIT_SECONDS = [15, 30]  # wait durations between retries
     for attempt in range(retries):
         try:
             config = types.GenerateContentConfig()
@@ -26,10 +24,18 @@ def ask_llm(prompt: str, system_prompt: str = "", model: str = "gemini-2.0-flash
             return response.text
         except Exception as e:
             msg = str(e)
-            if "429" in msg:
-                wait = WAIT_SECONDS[min(attempt, len(WAIT_SECONDS) - 1)]
-                print(f"[LLM] Rate limit hit on {model} — waiting {wait}s before retry (attempt {attempt+1}/{retries})...")
-                time.sleep(wait)
+            if "429" in msg or "503" in msg:
+                fallbacks = ["gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-2.5-flash", "gemini-2.5-flash-lite"]
+                if model in fallbacks:
+                    current_idx = fallbacks.index(model)
+                    if current_idx < len(fallbacks) - 1:
+                        next_model = fallbacks[current_idx + 1]
+                        print(f"[LLM] Error {msg[:20]} on {model} — falling back to {next_model} for attempt {attempt+1}/{retries}...")
+                        model = next_model
+                        continue
+
+                print(f"[LLM] Rate limit hit on {model} — no more fallbacks available. Giving up.")
+                return "Error : rate limit and no fallbacks"
             else:
                 print(f"Unexpected error : {e}")
                 return "Error : " + str(e)
@@ -66,8 +72,6 @@ async def ask_llm_json(
     model: str = "gemini-2.0-flash",
     retries: int = 4
 ) -> list:
-    import asyncio
-    WAIT_SECONDS = [60, 90, 120]  
     for attempt in range(retries):
         try:
             config = types.GenerateContentConfig(
@@ -90,19 +94,21 @@ async def ask_llm_json(
             msg = str(e)
             is_rate_limit = "429" in msg or "503" in msg
             if is_rate_limit:
-                if model == "gemini-3.5-flash":
-                    print(f"[LLM] Error {msg[:20]} on {model} — falling back to gemini-3.5-flash-lite for attempt {attempt+1}/{retries}...")
-                    model = "gemini-3.5-flash-lite"
-                    continue 
+                fallbacks = ["gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-2.5-flash", "gemini-2.5-flash-lite"]
+                if model in fallbacks:
+                    current_idx = fallbacks.index(model)
+                    if current_idx < len(fallbacks) - 1:
+                        next_model = fallbacks[current_idx + 1]
+                        print(f"[LLM] Error {msg[:20]} on {model} — falling back to {next_model} for attempt {attempt+1}/{retries}...")
+                        model = next_model
+                        continue 
                 
-                if attempt < retries - 1:
-                    wait = WAIT_SECONDS[min(attempt, len(WAIT_SECONDS) - 1)]
-                    print(f"[LLM] Rate limit hit on {model} — waiting {wait}s before retry (attempt {attempt+1}/{retries})...")
-                    await asyncio.sleep(wait)
-                else:
-                    print(f"[LLM] Rate limit hit on {model} — max retries reached. Giving up.")
+                print(f"[LLM] Rate limit hit on {model} — no more fallbacks available. Giving up.")
+                break
             else:
                 print(f"Unexpected error in ask_json (attempt {attempt+1}/{retries}): {e}")
                 await asyncio.sleep(2)
                 continue
     return []
+
+

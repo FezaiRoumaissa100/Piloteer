@@ -16,6 +16,7 @@ PLANNER_RULES = """
 4. Do NOT chain multiple actions — one step per response.
 5. Consider the MEMORY (past actions) to avoid repeating failed actions.
 6. FOREGROUND & OBSTRUCTION RULE: Always analyze the accessibility tree proactively for active overlays, modals, cookie banners, or loading screens, and handle them first. If MEMORY shows a 'Timeout' or 'Click intercepted' error, it means an unexpected popup or overlay blocked your previous action. DO NOT repeat the action immediately — locate the blocking element in the tree and resolve it first.
+7. FORM DATA VALIDATION RULE: When dealing with forms or input fields, NEVER invent, guess, or hallucinate values (e.g., do not invent generic names like "New Project" or "Test"). If a REQUIRED field needs a value and that value is NOT explicitly provided in the current subgoal or user task, you MUST use the ask_user tool to request it.
 
 """
 
@@ -24,37 +25,27 @@ PLANNER_OUTPUT_FORMAT = """
 Return a single JSON object with exactly two fields: "reasoning", "step".
 No markdown, no explanation outside this JSON object.
 
-- "reasoning": 1-3 sentences explaining what you see, considering past memory, and why you chose this action.
-- "step": the single next action object with: tool, arguments, description.
-          Set to null if no valid action exists.
+The "reasoning" field MUST be a JSON dictionary following a Chain of Verification (CoVe) approach:
+{
+  "1_analyze_subgoal": "What explicit data values are given in the subgoal, hints, or user answer?",
+  "2_analyze_form": "What required fields are currently visible in the accessibility tree?",
+  "3_gap_analysis": "Are any visible required fields missing values from the subgoal? (If yes, ask_user is mandatory)",
+  "4_decision": "Based on the gap analysis and memory, what is the single next tool to use?"
+}
+
+The "step" field is the single next action object with: tool, arguments, description. Set to null if no valid action exists.
 
 {
-  "reasoning": "<short explanation>",
+  "reasoning": {
+    "1_analyze_subgoal": "...",
+    "2_analyze_form": "...",
+    "3_gap_analysis": "...",
+    "4_decision": "..."
+  },
   "step": {
     "tool": "<tool_name>",
     "arguments": {...},
     "description": "<short description>"
-  }
-}
-
-=== EXAMPLES ===
-Example 1 — Type into a search bar (1 step only):
-{
-  "reasoning": "I see the input 'What needs to be done?' (e8). The next action is to type the todo name.",
-  "step": {
-    "tool": "browser_type",
-    "arguments": {"target": "e8", "text": "call my mom", "element": "todo input"},
-    "description": "Type the todo name into the input field"
-  }
-}
-
-Example 2 — Press Enter after typing:
-{
-  "reasoning": "The todo text is already typed. Next step is to press Enter to confirm.",
-  "step": {
-    "tool": "browser_press_key",
-    "arguments": {"key": "Enter"},
-    "description": "Press Enter to add the todo"
   }
 }
 """
@@ -77,9 +68,13 @@ def planner_system_prompt(snapshot: str, subgoal: str, saas_context: str) -> str
 """
 
 
-def planner_content_prompt(snapshot: str, current_subgoal: str, memory_str: str, hints: str = "") -> str:
+def planner_content_prompt(snapshot: str, current_subgoal: str, memory_str: str, hints: str = "", user_answer: str = "") -> str:
     """Dynamic prompt — changes every step (new snapshot)."""
     hints_section = f"=== HINTS FROM HIGH-LEVEL PLANNER ===\n{hints}\n" if hints else ""
+    user_answer_section = f"""=== USER ANSWER ===
+The user was just asked for a required field value and responded: "{user_answer}"
+analyse the response and use it to fill the appropriate field. 
+""" if user_answer else ""
     return f"""
 === CURRENT PAGE ACCESSIBILITY TREE ===
 {snapshot}
@@ -87,8 +82,7 @@ def planner_content_prompt(snapshot: str, current_subgoal: str, memory_str: str,
 === CURRENT SUBGOAL ===
 {current_subgoal}
 
-{hints_section}
-=== MEMORY (PAST ACTIONS & VALIDATOR FEEDBACK) ===
+{hints_section}{user_answer_section}=== MEMORY (PAST ACTIONS & VALIDATOR FEEDBACK) ===
 {memory_str}
 
 What is the single next action to take?

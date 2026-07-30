@@ -13,6 +13,7 @@ async def planner_node(state: SharedState) -> dict:
     saas_context = state.get("saas_context", "")
     raw_snapshot = state["snapshot_after"]
     memory       = state.get("memory", [])
+    user_answer  = state.get("user_answer") or ""
 
     snapshot = prune_snapshot(raw_snapshot) if raw_snapshot else ""
 
@@ -26,7 +27,7 @@ async def planner_node(state: SharedState) -> dict:
 
     # Build prompts
     system_prompt = planner_system_prompt(snapshot, current_subgoal_desc, saas_context)
-    prompt        = planner_content_prompt(snapshot, current_subgoal_desc, memory_str, hints=current_hints)
+    prompt        = planner_content_prompt(snapshot, current_subgoal_desc, memory_str, hints=current_hints, user_answer=user_answer)
 
     # Call Gemini
     response = await ask_llm_json(
@@ -44,11 +45,25 @@ async def planner_node(state: SharedState) -> dict:
         step      = None
 
     print("\n[Planner] Reasoning :", reasoning)
-    print("[Planner] Next step : ",step)
+    print("[Planner] Next step : ", step)
+
+    # Send step description to chat interface in real time
+    channel = state.get("channel")
+    if channel and step:
+        tool = step.get("tool", "")
+        desc = step.get("description", "")
+        if tool == "ask_user":
+            pass  # ask_user_node handles its own message
+        elif tool == "browser_finish_subgoal":
+            await channel.send("Verifying subgoal completion...", "agent")
+        elif desc:
+            await channel.send(desc, "agent")
 
     return {
         "current_step": step,
         "step_done":    False,
-        "error":        None
+        "error":        None,
+        "user_answer":  None,
     }
+
 

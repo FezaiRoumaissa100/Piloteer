@@ -23,6 +23,11 @@ CORE_TOOLS = """
 
 - browser_finish_subgoal: Use this ONLY when you see that the current SUBGOAL is already 100% completed on the current screen and absolutely no more actions are needed. This triggers a double-check by the Validator.
   {}
+
+- ask_user: Use ONLY when a form field is REQUIRED and its value is NOT mentioned anywhere in the current subgoal description or user task.
+  NEVER use for optional fields (description, color, icon, avatar...) — leave those as default.
+  NEVER use if the value is already stated in the subgoal (e.g. "project named STAGE" → type "STAGE" directly).
+  {"question": "<clear, specific question for the user>", "field": "<field name>"}
 """
 
 OPTIONAL_TOOLS = {

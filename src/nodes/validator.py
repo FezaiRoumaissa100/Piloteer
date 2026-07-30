@@ -84,6 +84,14 @@ async def validator_node(state: SharedState) -> dict:
     else:
         task_status = "pending"
 
+    # Send real-time feedback to chat
+    channel = state.get("channel")
+    if channel:
+        if subgoal_done:
+            await channel.send(f"Subgoal completed: {current_subgoal_desc}", "success")
+        elif not step_success:
+            await channel.send(f"Step failed, retrying... ({critique})", "error")
+
     return {
         "step_done": step_success,
         "subgoals": updated_subgoals,
@@ -91,4 +99,5 @@ async def validator_node(state: SharedState) -> dict:
         "task_status": task_status,
         "memory": new_memory
     }
+
 

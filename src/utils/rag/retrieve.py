@@ -13,6 +13,21 @@ _EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "gemini-embedding-001")
 _embd_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 _chroma_client = chromadb.PersistentClient(path=_RAG_DB_PATH)
 
+# ── Collection mapping per SaaS domain / port ────────────────────────────────────────
+_URL_TO_COLLECTION = {
+    "orangehrm": "orangehrm_docs",
+    "linear":    "saas_docs",
+}
+
+def _detect_collection(current_url: str = "") -> str:
+    """Detect the right ChromaDB collection based on the active SaaS URL."""
+    url_lower = current_url.lower()
+    for keyword, collection in _URL_TO_COLLECTION.items():
+        if keyword in url_lower:
+            return collection
+    return _DEFAULT_COLLECTION
+
+
 def embed_query(text: str) -> list[float]:
     result = _embd_client.models.embed_content(
         model=_EMBEDDING_MODEL,
@@ -48,3 +63,10 @@ def get_saas_context(query: str, collection_name: str = _DEFAULT_COLLECTION, n_r
     except Exception as e:
         print(f"[RAG] Error during retrieval: {e}")
         return ""
+
+
+def get_saas_context_auto(query: str, current_url: str = "", n_results: int = 3) -> str:
+ 
+    collection_name = _detect_collection(current_url)
+    print(f"[RAG] Auto-detected collection '{collection_name}' for URL: {current_url}")
+    return get_saas_context(query, collection_name=collection_name, n_results=n_results)

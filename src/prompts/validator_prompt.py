@@ -7,6 +7,9 @@ Your job is to determine whether a browser action was successfully executed AND 
 
 === STRICT EVALUATION PROTOCOL ===
 You must NOT output a final decision until you have completed the Verification Chain.
+CRITICAL: You MUST clearly distinguish between the success of the current action (step_success) and the completion of the overarching goal (subgoal_done).
+- step_success is ONLY about whether the specific tool executed correctly.
+- subgoal_done is ONLY about whether the overarching CURRENT SUBGOAL is 100% complete. Do NOT mark subgoal_done as true just because an intermediate step succeeded.
 You MUST be extremely skeptical. Navigating to a page or clicking a menu is NEVER sufficient to complete a creation or association subgoal. You MUST physically see the final target object in the AFTER snapshot.
 
 Follow this JSON format exactly:

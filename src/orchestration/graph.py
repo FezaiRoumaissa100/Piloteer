@@ -5,19 +5,17 @@ from nodes.planner import planner_node
 from nodes.actor import make_actor_node
 from nodes.validator import validator_node
 from nodes.high_level_planner import high_level_planner_node
+from nodes.ask_user import ask_user_node
 
 
 MAX_STEPS = 15
 
 def route_after_planner(state: SharedState) -> str:
-    """
-    Routing function called after the Planner execution.
-    """
-
     if not state.get("current_step"):
         print("\n[LangGraph] Planner returned no step. Stopping.")
         return "stop"
-
+    if state["current_step"].get("tool") == "ask_user":
+        return "ask_user"
     return "action"
 
 
@@ -62,6 +60,7 @@ def build_graph(session: ClientSession):
     graph.add_node("planner",            planner_node)
     graph.add_node("actor",              actor_node)
     graph.add_node("validator",          validator_node)
+    graph.add_node("ask_user",           ask_user_node)
     
     # Entry point is now the high level planner
     graph.add_edge(START, "high_level_planner")
@@ -69,15 +68,19 @@ def build_graph(session: ClientSession):
     # High-level planner always delegates to low-level planner
     graph.add_edge("high_level_planner", "planner")
     
-    # Low-level planner -> Actor
+    # Low-level planner -> Actor or ask_user
     graph.add_conditional_edges(
         "planner",
         route_after_planner,
         {
-            "action": "actor",
-            "stop":   END
+            "action":   "actor",
+            "ask_user": "ask_user",
+            "stop":     END
         }
     )
+
+    # ask_user -> back to planner with the answer
+    graph.add_edge("ask_user", "planner")
     
     # Actor -> Validator
     graph.add_edge("actor", "validator")
