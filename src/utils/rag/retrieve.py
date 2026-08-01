@@ -28,12 +28,21 @@ def _detect_collection(current_url: str = "") -> str:
     return _DEFAULT_COLLECTION
 
 
+import time
+
 def embed_query(text: str) -> list[float]:
-    result = _embd_client.models.embed_content(
-        model=_EMBEDDING_MODEL,
-        contents=text
-    )
-    return result.embeddings[0].values
+    for attempt in range(1, 4):
+        try:
+            result = _embd_client.models.embed_content(
+                model=_EMBEDDING_MODEL,
+                contents=text
+            )
+            return result.embeddings[0].values
+        except Exception as e:
+            if attempt == 3:
+                raise e
+            time.sleep(1)
+    raise RuntimeError("Failed to generate embedding")
 
 def get_saas_context(query: str, collection_name: str = _DEFAULT_COLLECTION, n_results: int = 3) -> str:
     try:

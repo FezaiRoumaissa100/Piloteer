@@ -8,7 +8,7 @@ from nodes.high_level_planner import high_level_planner_node
 from nodes.ask_user import ask_user_node
 
 
-MAX_STEPS = 15
+MAX_STEPS = 30
 
 def route_after_planner(state: SharedState) -> str:
     if not state.get("current_step"):
@@ -28,10 +28,20 @@ def route_after_validator(state: SharedState) -> str:
         return "stop"
 
     if state.get("task_status") == "completed":
-        print("\n[LangGraph] Task is marked as COMPLETED. Stopping.")
-        return "stop"
+        print("\n[LangGraph] Task completed — routing to HL Planner for final message.")
+        return "finalize"
 
-    # Check if current subgoal needs escalation
+    if state.get("task_status") == "impossible_subgoal":
+        print("\n[LangGraph] Subgoal impossible — routing to HL Planner for fallback/finalization.")
+        return "high_level_planner"
+
+    # MAX_STEPS safety — force finalize if agent is looping
+    step_count = state.get("step_count", 0)
+    if step_count >= MAX_STEPS:
+        print(f"\n[LangGraph] MAX_STEPS ({MAX_STEPS}) reached — forcing finalize.")
+        return "finalize"
+
+    # Check if current subgoal needs escalation (3 failed attempts)
     subgoals = state.get("subgoals", [])
     current_index = state.get("current_subgoal_index", 0)
     
@@ -41,6 +51,16 @@ def route_after_validator(state: SharedState) -> str:
             return "high_level_planner"
 
     print("\n[LangGraph] Returning to Low-Level Planner for next instruction.")
+    return "planning"
+
+
+def route_after_high_level_planner(state: SharedState) -> str:
+    """
+    After HL Planner runs, check if we are finalizing or continuing.
+    """
+    if state.get("task_status") == "finalized":
+        print("\n[LangGraph] Task finalized — stopping.")
+        return "stop"
     return "planning"
 
 
@@ -65,8 +85,15 @@ def build_graph(session: ClientSession):
     # Entry point is now the high level planner
     graph.add_edge(START, "high_level_planner")
     
-    # High-level planner always delegates to low-level planner
-    graph.add_edge("high_level_planner", "planner")
+    # High-level planner — conditional routing (finalize or continue)
+    graph.add_conditional_edges(
+        "high_level_planner",
+        route_after_high_level_planner,
+        {
+            "planning": "planner",
+            "stop":     END
+        }
+    )
     
     # Low-level planner -> Actor or ask_user
     graph.add_conditional_edges(
@@ -92,6 +119,7 @@ def build_graph(session: ClientSession):
         {
             "planning":           "planner",
             "high_level_planner": "high_level_planner",
+            "finalize":           "high_level_planner",
             "stop":               END
         }
     )

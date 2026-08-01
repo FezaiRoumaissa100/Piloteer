@@ -21,7 +21,7 @@ async def planner_node(state: SharedState) -> dict:
     memory_str = "No past actions yet."
     if memory:
         memory_str = "\n".join(
-            f"Step: {m['step_attempted'].get('tool')} - Success: {m['step_success']} - Validator Reasoning: {m['reasoning']}"
+            f"- {'✅' if m.get('success') else '❌'} {m.get('action_summary', 'No summary.')}"
             for m in memory
         )
 
@@ -43,6 +43,15 @@ async def planner_node(state: SharedState) -> dict:
     else:
         reasoning = ""
         step      = None
+
+    # Fallback guard: if tree was empty/loading and step is None, auto-wait instead of crashing
+    if not step:
+        print("[Planner] No valid step generated (page likely loading). Auto-issuing browser_wait_for...")
+        step = {
+            "tool": "browser_wait_for",
+            "arguments": {"time": 3},
+            "description": "Wait for page to render interactive elements."
+        }
 
     print("\n[Planner] Reasoning :", reasoning)
     print("[Planner] Next step : ", step)

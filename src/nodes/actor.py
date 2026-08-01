@@ -41,8 +41,22 @@ def make_actor_node(session: ClientSession):
         arguments = step.get("arguments", {}).copy()
 
         if step["tool"] == "browser_finish_subgoal":
-            print("[Actor] Intercepting browser_finish_subgoal...")
-            action_result = "The Planner indicates the current subgoal is complete. Validator, please perform a final double-check by analyzing the snapshots."
+            status = arguments.get("status", "success")
+            reason = arguments.get("reason", "")
+            print(f"[Actor] Intercepting browser_finish_subgoal — status={status}, reason={reason}")
+
+            if status == "impossible":
+                action_result = (
+                    f"=== SUBGOAL IMPOSSIBLE ===\n"
+                    f"The Planner has determined this subgoal cannot be achieved.\n"
+                    f"Reason: {reason}"
+                )
+            else:
+                action_result = (
+                    f"The Planner indicates the current subgoal is complete. "
+                    f"Reason: {reason or 'Visible on screen.'} "
+                    f"Validator, please perform a final double-check."
+                )
             snapshot_after = snapshot_before
             is_error = False
 

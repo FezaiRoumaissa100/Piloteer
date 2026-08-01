@@ -67,25 +67,22 @@ def prune_snapshot(raw_snapshot: str) -> str:
     kept: list[str] = []
 
     for line in raw_snapshot.splitlines():
+        # Rule 1: Keep ANY line that contains an explicit Playwright reference tag [ref=...]
+        if "[ref=" in line:
+            kept.append(line)
+            continue
+
         m = _ROLE_RE.match(line)
         if not m:
-            # Non-node lines (blank lines, YAML metadata, snapshot header) — skip
             continue
 
         role = m.group(1).lower()
         name = (m.group(2) or "").strip()
 
-        if role in INTERACTIVE_ROLES:
+        if role in INTERACTIVE_ROLES or role in CONTEXT_ROLES:
             kept.append(line)
-
-        elif role in CONTEXT_ROLES:
-            kept.append(line)
-
         elif role in ("statictext", "text") and len(name) > 2:
-            # Keep meaningful labels; drop single-char icons or empty text nodes
             kept.append(line)
-
-        # Everything else (group, region, list, image, svg, …) is dropped
 
     pruned = "\n".join(kept)
 

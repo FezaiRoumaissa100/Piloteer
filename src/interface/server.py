@@ -95,11 +95,12 @@ async def websocket_endpoint(websocket: WebSocket):
 
                 final_state = await pipeline_task
 
-                status = final_state.get("task_status", "unknown")
-                if status == "completed":
-                    await channel.send("Task completed successfully!", "success")
+                final_message = final_state.get("final_message")
+                if final_message:
+                    await channel.send(final_message, "success")
                 else:
-                    await channel.send(f"Task finished with status: {status}", "error")
+                    status = final_state.get("task_status", "unknown")
+                    await channel.send(f"Task finished with status: {status}", "success")
 
     except WebSocketDisconnect:
         print("[Server] Client disconnected.")

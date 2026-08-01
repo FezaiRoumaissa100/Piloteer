@@ -9,9 +9,9 @@ from mcp.client.stdio import stdio_client
 from tools.mcp_client import SERVER_PARAMS, navigate, get_snapshot
 from orchestration.state import initiate_state
 from orchestration.graph import build_graph
+from utils.rag.retrieve import get_saas_context_auto
 
-
-USER_TASK = "help me create a project "
+USER_TASK = "show me the details of recrutment avancement"
 
 
 
@@ -23,8 +23,9 @@ async def test_pipeline():
             print("\n[Setup] MCP server connected")
 
             # Navigate to starting page
-            await navigate(session, "https://linear.app")
-            print("[Setup] Navigated to Linear")
+            url = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
+            await navigate(session, url)
+            print("[Setup] Navigated to OrangeHRM")
 
             # Show cursor + action highlights (must be AFTER navigate)
             await session.call_tool("browser_video_show_actions", arguments={
@@ -39,13 +40,15 @@ async def test_pipeline():
 
             # Get initial snapshot to inject into state AFTER login
             initial_snapshot = await get_snapshot(session)
+            saas_context = get_saas_context_auto(USER_TASK, current_url=url)
+            
             # Build initial state
             state = initiate_state(
                 user_task=USER_TASK,
-                saas_context=""
+                saas_context=saas_context
             )
             state["snapshot_after"] = initial_snapshot
-            state["current_url"]    = "https://www.google.com"
+            state["current_url"]    = url
 
             # Build and run the graph
             print("[Pipeline] Starting graph...\n")

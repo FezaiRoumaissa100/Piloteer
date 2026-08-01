@@ -19,10 +19,13 @@ CORE_TOOLS = """
 
 - browser_wait_for: Use to pause and wait when the page is transitioning or processing a previous action.
   Crucial: If the page clearly shows an action is still executing (e.g., a button is disabled and says "Loading", "Saving", "Creating..."), DO NOT give up and return null. Use this tool to wait for that temporary state to finish.
-  {"text": "<text_to_wait_for>"} OR {"text_gone": "<text_that_should_disappear>"}
+  {\"text\": \"<text_to_wait_for>\"} OR {\"textGone\": \"<text_that_should_disappear>\"}
 
-- browser_finish_subgoal: Use this ONLY when you see that the current SUBGOAL is already 100% completed on the current screen and absolutely no more actions are needed. This triggers a double-check by the Validator.
-  {}
+- browser_finish_subgoal: Use this when the current SUBGOAL is clearly resolved — either because it is 100% done on screen, OR because you have confirmed it is impossible (e.g. search returned "No Records Found", "0 results", or an explicit not-found message).
+  IMPORTANT: You MUST provide both fields:
+  - status: "success" if the subgoal is achieved on screen, OR "impossible" if the data does not exist after a proper search.
+  - reason: A short sentence explaining what you saw (e.g. "Search for Ahmed returned No Records Found in both PIM and Directory modules.").
+  {"status": "<success|impossible>", "reason": "<what you observed>"}
 
 - ask_user: Use ONLY when a form field is REQUIRED and its value is NOT mentioned anywhere in the current subgoal description or user task.
   NEVER use for optional fields (description, color, icon, avatar...) — leave those as default.

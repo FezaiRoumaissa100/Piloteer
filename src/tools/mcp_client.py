@@ -25,7 +25,11 @@ from typing import Optional
 
 SERVER_PARAMS = StdioServerParameters(
     command="npx",
-    args=["@playwright/mcp@latest", "--caps=devtools"]
+    args=[
+        "@playwright/mcp@latest",
+        "--caps=devtools",
+        "--timeout-action=20000",   # default is 5000ms — increased for slow SaaS navigation
+    ]
 )
 
 

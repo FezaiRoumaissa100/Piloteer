@@ -13,15 +13,44 @@ async def validator_node(state: SharedState) -> dict:
     current_index = state.get("current_subgoal_index", 0)
     current_subgoal_desc = subgoals[current_index]["description"] if subgoals else state["user_task"]
 
-    is_error     = state.get("last_action_is_error", False)
+    is_error      = state.get("last_action_is_error", False)
     action_result = state.get("last_action_result", "No result")
 
+    # ── Shortcut: Planner declared subgoal impossible ──────────────────────────
+    if "=== SUBGOAL IMPOSSIBLE ===" in action_result:
+        print("[Validator] Subgoal declared IMPOSSIBLE by Planner — skipping LLM check.")
+        reason_line = [l for l in action_result.splitlines() if l.startswith("Reason:")]
+        reason = reason_line[0].replace("Reason: ", "") if reason_line else "Data not found."
+
+        new_memory = state.get("memory", [])
+        new_memory.append({"action_summary": f"Subgoal impossible: {reason}", "success": False})
+
+        updated_subgoals = list(subgoals)
+        if subgoals and current_index < len(updated_subgoals):
+            active_subgoal = updated_subgoals[current_index].copy()
+            active_subgoal["status"] = "impossible"
+            active_subgoal["failure_reason"] = reason
+            updated_subgoals[current_index] = active_subgoal
+            new_index = current_index + 1
+        else:
+            new_index = current_index
+
+        return {
+            "step_done": False,
+            "subgoals": updated_subgoals,
+            "current_subgoal_index": new_index,
+            "task_status": "impossible_subgoal",
+            "memory": new_memory
+        }
+    # ───────────────────────────────────────────────────────────────────────────
+
+    current_url = state.get("current_url", "")
     prompt = validator_content_prompt(
-        state["snapshot_before"],
         state["snapshot_after"],
         step,
         current_subgoal_desc,
         action_result,
+        current_url=current_url,
         is_error=is_error
     )
     response = await ask_llm_json(
@@ -31,30 +60,37 @@ async def validator_node(state: SharedState) -> dict:
     )
 
     if isinstance(response, dict):
-        step_success = response.get("step_success", False)
-        subgoal_done = response.get("subgoal_done", False)
+        step_success  = response.get("step_success", False)
+        subgoal_done  = response.get("subgoal_done", False)
+        memory_entry  = response.get("memory_entry", "")
         chain = response.get("reasoning", {})
         if isinstance(chain, dict) and chain:
-            target   = chain.get("1_identify_target", "")
-            evidence = chain.get("2_scan_tree", "")
-            critique = chain.get("3_critique", "")
-            reasoning = f"Target: {target}\nEvidence: {evidence}\nCritique: {critique}"
+            reasoning = (
+                f"Subgoal: {chain.get('1_analyze_subgoal', '')}\n"
+                f"Step: {chain.get('2_analyze_step_result', '')}\n"
+                f"State: {chain.get('3_analyze_current_state', '')}\n"
+                f"Decision: {chain.get('4_verification', '')}"
+            )
         else:
-            reasoning = chain or "No reasoning provided."
+            reasoning = str(chain) or "No reasoning provided."
+        if not memory_entry:
+            memory_entry = reasoning
     else:
-        step_success = False
-        subgoal_done = False
-        reasoning = "No valid response from Validator"
+        step_success  = False
+        subgoal_done  = False
+        reasoning     = "No valid response from Validator"
+        memory_entry  = "No valid response from Validator"
 
     print("\n[Validator] response", response)
 
+    # Mémoire optimisée : on stocke uniquement le résumé narratif généré par le Validateur.
+    # Cela remplace l'objet step brut (lourd en tokens, avec des refs DOM périmées).
     new_memory = state.get("memory", [])
     new_memory.append({
-        "step_attempted": step,
-        "step_success": step_success,
-        "reasoning": reasoning
+        "action_summary": memory_entry,
+        "success": step_success,
     })
-    print("[validator] the memory :",new_memory)
+    print("[validator] memory_entry:", memory_entry)
 
     updated_subgoals = list(subgoals)
     new_index = current_index
@@ -84,20 +120,17 @@ async def validator_node(state: SharedState) -> dict:
     else:
         task_status = "pending"
 
-    # Send real-time feedback to chat
-    channel = state.get("channel")
-    if channel:
-        if subgoal_done:
-            await channel.send(f"Subgoal completed: {current_subgoal_desc}", "success")
-        elif not step_success:
-            await channel.send(f"Step failed, retrying... ({critique})", "error")
+    # Validator does not send messages to chat — only Planner steps and HL final message are shown.
+
+    step_count = state.get("step_count", 0) + 1
 
     return {
         "step_done": step_success,
         "subgoals": updated_subgoals,
         "current_subgoal_index": new_index,
         "task_status": task_status,
-        "memory": new_memory
+        "memory": new_memory,
+        "step_count": step_count
     }
 
 
