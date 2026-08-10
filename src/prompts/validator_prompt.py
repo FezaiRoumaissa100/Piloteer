@@ -104,7 +104,7 @@ Return ONLY a valid JSON object — no markdown, no text outside JSON:
 
 
 def validator_content_prompt(
-    snapshot_after: str,
+    snapshot: str,
     step: dict,
     current_subgoal: str,
     action_result: str,
@@ -137,5 +137,5 @@ Tool used   : {step.get("tool", "")}
 Arguments   : {json.dumps(step.get("arguments", {}))}
 {action_section}
 === CURRENT PAGE STATE ==={url_section}
-{snapshot_after}
+{snapshot}
 """

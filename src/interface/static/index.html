@@ -169,23 +169,7 @@
       color: var(--error);
     }
 
-    /* ── ask_user bubble ─────────────────────────────── */
-    .msg.ask_user .bubble {
-      background: var(--ask-bg);
-      border: 1px solid var(--ask-border);
-      border-radius: var(--radius);
-      color: var(--text-1);
-    }
-
-    .ask-label {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--ask-border);
-      margin-bottom: 6px;
-      display: flex; align-items: center; gap: 5px;
-    }
+    /* ask_user and success use the same style as agent bubbles */
 
     /* ── Typing indicator ────────────────────────────── */
     .typing { display: flex; align-items: center; gap: 4px; padding: 6px 0; }
@@ -249,7 +233,27 @@
     #send-btn:hover  { opacity: 0.85; }
     #send-btn:active { transform: scale(0.94); }
     #send-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-    #send-btn ph-icon { color: white; font-size: 16px; }
+    #send-btn ph-icon { color: white; font-size: 16px; transition: opacity 0.2s; }
+    
+    #cancel-btn {
+      width: 34px; height: 34px;
+      background: var(--error);
+      border: none;
+      border-radius: 9px;
+      cursor: pointer;
+      display: none; /* hidden by default */
+      align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    #cancel-btn:hover { opacity: 0.85; }
+    #cancel-btn:active { transform: scale(0.94); }
+    #cancel-btn ph-icon { color: white; font-size: 16px; }
+
+    .spinner {
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
 
     .input-hint {
       font-size: 11px;
@@ -300,7 +304,10 @@
         disabled
       ></textarea>
       <button id="send-btn" disabled>
-        <ph-icon name="paper-plane-tilt" weight="fill"></ph-icon>
+        <ph-icon name="paper-plane-tilt" weight="fill" id="send-icon"></ph-icon>
+      </button>
+      <button id="cancel-btn" title="Stop Task">
+        <ph-icon name="stop" weight="fill"></ph-icon>
       </button>
     </div>
     <div class="input-hint">Press <kbd>Enter</kbd> to send · <kbd>Shift+Enter</kbd> for new line</div>
@@ -315,6 +322,8 @@
   const messagesEl = document.getElementById("messages");
   const inputEl    = document.getElementById("msg-input");
   const sendBtn    = document.getElementById("send-btn");
+  const sendIcon   = document.getElementById("send-icon");
+  const cancelBtn  = document.getElementById("cancel-btn");
   const dot        = document.getElementById("status-dot");
   const statusLbl  = document.getElementById("status-label");
 
@@ -346,26 +355,14 @@
   function handleMessage(data) {
     const { type, content } = data;
 
+    // System messages: silently handle logic, never display
     if (type === "system") {
-      appendMessage("system", "info", content);
-      // Enable input once the agent is ready
-      if (content.includes("ready")) {
-        setInputEnabled(true);
-        setStatus("connected", "Ready");
-      }
-      return;
-    }
-
-    if (type === "agent" && content.includes("like to do")) {
-      appendMessage("agent", "robot", content);
-      setInputEnabled(true);
-      setStatus("connected", "Ready");
       return;
     }
 
     if (type === "ask_user") {
       isWaitingForReply = true;
-      appendAskUser(content);
+      appendMessage("agent", "robot", content);
       setInputEnabled(true);
       setStatus("asking", "Waiting for you...");
       return;
@@ -373,9 +370,10 @@
 
     if (type === "success") {
       isTaskRunning = false;
-      appendMessage("success", "check-circle", content);
+      appendMessage("agent", "robot", content);
       setInputEnabled(true);
       setStatus("connected", "Ready");
+      hideLoading();
       return;
     }
 
@@ -384,10 +382,11 @@
       appendMessage("error", "warning-circle", content);
       setInputEnabled(true);
       setStatus("connected", "Ready");
+      hideLoading();
       return;
     }
 
-    // Default: agent message
+    // Default: agent message (shown but does not re-enable input)
     appendMessage("agent", "robot", content);
   }
 
@@ -404,11 +403,37 @@
     if (isWaitingForReply) {
       isWaitingForReply = false;
       setStatus("running", "Agent thinking...");
+      showLoading(false); // keep input enabled but show spinner
     } else {
       isTaskRunning = true;
       setInputEnabled(false);
       setStatus("running", "Agent running...");
+      showLoading(true); // show spinner and cancel button
     }
+  }
+
+  function cancelTask() {
+    if (!isTaskRunning || !ws || ws.readyState !== WebSocket.OPEN) return;
+    ws.send("__CANCEL__");
+    hideLoading();
+    setStatus("connected", "Cancelling...");
+    appendMessage("system", "info", "Sending stop signal...");
+  }
+
+  function showLoading(showCancel) {
+    sendIcon.setAttribute("name", "spinner-gap");
+    sendIcon.classList.add("spinner");
+    if (showCancel) {
+      sendBtn.style.display = "none";
+      cancelBtn.style.display = "flex";
+    }
+  }
+
+  function hideLoading() {
+    sendIcon.setAttribute("name", "paper-plane-tilt");
+    sendIcon.classList.remove("spinner");
+    sendBtn.style.display = "flex";
+    cancelBtn.style.display = "none";
   }
 
   /* ── DOM helpers ─────────────────────────────────────────── */
@@ -437,27 +462,8 @@
   }
 
   function appendAskUser(question) {
-    const msg = document.createElement("div");
-    msg.className = "msg ask_user";
-
-    const avatar = document.createElement("div");
-    avatar.className = "avatar";
-    avatar.innerHTML = `<ph-icon name="robot" weight="fill" style="color:var(--ask-border)"></ph-icon>`;
-
-    const bubble = document.createElement("div");
-    bubble.className = "bubble";
-    bubble.innerHTML = `
-      <div class="ask-label">
-        <ph-icon name="question" weight="bold"></ph-icon>
-        Input required
-      </div>
-      ${question}
-    `;
-
-    msg.append(avatar, bubble);
-    messagesEl.appendChild(msg);
-    scrollToBottom();
-    inputEl.focus();
+    // ask_user shown as a normal agent bubble - no special styling
+    appendMessage("agent", "robot", question);
   }
 
   function setStatus(cls, label) {
@@ -490,6 +496,7 @@
 
   inputEl.addEventListener("input", autoResize);
   sendBtn.addEventListener("click", send);
+  cancelBtn.addEventListener("click", cancelTask);
 
   /* ── Init ────────────────────────────────────────────────── */
   connect();

@@ -51,7 +51,7 @@ async def test_planner():
                 saas_context=SAAS_CONTEXT
             )
             # Inject the snapshot as if the Actor had just navigated
-            state["snapshot_after"] = snapshot
+            state["snapshot"] = snapshot
 
             print("\ Calling Planner agent...")
             print(f"    Task: {USER_TASK}")

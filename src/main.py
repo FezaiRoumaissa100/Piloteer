@@ -22,8 +22,12 @@ def _open_browser():
     webbrowser.open("http://localhost:8000")
 
 
+from loggings.scripts.schema import init_db
+
 def main():
-    print("\n[Piloteer] Starting server on http://localhost:8000 ...")
+    print("\n[Piloteer] Initializing database...")
+    init_db()
+    print("[Piloteer] Starting server on http://localhost:8000 ...")
     print("[Piloteer] Opening chat interface in your browser...\n")
     threading.Thread(target=_open_browser, daemon=True).start()
     uvicorn.run(

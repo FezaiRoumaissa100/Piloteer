@@ -11,7 +11,7 @@ from orchestration.state import initiate_state
 from orchestration.graph import build_graph
 from utils.rag.retrieve import get_saas_context_auto
 
-USER_TASK = "show me the details of recrutment avancement"
+USER_TASK = "hello"
 
 
 
@@ -47,7 +47,7 @@ async def test_pipeline():
                 user_task=USER_TASK,
                 saas_context=saas_context
             )
-            state["snapshot_after"] = initial_snapshot
+            state["snapshot"] = initial_snapshot
             state["current_url"]    = url
 
             # Build and run the graph

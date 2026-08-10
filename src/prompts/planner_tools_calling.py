@@ -3,7 +3,8 @@ CORE_TOOLS = """
 
 - browser_click: Use to click a SINGLE interactive element (button, link, checkbox, radio).
   Do NOT use for typing text (see browser_type) or for revealing hover-only menus (see browser_hover).
-  {"target": "<ref>", "element": "<human_description>"}
+  You can use the optional "force": true argument ONLY as an emergency fallback if a previous normal click failed with "intercepts pointer events" on a checkbox/toggle. Do NOT use it to bypass popups or loading screens!
+  {"target": "<ref>", "element": "<human_description>", "force": false}
 
 - browser_type: Use to type text into ONE input field.
   For 2+ fields visible in the same form, prefer browser_fill_form instead — more reliable and token-efficient.

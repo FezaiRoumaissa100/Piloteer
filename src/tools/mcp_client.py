@@ -49,13 +49,7 @@ async def list_tools(session: ClientSession) -> None:
 #  PERCEPTION
 # ─────────────────────────────────────────────
 
-async def get_snapshot(
-    session: ClientSession,
-    target: Optional[str] = None,
-    depth: Optional[int] = None,
-    boxes: bool = False,
-    filename: Optional[str] = None
-) -> str:
+async def get_snapshot(session: ClientSession,target: Optional[str] = None,depth: Optional[int] = None,boxes: bool = False,filename: Optional[str] = None) -> str:
     """
     Returns the accessibility tree of the current page (YAML format).
     This is the primary perception tool for the agent — refs returned here
@@ -84,27 +78,7 @@ async def get_snapshot(
     return result.content[0].text
 
 
-async def take_screenshot(
-    session: ClientSession,
-    image_type: str = "png",
-    scale: str = "css",
-    target: Optional[str] = None,
-    full_page: bool = False,
-    filename: Optional[str] = None
-) -> str:
-    """
-    Takes a screenshot of the current page or a specific element.
-    Used by Gemini Vision as a fallback for Shadow DOM or non-ARIA elements.
-
-    Args:
-        image_type : Image format — 'png' or 'jpeg'. (REQUIRED)
-        scale      : 'css' = CSS pixels (lightweight, recommended for Gemini Vision).
-                     'device' = high-res physical pixels (heavier). (REQUIRED)
-        target     : If provided, captures ONE specific element only.
-                     Cannot be combined with full_page=True.
-        full_page  : If True, captures the full page including non-visible parts.
-        filename   : Save image to file instead of returning bytes.
-    """
+async def take_screenshot(session: ClientSession,image_type: str = "png",scale: str = "css",target: Optional[str] = None,full_page: bool = False,filename: Optional[str] = None) -> str:
     args: dict = {"type": image_type, "scale": scale}
     if target:
         args["target"] = target
@@ -114,7 +88,10 @@ async def take_screenshot(
         args["filename"] = filename
 
     result = await session.call_tool("browser_take_screenshot", arguments=args)
-    return result.content[0].text
+    content = result.content[0]
+    if hasattr(content, "data") and content.data:
+        return content.data 
+    return getattr(content, "text", "") or ""
 
 
 async def get_console_messages(
@@ -549,7 +526,6 @@ async def handle_dialog(
 # ─────────────────────────────────────────────
 #  ADVANCED / UNSAFE
 #  hese tools MUST be blocked in guardrails.py
-#  Never expose them in the Planner's action_type vocabulary
 # ─────────────────────────────────────────────
 
 async def evaluate_js(
@@ -577,15 +553,8 @@ async def evaluate_js(
     return result.content[0].text
 
 
-# browser_run_code_unsafe is intentionally NOT implemented.
-# It executes raw Playwright code with full page access —
-# the highest-risk entry point in the MCP system.
-# Blocked at the guardrails level.
 
 
-# ─────────────────────────────────────────────
-#  CLOSE
-# ─────────────────────────────────────────────
 
 async def close_browser(session: ClientSession) -> str:
     """

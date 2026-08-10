@@ -74,8 +74,8 @@ def get_saas_context(query: str, collection_name: str = _DEFAULT_COLLECTION, n_r
         return ""
 
 
-def get_saas_context_auto(query: str, current_url: str = "", n_results: int = 3) -> str:
+def get_context(query: str, current_url: str = "", n_results: int = 3) -> str:
  
     collection_name = _detect_collection(current_url)
-    print(f"[RAG] Auto-detected collection '{collection_name}' for URL: {current_url}")
+    print(f"[RAG] collection '{collection_name}' for URL: {current_url}")
     return get_saas_context(query, collection_name=collection_name, n_results=n_results)

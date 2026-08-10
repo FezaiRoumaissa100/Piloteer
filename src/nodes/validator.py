@@ -1,12 +1,16 @@
 from orchestration.state import SharedState
 from tools.client_gemini import ask_llm_json
 from prompts.validator_prompt import VALIDATOR_INSTRUCTIONS, validator_content_prompt
+from loggings.scripts.logger import log_event
+import asyncio
+from datetime import datetime, timezone
 
 
 async def validator_node(state: SharedState) -> dict:
+    timestamp_start = datetime.now(timezone.utc).isoformat()
+    
     step = state.get("current_step")
     if not step:
-        print("[Validator] No step to validate.")
         return {"step_done": False}
 
     subgoals = state.get("subgoals", [])
@@ -16,9 +20,7 @@ async def validator_node(state: SharedState) -> dict:
     is_error      = state.get("last_action_is_error", False)
     action_result = state.get("last_action_result", "No result")
 
-    # ── Shortcut: Planner declared subgoal impossible ──────────────────────────
-    if "=== SUBGOAL IMPOSSIBLE ===" in action_result:
-        print("[Validator] Subgoal declared IMPOSSIBLE by Planner — skipping LLM check.")
+    if state.get("task_status") == "needs_revision" and action_result.startswith("The Planner has determined"):
         reason_line = [l for l in action_result.splitlines() if l.startswith("Reason:")]
         reason = reason_line[0].replace("Reason: ", "") if reason_line else "Data not found."
 
@@ -39,21 +41,21 @@ async def validator_node(state: SharedState) -> dict:
             "step_done": False,
             "subgoals": updated_subgoals,
             "current_subgoal_index": new_index,
-            "task_status": "impossible_subgoal",
+            "task_status": "needs_revision",
             "memory": new_memory
         }
-    # ───────────────────────────────────────────────────────────────────────────
+   
 
     current_url = state.get("current_url", "")
     prompt = validator_content_prompt(
-        state["snapshot_after"],
+        state["snapshot"],
         step,
         current_subgoal_desc,
         action_result,
         current_url=current_url,
         is_error=is_error
     )
-    response = await ask_llm_json(
+    response, usage = await ask_llm_json(
         prompt=prompt,
         system_prompt=VALIDATOR_INSTRUCTIONS,
         model="gemini-3.5-flash"
@@ -81,16 +83,13 @@ async def validator_node(state: SharedState) -> dict:
         reasoning     = "No valid response from Validator"
         memory_entry  = "No valid response from Validator"
 
-    print("\n[Validator] response", response)
 
-    # Mémoire optimisée : on stocke uniquement le résumé narratif généré par le Validateur.
-    # Cela remplace l'objet step brut (lourd en tokens, avec des refs DOM périmées).
+
     new_memory = state.get("memory", [])
     new_memory.append({
         "action_summary": memory_entry,
         "success": step_success,
     })
-    print("[validator] memory_entry:", memory_entry)
 
     updated_subgoals = list(subgoals)
     new_index = current_index
@@ -111,8 +110,6 @@ async def validator_node(state: SharedState) -> dict:
             active_subgoal["status"] = "failed" if active_subgoal["attempts"] >= 3 else "in_progress"
             task_status = "in_progress"
         else:
-            # A step succeeded, but subgoal is not done. Reset attempts since we are making progress.
-            active_subgoal["attempts"] = 0
             active_subgoal["status"] = "in_progress"
             task_status = "in_progress"
             
@@ -120,9 +117,18 @@ async def validator_node(state: SharedState) -> dict:
     else:
         task_status = "pending"
 
-    # Validator does not send messages to chat — only Planner steps and HL final message are shown.
+
 
     step_count = state.get("step_count", 0) + 1
+
+   
+    asyncio.create_task(log_event(
+        state=state, node_name="validator",
+        timestamp_start=timestamp_start, gen_ai_model=usage.get("model") if isinstance(usage, dict) else None,
+        gen_ai_input_tokens=usage.get("input_tokens") if isinstance(usage, dict) else None, 
+        gen_ai_output_tokens=usage.get("output_tokens") if isinstance(usage, dict) else None,
+        payload=response
+    ))
 
     return {
         "step_done": step_success,

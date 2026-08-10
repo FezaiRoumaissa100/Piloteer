@@ -1,18 +1,16 @@
 """
-Piloteer — FastAPI WebSocket server.
-Launches the agent pipeline for each connected browser session.
+Piloteer - FastAPI WebSocket server.
+Persistent browser session with multi-turn conversation loop.
 """
 import sys
 import os
 import asyncio
 from pathlib import Path
-from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
-# ── path bootstrap ────────────────────────────────────────────────────────────
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from mcp import ClientSession
@@ -21,104 +19,133 @@ from tools.mcp_client import SERVER_PARAMS, navigate, get_snapshot
 from orchestration.state import initiate_state
 from orchestration.graph import build_graph
 from interface.channel import WebSocketChannel
-from utils.rag.retrieve import get_saas_context_auto
+from utils.rag.retrieve import get_context
 
-# ── FastAPI app ────────────────────────────────────────────────────────────────
 app = FastAPI(title="Piloteer")
 
-# Serve static files (index.html)
 STATIC_DIR = Path(__file__).parent / "static"
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+BASE_URL = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
 
 
 @app.get("/")
 async def root():
-    """Serve the chat interface."""
     return HTMLResponse((STATIC_DIR / "index.html").read_text(encoding="utf-8"))
 
 
-# ── WebSocket endpoint ─────────────────────────────────────────────────────────
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     channel = WebSocketChannel(websocket)
 
-    await channel.send("Hello! I am Piloteer, your AI assistant for web automation.", "system")
-    await channel.send("Opening browser...", "system")
+    # Session-level state — persists across all tasks
+    conversation_history: list[dict] = []
+    current_url = BASE_URL
+    current_snapshot = None
 
     try:
         async with stdio_client(SERVER_PARAMS) as (read, write):
             async with ClientSession(read, write) as session:
                 await session.initialize()
 
-                # Navigate to OrangeHRM
-                await navigate(session, "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")
-                await session.call_tool("browser_video_show_actions", arguments={
-                    "cursor": "pointer",
-                    "duration": 800,
-                    "position": "top-right"
-                })
+                # Open browser once for the whole session
+                await navigate(session, BASE_URL)
+                current_snapshot = await get_snapshot(session)
 
-                await channel.send("Browser ready.", "system")
-                await channel.send("What would you like to do today?", "agent")
-
-                # Wait for the user's task
-                user_task = await websocket.receive_text()
-                await channel.send(f"Task received: {user_task}", "system")
-
-                # Get initial snapshot
-                initial_snapshot = await get_snapshot(session)
-                
-                # Retrieve RAG Context automatically
-                saas_context = get_saas_context_auto(user_task, current_url="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")
-
-                # Build state with WebSocket channel
-                state = initiate_state(
-                    user_task=user_task,
-                    saas_context=saas_context,
-                    channel=channel
+                # Greeting — enables the input on the frontend
+                await channel.send(
+                    "Hello! I'm Piloteer, your AI assistant to understand your needs.how can I help you today?",
+                    "success"
                 )
-                state["snapshot_after"] = initial_snapshot
-                state["current_url"]    = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
 
-                # Register the channel's reply receiver so ask_user works
-                # Messages arriving while pipeline runs are forwarded to the queue
-                pipeline_task = asyncio.create_task(_run_pipeline(session, state, channel))
+                # ── Multi-turn conversation loop ────────────────────────────
+                while True:
+                    user_task = await websocket.receive_text()
 
-                # While pipeline runs, route incoming WS messages as user replies
-                while not pipeline_task.done():
+                    saas_context = get_context(user_task, current_url=current_url)
+
+                    state = initiate_state(
+                        user_task=user_task,
+                        saas_context=saas_context,
+                        channel=channel
+                    )
+                    state["snapshot"]       = current_snapshot
+                    state["current_url"]          = current_url
+                    state["conversation_history"] = list(conversation_history)
+
+                    pipeline_task = asyncio.create_task(
+                        _run_pipeline(session, state, channel)
+                    )
+
+                    # Route incoming WS messages as user replies during pipeline
+                    while not pipeline_task.done():
+                        try:
+                            msg = await asyncio.wait_for(
+                                websocket.receive_text(), timeout=0.1
+                            )
+                            if msg == "__CANCEL__":
+                                pipeline_task.cancel()
+                                break
+                            await channel.receive_reply(msg)
+                        except asyncio.TimeoutError:
+                            pass
+
                     try:
-                        msg = await asyncio.wait_for(websocket.receive_text(), timeout=0.1)
-                        await channel.receive_reply(msg)
-                    except asyncio.TimeoutError:
-                        pass
+                        final_state = await pipeline_task
+                    except asyncio.CancelledError:
+                        final_state = {
+                            "final_message": "Task manually cancelled by user.",
+                            "task_status": "cancelled"
+                        }
+                    except BaseException as e:
+                        # Catch ExceptionGroup (TaskGroup errors from anyio/asyncio)
+                        # and any other unexpected exception
+                        if hasattr(e, 'exceptions'):
+                            # ExceptionGroup: log each sub-exception clearly
+                            for sub in e.exceptions:
+                                print(f"[Server] Sub-exception in pipeline: {type(sub).__name__}: {sub}")
+                            error_msg = f"An error occurred in the agent pipeline: {e.exceptions[0]}"
+                        else:
+                            print(f"[Server] Unexpected error during pipeline: {type(e).__name__}: {e}")
+                            error_msg = f"An unexpected error occurred: {e}"
+                        await channel.send(error_msg, "error")
+                        try:
+                            current_snapshot = await get_snapshot(session)
+                        except Exception:
+                            pass
+                        continue
 
-                final_state = await pipeline_task
+                    # Persist browser location for next task
+                    current_url      = final_state.get("current_url", current_url)
+                    current_snapshot = final_state.get("snapshot", current_snapshot)
 
-                final_message = final_state.get("final_message")
-                if final_message:
+                    # Build and send final message
+                    final_message = final_state.get("final_message") or \
+                        f"Task completed (status: {final_state.get('task_status', 'unknown')})."
+
+                    conversation_history.append({
+                        "user":  user_task,
+                        "agent": final_message
+                    })
+
+                    # Send as "success" so the frontend re-enables input
                     await channel.send(final_message, "success")
-                else:
-                    status = final_state.get("task_status", "unknown")
-                    await channel.send(f"Task finished with status: {status}", "success")
 
     except WebSocketDisconnect:
         print("[Server] Client disconnected.")
     except Exception as e:
         print(f"[Server] Error: {e}")
         try:
-            await channel.send(f"❌ Server error: {str(e)}", "error")
+            await channel.send(f"An error occurred: {str(e)}", "error")
         except Exception:
             pass
 
 
 async def _run_pipeline(session: ClientSession, state: dict, channel: WebSocketChannel):
-    """Runs the LangGraph pipeline in a background task."""
     app_graph = build_graph(session)
     return await app_graph.ainvoke(state)
 
 
-# ── Entry point ────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("interface.server:app", host="0.0.0.0", port=8000, reload=False)
