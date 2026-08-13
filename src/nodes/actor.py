@@ -2,7 +2,7 @@ import asyncio
 from datetime import datetime, timezone
 from mcp import ClientSession
 from orchestration.state import SharedState
-from tools.mcp_client import get_snapshot, wait_for, evaluate_js, take_screenshot
+from tools.mcp_client import get_snapshot, wait_for, evaluate_js, take_screenshot, dispatch_action
 from utils.guide_mode.spotlight import get_spotlight_js, get_cleanup_js
 from loggings.scripts.logger import log_event
 
@@ -89,23 +89,18 @@ def make_actor_node(session: ClientSession):
                         print(f"[Actor] Guide Spotlight error: {e}")
             # ------------------------------------
 
-            result = await session.call_tool(
-                name=step["tool"],
-                arguments=arguments
-            )
-            
+            action_result, is_error = await dispatch_action(session, step["tool"], arguments)
+
             if cleanup_required:
                 try:
                     await evaluate_js(session, function=get_cleanup_js())
                 except Exception:
-                    pass 
-           
+                    pass
+
             if step["tool"] in NAVIGATION_TOOLS:
                 await wait_for(session, time=3)
-        
+
             snapshot = await get_snapshot(session)
-            is_error = getattr(result, "isError", False)
-            action_result = result.content[0].text if result.content else "Command executed with no text output."
 
 
         asyncio.create_task(log_event(

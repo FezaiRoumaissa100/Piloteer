@@ -243,6 +243,7 @@ def understand_task_prompt(user_task: str, saas_context: str, conversation_histo
 
     history_section = ""
     if conversation_history:
+        
         lines = []
         for exchange in conversation_history[-5:]:
             lines.append(f"User: {exchange['user']}")
@@ -255,7 +256,7 @@ def understand_task_prompt(user_task: str, saas_context: str, conversation_histo
 === USER TASK ===
 {user_task}
 
-Analyze the task using the 4-step Chain of Thought reasoning, then decide the mode and produce the appropriate output.
+Analyze the task , then decide the mode and produce the appropriate output.
 Return your JSON response now.
 """
 

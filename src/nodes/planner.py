@@ -20,7 +20,7 @@ async def planner_node(state: SharedState) -> dict:
     user_answer     = state.get("user_answer") or ""
     execution_mode  = state.get("execution_mode", "EXECUTE")
 
-    snapshot = prune_snapshot(raw_snapshot) if raw_snapshot else ""
+    snapshot = raw_snapshot
 
    
     memory_str = "No past actions yet."
@@ -56,6 +56,10 @@ async def planner_node(state: SharedState) -> dict:
             "arguments": {"time": 3},
             "description": "Wait  for the page to load before retrying"
         }
+        print("\n[Planner] Fallback: No step returned, waiting 3s.")
+    else:
+        print(f"\n[Planner] Reasoning: {reasoning}")
+        print(f"[Planner] Chosen Action: {step.get('tool')} - {step.get('arguments')}")
 
 
     asyncio.create_task(log_event(
@@ -67,9 +71,10 @@ async def planner_node(state: SharedState) -> dict:
     ))
 
     return {
-        "current_step": step,
-        "step_done":    False,
-        "error":        None,
-        "user_answer":  None,
-        "timestamp_start": timestamp_start
+        "current_step":           step,
+        "step_done":              False,
+        "error":                  None,
+        "user_answer":            None,
+        "timestamp_start":        timestamp_start,
+        "last_planner_reasoning": reasoning if isinstance(reasoning, dict) else {},
     }

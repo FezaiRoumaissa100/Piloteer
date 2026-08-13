@@ -6,6 +6,7 @@ from nodes.actor import make_actor_node
 from nodes.validator import validator_node
 from nodes.task_director import task_director_node
 from nodes.ask_user import ask_user_node
+from security.output_guardrail import output_guardrail_node
 
 
 MAX_STEPS = 30
@@ -26,7 +27,26 @@ def route_after_planner(state: SharedState) -> str:
         return "stop"
     if state["current_step"].get("tool") == "ask_user":
         return "ask_user"
+    return "output_guardrail"
+
+
+def route_after_output_guardrail(state: SharedState) -> str:
+    """PASS :actor directly | HITL : ask_user for human confirmation."""
+    if state.get("security_verdict") == "HITL":
+        return "ask_user"
     return "action"
+
+
+def route_after_ask_user(state: SharedState) -> str:
+    if state.get("task_status") == "task_impossible":
+        return "task_director"
+
+    if state.get("security_verdict") == "HITL":
+        answer = (state.get("user_answer") or "").strip().lower()
+        if answer == "allow":
+            print("[OutputGuardrail] User authorized the action — proceeding to Actor.")
+            return "action"
+    return "planning"
 
 
 def route_after_validator(state: SharedState) -> str:
@@ -77,53 +97,59 @@ def build_graph(session: ClientSession):
     """
     actor_node = make_actor_node(session)
     graph = StateGraph(SharedState)
-    
-  
-    graph.add_node("task_director",            task_director_node)
-    graph.add_node("planner",            planner_node)
-    graph.add_node("actor",              actor_node)
-    graph.add_node("validator",          validator_node)
-    graph.add_node("ask_user",           ask_user_node)
-    
+
+    # Nodes
+    graph.add_node("task_director",    task_director_node)
+    graph.add_node("planner",          planner_node)
+    graph.add_node("output_guardrail", output_guardrail_node)
+    graph.add_node("actor",            actor_node)
+    graph.add_node("validator",        validator_node)
+    graph.add_node("ask_user",         ask_user_node)
+
+    #Edges
     graph.add_edge(START, "task_director")
-    
 
     graph.add_conditional_edges(
         "task_director",
         route_after_task_director,
-        {
-            "planning": "planner",
-            "stop":     END
-        }
+        {"planning": "planner", "stop": END, "task_director": "task_director"}
     )
-    
-    
+
+   
     graph.add_conditional_edges(
         "planner",
         route_after_planner,
         {
-            "action":   "actor",
-            "ask_user": "ask_user",
-            "stop":     END
+            "output_guardrail": "output_guardrail",
+            "ask_user":         "ask_user",
+            "stop":             END
         }
     )
 
+    # output_guardrail → actor (PASS) or ask_user (HITL)
+    graph.add_conditional_edges(
+        "output_guardrail",
+        route_after_output_guardrail,
+        {"action": "actor", "ask_user": "ask_user"}
+    )
 
-    graph.add_edge("ask_user", "planner")
     
-    
+    graph.add_conditional_edges(
+        "ask_user",
+        route_after_ask_user,
+        {"action": "actor", "planning": "planner", "task_director": "task_director"}
+    )
+
     graph.add_edge("actor", "validator")
 
-    
     graph.add_conditional_edges(
         "validator",
         route_after_validator,
         {
-            "planning":           "planner",
-            "high_level_planner": "task_director",
-            "task_director":            "task_director",
-            "finalize":           "task_director",
-            "stop":               END
+            "planning":     "planner",
+            "task_director": "task_director",
+            "finalize":     "task_director",
+            "stop":         END
         }
     )
     return graph.compile()

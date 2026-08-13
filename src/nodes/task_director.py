@@ -16,10 +16,21 @@ async def task_director_node(state: SharedState) -> dict:
 
     user_task = state["user_task"]
     current_url = state.get("current_url", "")
-    saas_context = get_context(user_task, current_url=current_url)
+    
+    
+    saas_context = state.get("saas_context", "no information")
+            
     subgoals = state.get("subgoals", [])
     current_index = state.get("current_subgoal_index", 0)
     task_status = state.get("task_status", "pending")
+
+    
+    # --- DEBUG: Print Context for Security Testing ---
+    if not subgoals:
+        print("\n[TaskDirector] 🛡️ RAG SaaS Context Received:")
+        print(saas_context)
+        print("-" * 50)
+    # -------------------------------------------------
 
     
 
@@ -30,7 +41,7 @@ async def task_director_node(state: SharedState) -> dict:
         response, usage = await ask_llm_json(
             prompt=prompt,
             system_prompt=FINALIZE_SYSTEM_PROMPT,
-            model="gemini-3.5-flash"
+            model="gemini-2.5-flash"
         )
         final_message = response.get("final_message", "Task completed.")
        
@@ -55,12 +66,18 @@ async def task_director_node(state: SharedState) -> dict:
         response, usage = await ask_llm_json(
             prompt=prompt,
             system_prompt=UNDERSTAND_SYSTEM_PROMPT,
-            model="gemini-3.5-flash"
+            model="gemini-2.5-flash"
         )
 
         mode   = response.get("mode", "EXECUTE").upper()
+        reasoning = response.get("reasoning", "No reasoning provided")
+        
+        print(f"\n[TaskDirector]  Reasoning: {reasoning}")
+       
+
         if mode in ("QUESTION", "IMPOSSIBLE"):
             answer = response.get("answer", "I was unable to process this request.")
+            print(f"[TaskDirector]  Final Answer: {answer}\n")
         
             
             asyncio.create_task(log_event(
@@ -96,7 +113,10 @@ async def task_director_node(state: SharedState) -> dict:
                 "failure_reason": None
             })
 
-
+        print("\n[TaskDirector] Generated Subgoals:")
+        for sg in generated_subgoals:
+            print(f"  - {sg['description']}")
+        print("-" * 50)
         asyncio.create_task(log_event(
             state=state, node_name="task_director", phase="understand",
             timestamp_start=timestamp_start, gen_ai_model=usage.get("model") if isinstance(usage, dict) else None,

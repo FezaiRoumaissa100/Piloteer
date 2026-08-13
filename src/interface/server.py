@@ -50,6 +50,8 @@ async def websocket_endpoint(websocket: WebSocket):
 
                 # Open browser once for the whole session
                 await navigate(session, BASE_URL)
+
+            
                 current_snapshot = await get_snapshot(session)
 
                 # Greeting — enables the input on the frontend

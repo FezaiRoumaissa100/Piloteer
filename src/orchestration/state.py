@@ -40,6 +40,11 @@ class SharedState(TypedDict):
     execution_mode: Optional[str]
     conversation_history: list[dict]  # [{"user": ..., "agent": ...}]
 
+    # Security Guardrails
+    security_verdict:       Optional[str]    # "PASS" | "HITL"
+    security_score:         Optional[float]  # 0.0 to 1.0
+    last_planner_reasoning: Optional[dict]   # Planner reasoning dict (enriches security signal)
+
 
 def initiate_state(user_task: str, saas_context: str, channel=None) -> SharedState:
     return SharedState(
@@ -71,5 +76,9 @@ def initiate_state(user_task: str, saas_context: str, channel=None) -> SharedSta
         error=None,
         final_message=None,
         execution_mode="EXECUTE",
-        conversation_history=[]
+        conversation_history=[],
+
+        security_verdict=None,
+        security_score=None,
+        last_planner_reasoning=None,
     )

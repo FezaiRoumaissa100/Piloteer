@@ -83,7 +83,8 @@ async def validator_node(state: SharedState) -> dict:
         reasoning     = "No valid response from Validator"
         memory_entry  = "No valid response from Validator"
 
-
+    print(f"\n[Validator] Reasoning:\n{reasoning}")
+    print(f"[Validator] Success: {step_success} | Subgoal Done: {subgoal_done}")
 
     new_memory = state.get("memory", [])
     new_memory.append({

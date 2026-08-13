@@ -1,4 +1,4 @@
-from prompts.planner_tools_calling import build_tool_section
+from tools.mcp_client import get_tool_descriptions
 
 PLANNER_ROLE = """
 You are the Planner agent of Piloteer, an autonomous web navigation system.
@@ -181,7 +181,7 @@ Example 6: Navigation without Explicit Hints (Standard UX Heuristic)
 
 
 def planner_system_prompt(snapshot: str, subgoal: str, saas_context: str, execution_mode: str = "EXECUTE") -> str:
-    tool_section = build_tool_section(snapshot=snapshot, task=subgoal)
+    tool_section = get_tool_descriptions()
     narration_rule = GUIDE_NARRATION_RULE if execution_mode == "GUIDE" else ""
 
     return f"""

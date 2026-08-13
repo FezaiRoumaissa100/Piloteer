@@ -2,8 +2,6 @@ import sys
 import os
 import asyncio
 
-from requests import session
-
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from mcp import ClientSession
@@ -15,7 +13,7 @@ from utils.rag.retrieve import get_context
 from utils.rag.retrieve import get_context
 from loggings.scripts.schema import init_db
 
-USER_TASK = "display my profil"
+USER_TASK = "delete the  first employee from the employee list"
 
 
 
@@ -25,8 +23,6 @@ async def test_pipeline():
     async with stdio_client(SERVER_PARAMS) as (read, write):
         async with ClientSession(read, write) as session:
             await session.initialize()
-            print("\n[Setup] MCP server connected")
-
             # Navigate to starting page
             url = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
             await navigate(session, url)

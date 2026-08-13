@@ -1,23 +1,19 @@
 """
 mcp_client.py — Piloteer
-Complete wrapper around the Playwright MCP server (@playwright/mcp@latest).
-
-Each function maps to ONE MCP tool exposed by the server.
-All functions are async and require an active ClientSession.
+Wrapper around the Playwright MCP server (@playwright/mcp@latest).
 
 Organization:
-  - Connection / debug
-  - Perception       : snapshot, screenshot, console, network
-  - Navigation       : navigate, back, tabs
-  - Interaction      : click, type, press_key, hover, select, drag, drop, fill_form, upload
-  - Utilities        : wait_for, resize, handle_dialog
-  - Advanced/Unsafe  : evaluate (blocked in guardrails.py)
-  - Close            : close_browser
+  - Connection         : SERVER_PARAMS
+  - Perception         : get_snapshot, take_screenshot
+  - Navigation         : navigate
+  - Utilities          : wait_for, evaluate_js
+  - Pipeline gateway   : dispatch_action
+  - Planner interface  : get_tool_descriptions, TOOL_DESCRIPTIONS
 """
 
 from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
 from typing import Optional
+
 
 # ─────────────────────────────────────────────
 #  Server connection
@@ -28,28 +24,22 @@ SERVER_PARAMS = StdioServerParameters(
     args=[
         "@playwright/mcp@latest",
         "--caps=devtools",
-        "--timeout-action=20000",   # default is 5000ms — increased for slow SaaS navigation
+        "--timeout-action=20000", 
     ]
 )
-
-
-# ─────────────────────────────────────────────
-#  Debug — list available tools
-# ─────────────────────────────────────────────
-
-async def list_tools(session: ClientSession) -> None:
-    """List all tools exposed by the MCP server (useful for debugging)."""
-    result = await session.list_tools()
-    for tool in result.tools:
-        print(f"  🔧 {tool.name}")
-        print(f"     {tool.inputSchema}\n")
 
 
 # ─────────────────────────────────────────────
 #  PERCEPTION
 # ─────────────────────────────────────────────
 
-async def get_snapshot(session: ClientSession,target: Optional[str] = None,depth: Optional[int] = None,boxes: bool = False,filename: Optional[str] = None) -> str:
+async def get_snapshot(
+    session: ClientSession,
+    target: Optional[str] = None,
+    depth: Optional[int] = None,
+    boxes: bool = False,
+    filename: Optional[str] = None
+) -> str:
     """
     Returns the accessibility tree of the current page (YAML format).
     This is the primary perception tool for the agent — refs returned here
@@ -60,9 +50,7 @@ async def get_snapshot(session: ClientSession,target: Optional[str] = None,depth
                   If None, captures the entire page.
         depth   : Limit tree depth to reduce token count on deeply nested pages.
         boxes   : If True, adds [x, y, width, height] coordinates per element.
-                  Useful when crossing with a screenshot.
         filename: Save snapshot to a .md file instead of returning text.
-                  Useful for very large pages that would overflow the context window.
     """
     args: dict = {}
     if target:
@@ -78,7 +66,14 @@ async def get_snapshot(session: ClientSession,target: Optional[str] = None,depth
     return result.content[0].text
 
 
-async def take_screenshot(session: ClientSession,image_type: str = "png",scale: str = "css",target: Optional[str] = None,full_page: bool = False,filename: Optional[str] = None) -> str:
+async def take_screenshot(
+    session: ClientSession,
+    image_type: str = "png",
+    scale: str = "css",
+    target: Optional[str] = None,
+    full_page: bool = False,
+    filename: Optional[str] = None
+) -> str:
     args: dict = {"type": image_type, "scale": scale}
     if target:
         args["target"] = target
@@ -90,85 +85,8 @@ async def take_screenshot(session: ClientSession,image_type: str = "png",scale: 
     result = await session.call_tool("browser_take_screenshot", arguments=args)
     content = result.content[0]
     if hasattr(content, "data") and content.data:
-        return content.data 
+        return content.data
     return getattr(content, "text", "") or ""
-
-
-async def get_console_messages(
-    session: ClientSession,
-    level: str = "error",
-    all_messages: bool = False,
-    filename: Optional[str] = None
-) -> str:
-    """
-    Retrieves JavaScript console messages from the browser.
-    Used by the Validator to detect silent errors that don't appear in the UI.
-
-    Args:
-        level        : Minimum severity — 'error', 'warning', 'info', 'debug'. (REQUIRED)
-                       Each level includes messages from more severe levels.
-        all_messages : True = from the beginning of the session.
-                       False = since the last navigation only.
-        filename     : Save to file instead of returning text.
-    """
-    args: dict = {"level": level}
-    if all_messages:
-        args["all"] = True
-    if filename:
-        args["filename"] = filename
-
-    result = await session.call_tool("browser_console_messages", arguments=args)
-    return result.content[0].text
-
-
-async def get_network_requests(
-    session: ClientSession,
-    static: bool = False,
-    filter_pattern: Optional[str] = None,
-    filename: Optional[str] = None
-) -> str:
-    """
-    Lists all network requests made by the page.
-    Used by the Validator to verify API calls succeeded (e.g. POST returned 200).
-
-    Args:
-        static         : REQUIRED. True = include static resources (images, CSS, JS).
-        filter_pattern : Regex to filter request URLs (e.g. '/api/.*tasks').
-        filename       : Save to file instead of returning text.
-    """
-    args: dict = {"static": static}
-    if filter_pattern:
-        args["filter"] = filter_pattern
-    if filename:
-        args["filename"] = filename
-
-    result = await session.call_tool("browser_network_requests", arguments=args)
-    return result.content[0].text
-
-
-async def get_network_request_detail(
-    session: ClientSession,
-    index: int,
-    part: Optional[str] = None,
-    filename: Optional[str] = None
-) -> str:
-    """
-    Retrieves full details of a specific network request (1-based index).
-
-    Args:
-        index    : Request number (1-based) as returned by get_network_requests. (REQUIRED)
-        part     : Part to retrieve — 'request-headers', 'request-body',
-                   'response-headers', 'response-body'. If None, returns everything.
-        filename : Save to file instead of returning text.
-    """
-    args: dict = {"index": index}
-    if part:
-        args["part"] = part
-    if filename:
-        args["filename"] = filename
-
-    result = await session.call_tool("browser_network_request", arguments=args)
-    return result.content[0].text
 
 
 # ─────────────────────────────────────────────
@@ -178,278 +96,12 @@ async def get_network_request_detail(
 async def navigate(session: ClientSession, url: str) -> str:
     """
     Navigates to the given URL.
+    Used by test scripts and internal setup — the Planner never calls this directly.
 
     Args:
-        url : Full address to load (e.g. 'https://app.cal.com'). (REQUIRED)
+        url : Full address to load (e.g. 'https://app.orangehrm.com'). (REQUIRED)
     """
     result = await session.call_tool("browser_navigate", arguments={"url": url})
-    return result.content[0].text
-
-
-async def navigate_back(session: ClientSession) -> str:
-    """
-    Equivalent to the browser's Back button.
-    No parameters.
-    """
-    result = await session.call_tool("browser_navigate_back", arguments={})
-    return result.content[0].text
-
-
-async def manage_tabs(
-    session: ClientSession,
-    action: str,
-    index: Optional[int] = None,
-    url: Optional[str] = None
-) -> str:
-    """
-    Manages browser tabs.
-
-    Args:
-        action : 'list' | 'new' | 'close' | 'select'. (REQUIRED)
-        index  : Tab number for 'close' or 'select'.
-                 If omitted for 'close', closes the current tab.
-        url    : URL to open in the new tab (only used with action='new').
-    """
-    args: dict = {"action": action}
-    if index is not None:
-        args["index"] = index
-    if url:
-        args["url"] = url
-
-    result = await session.call_tool("browser_tabs", arguments=args)
-    return result.content[0].text
-
-
-# ─────────────────────────────────────────────
-#  INTERACTION
-# ─────────────────────────────────────────────
-
-async def click(
-    session: ClientSession,
-    ref: str,
-    label: Optional[str] = None,
-    double_click: bool = False,
-    button: str = "left",
-    modifiers: Optional[list] = None
-) -> str:
-    """
-    Clicks on an element identified by its accessibility tree reference.
-
-    Args:
-        ref         : Element reference (e.g. 'e5') returned by get_snapshot. (REQUIRED)
-        label       : Human-readable description (e.g. 'Login button').
-                      Optional but recommended to enrich logs and HITL traces.
-        double_click: True to simulate a double-click.
-        button      : 'left' (default) | 'right' | 'middle'.
-        modifiers   : Keys to hold during click — ['Control'], ['Shift'], ['Alt'], ['Meta'].
-    """
-    args: dict = {"target": ref}
-    if label:
-        args["element"] = label
-    if double_click:
-        args["doubleClick"] = True
-    if button != "left":
-        args["button"] = button
-    if modifiers:
-        args["modifiers"] = modifiers
-
-    result = await session.call_tool("browser_click", arguments=args)
-    return result.content[0].text
-
-
-async def type_text(
-    session: ClientSession,
-    ref: str,
-    text: str,
-    label: Optional[str] = None,
-    submit: bool = False,
-    slowly: bool = False
-) -> str:
-    """
-    Types text into an input field.
-
-    Args:
-        ref    : Element reference (e.g. 'e12'). (REQUIRED)
-        text   : Text to insert. (REQUIRED)
-        label  : Human-readable description of the field. Optional, for logs.
-        submit : True = automatically press Enter after typing.
-                 Avoids a separate press_key call.
-        slowly : True = type character by character.
-                 Useful to trigger JS keystroke event handlers (autocomplete, live validation).
-                 Default is instant fill, which is faster but may skip those handlers.
-    """
-    args: dict = {"target": ref, "text": text}
-    if label:
-        args["element"] = label
-    if submit:
-        args["submit"] = True
-    if slowly:
-        args["slowly"] = True
-
-    result = await session.call_tool("browser_type", arguments=args)
-    return result.content[0].text
-
-
-async def press_key(session: ClientSession, key: str) -> str:
-    """
-    Presses a keyboard key at the page level (not targeted at a specific element).
-    Equivalent to page.keyboard.press() in raw Playwright.
-
-    Args:
-        key : Key name (e.g. 'Enter', 'Escape', 'Tab', 'ArrowDown')
-              or single character (e.g. 'a'). (REQUIRED)
-    """
-    result = await session.call_tool("browser_press_key", arguments={"key": key})
-    return result.content[0].text
-
-
-async def hover(
-    session: ClientSession,
-    ref: str,
-    label: Optional[str] = None
-) -> str:
-    """
-    Hovers over an element without clicking.
-    Useful to trigger CSS :hover dropdown menus in navigation bars.
-
-    Args:
-        ref   : Element reference. (REQUIRED)
-        label : Human-readable description. Optional, for logs.
-    """
-    args: dict = {"target": ref}
-    if label:
-        args["element"] = label
-
-    result = await session.call_tool("browser_hover", arguments=args)
-    return result.content[0].text
-
-
-async def select_option(
-    session: ClientSession,
-    ref: str,
-    values: list,
-    label: Optional[str] = None
-) -> str:
-    """
-    Selects one or more options in a <select> dropdown.
-
-    Args:
-        ref    : Reference of the <select> element. (REQUIRED)
-        values : List of values to select (e.g. ['Option A']).
-                 Always a list, even for a single value.
-                 Natively supports multi-select. (REQUIRED)
-        label  : Human-readable description. Optional, for logs.
-    """
-    args: dict = {"target": ref, "values": values}
-    if label:
-        args["element"] = label
-
-    result = await session.call_tool("browser_select_option", arguments=args)
-    return result.content[0].text
-
-
-async def drag(
-    session: ClientSession,
-    start_ref: str,
-    end_ref: str,
-    start_label: Optional[str] = None,
-    end_label: Optional[str] = None
-) -> str:
-    """
-    Drags one element and drops it onto another (in-page drag & drop).
-    Useful for moving Kanban cards between columns (e.g. Plane).
-
-    Args:
-        start_ref   : Reference of the element to drag. (REQUIRED)
-        end_ref     : Reference of the drop target. (REQUIRED)
-        start_label : Human-readable description of the source. Optional, for logs.
-        end_label   : Human-readable description of the target. Optional, for logs.
-    """
-    args: dict = {"startTarget": start_ref, "endTarget": end_ref}
-    if start_label:
-        args["startElement"] = start_label
-    if end_label:
-        args["endElement"] = end_label
-
-    result = await session.call_tool("browser_drag", arguments=args)
-    return result.content[0].text
-
-
-async def drop_data(
-    session: ClientSession,
-    ref: str,
-    paths: Optional[list] = None,
-    data: Optional[dict] = None,
-    label: Optional[str] = None
-) -> str:
-    """
-    Drops an external file or data onto a page element (OS-level drag).
-    Different from drag() which moves elements within the page.
-
-    Args:
-        ref   : Reference of the target element. (REQUIRED)
-        paths : List of file paths to drop (e.g. ['C:/docs/report.pdf']).
-        data  : MIME-typed data to drop (e.g. {'text/plain': 'hello'}).
-        label : Human-readable description. Optional, for logs.
-    """
-    args: dict = {"target": ref}
-    if paths:
-        args["paths"] = paths
-    if data:
-        args["data"] = data
-    if label:
-        args["element"] = label
-
-    result = await session.call_tool("browser_drop", arguments=args)
-    return result.content[0].text
-
-
-async def upload_file(
-    session: ClientSession,
-    paths: Optional[list] = None
-) -> str:
-    """
-    Responds to an OS file upload dialog.
-    Call this immediately after clicking a 'Choose File' button.
-
-    Args:
-        paths : List of file paths to upload.
-                If None, cancels the file chooser dialog.
-    """
-    args: dict = {}
-    if paths:
-        args["paths"] = paths
-
-    result = await session.call_tool("browser_file_upload", arguments=args)
-    return result.content[0].text
-
-
-async def fill_form(session: ClientSession, fields: list) -> str:
-    """
-    Fills multiple form fields in a single MCP call.
-    More efficient than multiple successive type_text calls.
-
-    Args:
-        fields : List of field dicts, each describing one field:
-            {
-              'target' : str,   # element ref from get_snapshot (REQUIRED)
-              'name'   : str,   # field name (REQUIRED)
-              'type'   : str,   # 'textbox' | 'checkbox' | 'radio' |
-                                #  'combobox' | 'slider' (REQUIRED)
-              'value'  : str,   # value to fill (REQUIRED)
-                                #   checkbox: 'true' or 'false' (string, not bool)
-                                #   combobox: displayed option text
-              'element': str    # human-readable label (optional)
-            }
-
-    Example:
-        await fill_form(session, [
-            {'target': 'e5', 'name': 'email',    'type': 'textbox',  'value': 'a@b.com'},
-            {'target': 'e6', 'name': 'password', 'type': 'textbox',  'value': 'pass123'},
-            {'target': 'e7', 'name': 'remember', 'type': 'checkbox', 'value': 'true'},
-        ])
-    """
-    result = await session.call_tool("browser_fill_form", arguments={"fields": fields})
     return result.content[0].text
 
 
@@ -465,11 +117,10 @@ async def wait_for(
 ) -> str:
     """
     Waits for a condition before continuing.
-    Prefer 'text' or 'text_gone' over 'time' when possible —
-    condition-based waits are more reliable than fixed delays.
+    Used by the Actor after navigation actions to let the page stabilize.
 
     Args:
-        time      : Fixed wait in seconds (e.g. 2.0). Use as a last resort.
+        time      : Fixed wait in seconds (e.g. 3.0). Use as a last resort.
         text      : Wait until this text APPEARS on the page.
         text_gone : Wait until this text DISAPPEARS (e.g. 'Loading...').
     """
@@ -485,49 +136,6 @@ async def wait_for(
     return result.content[0].text
 
 
-async def resize_window(session: ClientSession, width: int, height: int) -> str:
-    """
-    Resizes the browser window.
-    Useful to standardize screenshot dimensions across sessions.
-
-    Args:
-        width  : Width in pixels. (REQUIRED)
-        height : Height in pixels. (REQUIRED)
-    """
-    result = await session.call_tool(
-        "browser_resize",
-        arguments={"width": width, "height": height}
-    )
-    return result.content[0].text
-
-
-async def handle_dialog(
-    session: ClientSession,
-    accept: bool,
-    prompt_text: Optional[str] = None
-) -> str:
-    """
-    Responds to a native JavaScript dialog (alert, confirm, prompt).
-     Deletion confirm() dialogs must be intercepted by guardrails.py
-    before reaching this function — never auto-accept destructive dialogs.
-
-    Args:
-        accept      : True = click OK. False = click Cancel. (REQUIRED)
-        prompt_text : Text to type if the dialog is a prompt() asking for input.
-    """
-    args: dict = {"accept": accept}
-    if prompt_text:
-        args["promptText"] = prompt_text
-
-    result = await session.call_tool("browser_handle_dialog", arguments=args)
-    return result.content[0].text
-
-
-# ─────────────────────────────────────────────
-#  ADVANCED / UNSAFE
-#  hese tools MUST be blocked in guardrails.py
-# ─────────────────────────────────────────────
-
 async def evaluate_js(
     session: ClientSession,
     function: str,
@@ -535,8 +143,9 @@ async def evaluate_js(
     filename: Optional[str] = None
 ) -> str:
     """
-    UNSAFE — Executes arbitrary JavaScript in the page.
-    Reserved for internal debugging only. Never exposed to the Planner.
+    Executes arbitrary JavaScript in the page.
+    Used internally by the Actor for Guide Mode spotlight animations.
+    Never exposed to the Planner.
 
     Args:
         function : JS function code to execute. (REQUIRED)
@@ -553,13 +162,104 @@ async def evaluate_js(
     return result.content[0].text
 
 
+# ─────────────────────────────────────────────
+#  PIPELINE GATEWAY
+#  Single entry-point for the Actor to execute
+#  any action chosen by the Planner.
+# ─────────────────────────────────────────────
 
-
-
-async def close_browser(session: ClientSession) -> str:
+async def dispatch_action(
+    session: ClientSession,
+    tool_name: str,
+    arguments: dict
+) -> tuple[str, bool]:
     """
-    Closes the browser and releases all resources.
-    No parameters.
+    Executes any Planner-selected action tool via MCP.
+    Returns (result_text, is_error).
+
+    Args:
+        session   : Active MCP ClientSession.
+        tool_name : Tool name chosen by the Planner (e.g. 'browser_click').
+        arguments : Arguments dict from the Planner step.
     """
-    result = await session.call_tool("browser_close", arguments={})
-    return result.content[0].text
+    result   = await session.call_tool(name=tool_name, arguments=arguments)
+    text     = result.content[0].text if result.content else "Command executed with no text output."
+    is_error = getattr(result, "isError", False)
+    return text, is_error
+
+
+# ─────────────────────────────────────────────
+#  PLANNER INTERFACE
+#  Single source of truth for action tool
+#  descriptions injected into the Planner prompt.
+# ─────────────────────────────────────────────
+
+TOOL_DESCRIPTIONS = """
+=== TOOLS (always available) ===
+
+- browser_click: Use to click a SINGLE interactive element (button, link, checkbox, radio).
+  Do NOT use for typing text (see browser_type) or for revealing hover-only menus (see browser_hover).
+  Use the optional "force": true ONLY as a last resort if a previous click failed with
+  "intercepts pointer events" on a checkbox/toggle. Do NOT use it to bypass popups.
+  Arguments: {"target": "<ref>", "element": "<human_description>", "force": false}
+
+- browser_type: Use to type text into ONE input field.
+  For 2+ fields visible in the same form, prefer browser_fill_form — more reliable and token-efficient.
+  Set "submit": true to press Enter automatically after typing (avoids a separate press_key call).
+  Set "slowly": true to type character by character (for live autocomplete / JS keystroke handlers).
+  Arguments: {"target": "<ref>", "text": "<text_to_type>", "element": "<human_description>", "submit": false, "slowly": false}
+
+- browser_fill_form: Use ONLY when 2+ fields are visible in the same form on the current page.
+  Do NOT use for a single field — use browser_type instead.
+  Supports types: textbox, checkbox (value: "true"/"false" as string), radio, combobox (value: displayed option text).
+  Arguments: {"fields": [{"target": "<ref>", "name": "<field_name>", "type": "<textbox|checkbox|radio|combobox>", "value": "<value>", "element": "<human_description>"}]}
+
+- browser_press_key: Use for special keys (Enter, Escape, Tab, ArrowDown) or combinations ("Shift+P", "Control+A").
+  ALWAYS use Enter after typing in a search bar instead of clicking a search/submit icon — more reliable.
+  Arguments: {"key": "<Enter|Escape|Tab|Shift+P|...>"}
+
+- browser_wait_for: Use to pause when the page is transitioning or an action is still executing
+  (e.g. button says "Loading...", "Saving..."). Use condition-based waits over fixed delays.
+  Arguments: {"text": "<text_to_wait_for>"} OR {"textGone": "<text_that_should_disappear>"}
+
+- browser_select_option: Use ONLY for native HTML <select> dropdowns.
+  Do NOT use for custom JS-based dropdowns (styled divs) — use browser_click on the option instead.
+  Arguments: {"target": "<ref>", "values": ["<option_value>"], "element": "<human_description>"}
+
+- browser_hover: Use ONLY to reveal a CSS :hover-triggered menu (e.g. navigation bar submenu)
+  BEFORE clicking an item inside it. Never use as a substitute for browser_click.
+  Arguments: {"target": "<ref>", "element": "<human_description>"}
+
+- browser_drag: Use ONLY to move an item between positions on the SAME page
+  (e.g. Kanban card between columns, list reordering). Not for external file uploads.
+  Arguments: {"startTarget": "<ref>", "endTarget": "<ref>", "startElement": "<desc>", "endElement": "<desc>"}
+
+- browser_file_upload: Use immediately AFTER clicking a "Choose file" / "Upload" button that
+  opened an OS file dialog. Do NOT call this speculatively before that click.
+  Arguments: {"paths": ["<file_path>"]}
+
+- browser_drop: Use ONLY for dropping external OS-level files or data onto a page element
+  (distinct from browser_drag which moves elements WITHIN the page).
+  Arguments: {"target": "<ref>", "paths": ["<file_path>"]}
+
+- browser_resize: Use ONLY if the task explicitly requires a specific viewport size
+  (e.g. "check the mobile view"). Rare — do not use for normal navigation tasks.
+  Arguments: {"width": <int>, "height": <int>}
+
+- browser_finish_subgoal: Use when the current SUBGOAL is clearly resolved — either
+  100% done on screen, OR confirmed impossible (e.g. search returned 0 results).
+  MUST provide both fields:
+  - status: "success" if achieved, "impossible" if data does not exist.
+  - reason: Short sentence explaining what you observed on screen.
+  Arguments: {"status": "<success|impossible>", "reason": "<what you observed>"}
+
+- ask_user: Use ONLY when a REQUIRED form field value is NOT mentioned in the subgoal or task.
+  NEVER use for optional fields — leave those as default.
+  NEVER use if the value is already stated in the subgoal.
+  Arguments: {"question": "<clear, specific question for the user>", "field": "<field name>"}
+"""
+
+
+def get_tool_descriptions() -> str:
+    """Returns the action tool descriptions to inject into the Planner system prompt."""
+    return TOOL_DESCRIPTIONS
