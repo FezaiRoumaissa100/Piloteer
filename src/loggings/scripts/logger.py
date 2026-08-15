@@ -9,13 +9,13 @@ def _write_event(row: dict) -> None:
         conn = get_connection()
         conn.execute("""
             INSERT INTO events (
-                trace_id, subgoal_id, step_id,
+                trace_id, user_task, subgoal_id, step_id,
                 node_name, phase, status,
                 timestamp_start, timestamp_end, duration_ms,
                 gen_ai_model, gen_ai_input_tokens, gen_ai_output_tokens,
                 payload, screenshot
             ) VALUES (
-                :trace_id, :subgoal_id, :step_id,
+                :trace_id, :user_task, :subgoal_id, :step_id,
                 :node_name, :phase, :status,
                 :timestamp_start, :timestamp_end, :duration_ms,
                 :gen_ai_model, :gen_ai_input_tokens, :gen_ai_output_tokens,
@@ -38,15 +38,14 @@ async def log_event(
     gen_ai_output_tokens: int = None,
     payload: dict = None,
     screenshot: str = None,
-    # Legacy aliases kept for backward compatibility — ignored
     screenshot_before: str = None,
     screenshot_after: str = None,
 ) -> None:
-    # Accept old callers passing screenshot_before
     if screenshot is None and screenshot_before is not None:
         screenshot = screenshot_before
 
     trace_id = state.get("trace_id", "unknown_trace")
+    user_task = state.get("user_task", "")
     subgoal_id = f"subgoal_{state.get('current_subgoal_index', 0):03d}"
     step_id = f"{subgoal_id}_step_{state.get('step_count', 0):03d}"
 
@@ -57,13 +56,14 @@ async def log_event(
             ts_start = datetime.fromisoformat(timestamp_start)
             ts_end = datetime.fromisoformat(timestamp_end)
             duration_ms = int((ts_end - ts_start).total_seconds() * 1000)
-        except:
+        except Exception:
             pass
 
     payload_str = json.dumps(payload or {}, ensure_ascii=False)
 
     row = {
         "trace_id": trace_id,
+        "user_task": user_task,
         "subgoal_id": subgoal_id,
         "step_id": step_id,
         "node_name": node_name,

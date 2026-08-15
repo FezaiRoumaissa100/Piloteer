@@ -19,13 +19,16 @@ from typing import Optional
 #  Server connection
 # ─────────────────────────────────────────────
 
+import os
+
 SERVER_PARAMS = StdioServerParameters(
     command="npx",
     args=[
         "@playwright/mcp@latest",
         "--caps=devtools",
         "--timeout-action=20000", 
-    ]
+    ],
+    env={**os.environ, "HEADLESS": "false"}
 )
 
 

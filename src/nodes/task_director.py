@@ -25,9 +25,9 @@ async def task_director_node(state: SharedState) -> dict:
     task_status = state.get("task_status", "pending")
 
     
-    # --- DEBUG: Print Context for Security Testing ---
+    # --- DEBUG: Print Context ---
     if not subgoals:
-        print("\n[TaskDirector] 🛡️ RAG SaaS Context Received:")
+        print("\n[TaskDirector] RAG SaaS Context Received:")
         print(saas_context)
         print("-" * 50)
     # -------------------------------------------------
@@ -41,7 +41,7 @@ async def task_director_node(state: SharedState) -> dict:
         response, usage = await ask_llm_json(
             prompt=prompt,
             system_prompt=FINALIZE_SYSTEM_PROMPT,
-            model="gemini-2.5-flash"
+            model="gemini-3.5-flash"
         )
         final_message = response.get("final_message", "Task completed.")
        
@@ -66,17 +66,17 @@ async def task_director_node(state: SharedState) -> dict:
         response, usage = await ask_llm_json(
             prompt=prompt,
             system_prompt=UNDERSTAND_SYSTEM_PROMPT,
-            model="gemini-2.5-flash"
+            model="gemini-3.5-flash"
         )
 
         mode   = response.get("mode", "EXECUTE").upper()
         reasoning = response.get("reasoning", "No reasoning provided")
+        answer = response.get("answer", "")
         
-        print(f"\n[TaskDirector]  Reasoning: {reasoning}")
+        print(f"\n[TaskDirector] Reasoning: {reasoning}")
        
 
         if mode in ("QUESTION", "IMPOSSIBLE"):
-            answer = response.get("answer", "I was unable to process this request.")
             print(f"[TaskDirector]  Final Answer: {answer}\n")
         
             

@@ -17,26 +17,7 @@ class OutputChannel(ABC):
 
 
 
-class TerminalChannel(OutputChannel):
 
-    async def send(self, message: str, msg_type: str = "agent") -> None:
-        prefix = {
-            "agent":    "[Agent]",
-            "planner":  "[Planner]",
-            "validator":"[Validator]",
-            "success":  "[✅]",
-            "error":    "[❌]",
-        }.get(msg_type, "[Agent]")
-        print(f"{prefix} {message}")
-
-    async def ask(self, question: str) -> str:
-        print(f"\n[Agent] ❓ {question}")
-        return input("You : ").strip()
-
-
-# ──────────────────────────────────────────────
-# WebSocket implementation (used by server.py)
-# ──────────────────────────────────────────────
 class WebSocketChannel(OutputChannel):
     """
     Wraps a FastAPI WebSocket connection.
@@ -49,7 +30,7 @@ class WebSocketChannel(OutputChannel):
         self._disconnected: bool = False
 
     async def send(self, message: str, msg_type: str = "agent") -> None:
-        """Send a message — silently ignore if the client has disconnected."""
+        """Send a message  """
         if self._disconnected:
             return
         try:
@@ -67,11 +48,8 @@ class WebSocketChannel(OutputChannel):
         await self.send(question, "ask_user")
         if self._disconnected:
             return ""
-        try:
-            answer = await asyncio.wait_for(self._reply_queue.get(), timeout=120)
-            return answer
-        except asyncio.TimeoutError:
-            return ""
+        answer = await self._reply_queue.get()
+        return answer
 
     async def receive_reply(self, text: str) -> None:
         """Called by server.py whenever the browser sends a message during a task."""

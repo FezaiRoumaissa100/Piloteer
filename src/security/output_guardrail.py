@@ -13,7 +13,7 @@ from security.embedder import get_security_collection, embed_text
 
 
 MONITORED_TOOLS = {"browser_click", "browser_navigate"}
-RISK_THRESHOLD  = 0.65   # higher = less sensitive, lower = more sensitive
+RISK_THRESHOLD  = 0.82   # raised to avoid false positives on benign navigation
 
 
 async def output_guardrail_node(state: SharedState) -> dict:
@@ -52,12 +52,9 @@ async def output_guardrail_node(state: SharedState) -> dict:
 
     #Verdict
     if risk_score >= RISK_THRESHOLD:
-        print(f"[OutputGuardrail]   HITL triggered (score={risk_score:.2f})")
-        question = (
-            f" SECURITY ALERT — Risky action detected (risk score: {risk_score:.2f}/1.00)\n"
-            f"The agent wants to: \"{step.get('description', 'unknown action')}\"\n"
-            f"Type 'allow' to authorize or 'deny' to block this action."
-        )
+        action_desc = step.get('description', 'perform a sensitive action')
+        print(f"[OutputGuardrail] ⚠️ HITL triggered (score={risk_score:.2f}) for action: {action_desc}")
+        question = f"HITL:{action_desc}"
         return {
             "security_verdict":  "HITL",
             "security_score":    risk_score,

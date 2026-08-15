@@ -4,8 +4,10 @@ from orchestration.state import SharedState
 async def ask_user_node(state: SharedState) -> dict:
     
     security_verdict = state.get("security_verdict")
-    if security_verdict == "HITL":
-        question = state.get("pending_question")
+    # Use pending_question if set (HITL path), else extract from planner step
+    pending = state.get("pending_question")
+    if pending:
+        question = pending
     else:
         current_step = state.get("current_step") or {}
         question = current_step.get("arguments", {}).get("question", "Please provide the required information.")
