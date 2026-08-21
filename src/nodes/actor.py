@@ -72,12 +72,22 @@ def make_actor_node(session: ClientSession):
             # --- GUIDE MODE VISUAL SPOTLIGHT ---
             cleanup_required = False
             
-            if state.get("execution_mode") == "GUIDE" and step["tool"] in ["browser_click", "browser_type", "browser_hover", "browser_select_option"]:
+            if state.get("execution_mode") == "GUIDE" and step["tool"] in ["browser_click", "browser_fill_form", "browser_type", "browser_hover", "browser_select_option"]:
                 description = step.get("description", "Action en cours...")
-                target_ref = arguments.get("target")
+                
+                # Retrieve the target element to spotlight
+                target_ref = None
+                if step["tool"] == "browser_fill_form":
+                    fields = arguments.get("fields", [])
+                    if fields:
+                        target_ref = fields[0].get("target")  
+                else:
+                    target_ref = arguments.get("target")
+
                 channel = state.get("channel")
                 if channel:
                     await channel.send(description, "agent")
+                    
                 if target_ref:
                     js_script = get_spotlight_js(description)
 

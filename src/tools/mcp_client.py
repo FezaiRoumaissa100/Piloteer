@@ -32,17 +32,9 @@ SERVER_PARAMS = StdioServerParameters(
 )
 
 
-# ─────────────────────────────────────────────
-#  PERCEPTION
-# ─────────────────────────────────────────────
 
-async def get_snapshot(
-    session: ClientSession,
-    target: Optional[str] = None,
-    depth: Optional[int] = None,
-    boxes: bool = False,
-    filename: Optional[str] = None
-) -> str:
+
+async def get_snapshot(session: ClientSession,target: Optional[str] = None,depth: Optional[int] = None,boxes: bool = False,filename: Optional[str] = None) -> str:
     """
     Returns the accessibility tree of the current page (YAML format).
     This is the primary perception tool for the agent — refs returned here
@@ -69,14 +61,7 @@ async def get_snapshot(
     return result.content[0].text
 
 
-async def take_screenshot(
-    session: ClientSession,
-    image_type: str = "png",
-    scale: str = "css",
-    target: Optional[str] = None,
-    full_page: bool = False,
-    filename: Optional[str] = None
-) -> str:
+async def take_screenshot(session: ClientSession,image_type: str = "png",scale: str = "css",target: Optional[str] = None,full_page: bool = False,filename: Optional[str] = None) -> str:
     args: dict = {"type": image_type, "scale": scale}
     if target:
         args["target"] = target
@@ -92,9 +77,7 @@ async def take_screenshot(
     return getattr(content, "text", "") or ""
 
 
-# ─────────────────────────────────────────────
-#  NAVIGATION
-# ─────────────────────────────────────────────
+
 
 async def navigate(session: ClientSession, url: str) -> str:
     """
@@ -108,16 +91,9 @@ async def navigate(session: ClientSession, url: str) -> str:
     return result.content[0].text
 
 
-# ─────────────────────────────────────────────
-#  UTILITIES
-# ─────────────────────────────────────────────
 
-async def wait_for(
-    session: ClientSession,
-    time: Optional[float] = None,
-    text: Optional[str] = None,
-    text_gone: Optional[str] = None
-) -> str:
+
+async def wait_for(session: ClientSession,time: Optional[float] = None,text: Optional[str] = None,text_gone: Optional[str] = None) -> str:
     """
     Waits for a condition before continuing.
     Used by the Actor after navigation actions to let the page stabilize.
@@ -165,17 +141,9 @@ async def evaluate_js(
     return result.content[0].text
 
 
-# ─────────────────────────────────────────────
-#  PIPELINE GATEWAY
-#  Single entry-point for the Actor to execute
-#  any action chosen by the Planner.
-# ─────────────────────────────────────────────
 
-async def dispatch_action(
-    session: ClientSession,
-    tool_name: str,
-    arguments: dict
-) -> tuple[str, bool]:
+
+async def dispatch_action(session: ClientSession,tool_name: str,arguments: dict) -> tuple[str, bool]:
     """
     Executes any Planner-selected action tool via MCP.
     Returns (result_text, is_error).
@@ -191,11 +159,7 @@ async def dispatch_action(
     return text, is_error
 
 
-# ─────────────────────────────────────────────
-#  PLANNER INTERFACE
-#  Single source of truth for action tool
-#  descriptions injected into the Planner prompt.
-# ─────────────────────────────────────────────
+
 
 TOOL_DESCRIPTIONS = """
 === TOOLS (always available) ===
@@ -250,7 +214,7 @@ TOOL_DESCRIPTIONS = """
   Arguments: {"width": <int>, "height": <int>}
 
 - browser_finish_subgoal: Use when the current SUBGOAL is clearly resolved — either
-  100% done on screen, OR confirmed impossible (e.g. search returned 0 results).
+  100 % done on screen, OR confirmed impossible (e.g. search returned 0 results).
   MUST provide both fields:
   - status: "success" if achieved, "impossible" if data does not exist.
   - reason: Short sentence explaining what you observed on screen.

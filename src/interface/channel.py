@@ -39,9 +39,7 @@ class WebSocketChannel(OutputChannel):
                 "content": message
             })
         except (WebSocketDisconnect, Exception):
-            # Client closed the tab — mark as disconnected and continue pipeline
             self._disconnected = True
-            print(f"[Channel] WebSocket disconnected. Continuing pipeline silently.")
 
     async def ask(self, question: str) -> str:
         """Ask a question — return empty string if client has disconnected."""

@@ -103,14 +103,7 @@ Return ONLY a valid JSON object — no markdown, no text outside JSON:
 """
 
 
-def validator_content_prompt(
-    snapshot: str,
-    step: dict,
-    current_subgoal: str,
-    action_result: str,
-    current_url: str = "",
-    is_error: bool = False
-) -> str:
+def validator_content_prompt(snapshot: str,step: dict,current_subgoal: str,action_result: str,current_url: str = "",is_error: bool = False) -> str:
     """Dynamic prompt — changes every step (new snapshot, URL, action result)."""
 
     if is_error:

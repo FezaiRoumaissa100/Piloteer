@@ -16,7 +16,8 @@ PLANNER_RULES = """
 4. Do NOT chain multiple actions - one step per response.
 5. Consider the MEMORY (past actions) to avoid repeating failed actions.
 6. FOREGROUND & OBSTRUCTION RULE: Always analyze the accessibility tree proactively for active overlays, modals, cookie banners, or loading screens, and handle them first. If MEMORY shows a 'Timeout' or 'Click intercepted' error, it means an unexpected popup or overlay blocked your previous action. DO NOT repeat the action immediately - locate the blocking element in the tree and resolve it first.
-7. ASK USER RULE (Data & Clarification): The `ask_user` tool is not only for missing form fields. Use it if you are stuck, if the task is ambiguous, or if you need the user to clarify an instruction.
+7. ASK USER RULE (Data & Clarification): The `ask_user` tool is not only for missing form fields. Use it if you are stuck, if the task is ambiguous, or if you need the user to clarify an instruction.do not try to handle ambiguous instructions or missing data by guessing. If you are unsure, ask the user for clarification or the missing data.
+8.you msut not try to achive the subgaol by hallucinating if the user task clearly shows somthing not achievable or cause proprobleme ask him .
 8. USER ANSWER INTERPRETATION: When the user replies to `ask_user`, they might provide the data you asked for, OR they might give a new instruction (e.g., "ignore this", "click on X instead", "cancel this step"). You MUST analyze their intent. If they tell you to skip or abandon the step, use `browser_finish_subgoal` with status 'impossible'.
 9. EMPTY TREE / LOADING RULE: If the provided accessibility tree is empty or contains 0 interactive [ref=] elements, the page is currently rendering or transitioning. Use browser_wait_for to wait for the page to stabilize rather than returning null or failing.
 """
@@ -45,12 +46,7 @@ CRITICAL — Adapt your narration intelligently based on the MEMORY of past acti
    → Show reasoning — make the user understand the logic behind the change.
    → Example style: "Clicking the button directly didn't work, so instead we'll open the parent menu first to reach the same destination."
 
-STYLE RULES:
-- Always 1 to 2 sentences maximum.
-- Never say "I am clicking because..." — always use "we".
-- Never repeat the tool name or ref ID in the description.
-- Be specific about WHERE we are and WHERE we are going, not just WHAT we are doing.
-"""
+   4 if the hints or the user answer provides indications about user's lanaguage, adapt your narration to that language"""
 
 PLANNER_OUTPUT_FORMAT = """
 === OUTPUT FORMAT ===
@@ -180,39 +176,38 @@ Example 6: Navigation without Explicit Hints (Standard UX Heuristic)
 """
 
 
-def planner_system_prompt(snapshot: str, subgoal: str, saas_context: str, execution_mode: str = "EXECUTE") -> str:
+def planner_system_prompt(execution_mode: str = "EXECUTE") -> str:
     tool_section = get_tool_descriptions()
     narration_rule = GUIDE_NARRATION_RULE if execution_mode == "GUIDE" else ""
 
     return f"""
 {PLANNER_ROLE}
-
 {tool_section}
-
 {PLANNER_RULES}
 {narration_rule}
-=== TARGET SAAS CONTEXT ===
-{saas_context}
-
 {PLANNER_OUTPUT_FORMAT}
 """
 
 
-def planner_content_prompt(snapshot: str, current_subgoal: str, memory_str: str, hints: str = "", user_answer: str = "") -> str:
+def planner_content_prompt(saas_info : str,snapshot: str, current_subgoal: str, memory_str: str, hints: str = "", user_answer: str = "") -> str:
     """Dynamic prompt — changes every step (new snapshot)."""
-    hints_section = f"=== HINTS FROM HIGH-LEVEL PLANNER ===\n{hints}\n" if hints else ""
+    hints_section = f"=== HINTS that can help with the current subgoal ===\n{hints}\n" if hints else ""
     user_answer_section = f"""=== USER ANSWER ===
 The user responded to your previous question with: "{user_answer}"
 Analyze this response carefully. Is it the data you requested, or is it a new instruction/correction? Adapt your next action accordingly.
 """ if user_answer else ""
     return f"""
-=== CURRENT PAGE ACCESSIBILITY TREE ===
-{snapshot}
-
 === CURRENT SUBGOAL ===
 {current_subgoal}
 
-{hints_section}{user_answer_section}=== MEMORY (PAST ACTIONS & VALIDATOR FEEDBACK) ===
+=== SAAS INFORMATIONS ===
+{saas_info}
+
+=== CURRENT PAGE ACCESSIBILITY TREE ===
+{snapshot}
+{hints_section}
+{user_answer_section}
+=== MEMORY (PAST ACTIONS & VALIDATOR FEEDBACK) ===
 {memory_str}
 
 What is the single next action to take?

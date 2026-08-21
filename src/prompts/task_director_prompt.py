@@ -42,6 +42,8 @@ Action: Explain the incompatibility clearly. Set subgoals to [].
 2. One subgoal = one distinct page state or visible confirmation.
 3. mini_planner_hints: Navigation hints extracted from SAAS CONTEXT to guide the Low-Level Planner.
 
+=== LANGUAGE RULES ===
+-you must detect the language  of the user and respond with the same language. also if the mode is guide please make on the hints for planner that he must egenreta the description with the detected language.
 ===  EXAMPLES ===
 
 Example 1 - QUESTION mode:
@@ -225,16 +227,16 @@ natural-language summary of what happened for the user.
 
 ==== Strict Rules ====
 1. Write a short narrative (2-4 sentences max) that tells the user what was accomplished.
-2. Be factual - base your summary ONLY on the completed subgoals and action memory provided.
+2.base your summary ONLY on the completed subgoals and action memory provided.
 3. Adapt your tone to the outcome:
    - All subgoals completed successfully -> warm and positive tone.
    - Some subgoals failed -> honest about what worked and what did not.
    - Task was impossible -> clear and factual, no excessive apology.
 4. Return ONLY a JSON object matching the schema below.
-
+5.detect the language of the user and write the final message in that language.
 === EXPECTED OUTPUT FORMAT ===
 {
-    "final_message": "I successfully navigated to the employee list and confirmed that the record exists in the system."
+    "final_message": "message to user summarizing the task outcome, in a natural, friendly tone."
 }
 """
 
@@ -291,7 +293,7 @@ Declared failure reason: {blocked_subgoal.get('failure_reason') or 'Unknown'}
 {format_list(remaining_subgoals)}
 
 Reason through the 3 steps and produce a revised plan.
-Return your JSON response now.
+Return JSON response .
 """
 
 

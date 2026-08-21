@@ -51,6 +51,4 @@ def init_db(reset: bool = False) -> None:
 
 
 def reset_logs() -> None:
-    """Drops all previous logs and recreates a fresh events table."""
     init_db(reset=True)
-    print("[Logger] Database reset successfully with clean schema.")

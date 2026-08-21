@@ -1,7 +1,6 @@
 from orchestration.state import SharedState
 from tools.client_gemini import ask_llm_json
 from prompts.planner_prompt import planner_system_prompt, planner_content_prompt
-from utils.perception.tree_pruner import prune_snapshot
 from loggings.scripts.logger import log_event
 import asyncio
 from datetime import datetime, timezone
@@ -22,7 +21,6 @@ async def planner_node(state: SharedState) -> dict:
 
     snapshot = raw_snapshot
 
-   
     memory_str = "No past actions yet."
     if memory:
         memory_str = "\n".join(
@@ -31,14 +29,13 @@ async def planner_node(state: SharedState) -> dict:
         )
 
     # Build prompts
-    system_prompt = planner_system_prompt(snapshot, current_subgoal_desc, saas_context, execution_mode=execution_mode)
-    prompt        = planner_content_prompt(snapshot, current_subgoal_desc, memory_str, hints=current_hints, user_answer=user_answer)
+    system_prompt = planner_system_prompt(execution_mode=execution_mode)
+    prompt        = planner_content_prompt(saas_info=saas_context, snapshot=snapshot, current_subgoal=current_subgoal_desc, memory_str=memory_str, hints=current_hints, user_answer=user_answer)
 
     # Call Gemini
     response, usage = await ask_llm_json(
         prompt=prompt,
-        system_prompt=system_prompt,
-        model="gemini-3.5-flash"
+        system_prompt=system_prompt
     )
 
     
@@ -56,7 +53,6 @@ async def planner_node(state: SharedState) -> dict:
             "arguments": {"time": 3},
             "description": "Wait  for the page to load before retrying"
         }
-        print("\n[Planner] Fallback: No step returned, waiting 3s.")
     else:
         print(f"\n[Planner] Reasoning: {reasoning}")
         print(f"[Planner] Chosen Action: {step.get('tool')} - {step.get('arguments')}")

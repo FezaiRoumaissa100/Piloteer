@@ -13,7 +13,7 @@ _EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "gemini-embedding-001")
 _embd_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 _chroma_client = chromadb.PersistentClient(path=_RAG_DB_PATH)
 
-# ── Collection mapping per SaaS domain / port ────────────────────────────────────────
+
 _URL_TO_COLLECTION = {
     "orangehrm": "orangehrm_docs",
     "linear":    "saas_docs",

@@ -22,7 +22,10 @@ _chroma_client = chromadb.PersistentClient(path=_DB_PATH)
 
 
 def get_security_collection():
-    return _chroma_client.get_or_create_collection(_COLLECTION_NAME)
+    return _chroma_client.get_or_create_collection(
+        _COLLECTION_NAME,
+        metadata={"hnsw:space": "cosine"}
+    )
 
 
 def embed_text(text: str) -> list[float]:

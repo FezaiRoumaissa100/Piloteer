@@ -31,7 +31,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Ensure screenshots folder exists and mount it as a static route
 SCREENS_DIR.mkdir(parents=True, exist_ok=True)
 app.mount("/screenshots", StaticFiles(directory=str(SCREENS_DIR)), name="screenshots")
 
@@ -43,7 +42,7 @@ async def root():
     return {"status": "Piloteer FastAPI WebSocket Backend is running"}
 
 
-# ── Admin Replay API Endpoints ───────────────────────────────────────────────
+# admin Replay API Endpoint
 
 @app.get("/api/admin/traces")
 async def get_admin_traces():
@@ -129,7 +128,7 @@ async def get_admin_analytics(trace_id: str = None):
                 "missions_summary": []
             }
 
-        # Calculate KPIs
+        
         unique_traces = list(set(e["trace_id"] for e in events))
         total_in = sum(e["gen_ai_input_tokens"] or 0 for e in events)
         total_out = sum(e["gen_ai_output_tokens"] or 0 for e in events)
@@ -240,7 +239,7 @@ async def get_admin_analytics(trace_id: str = None):
         return {"error": str(e)}
 
 
-# ── WebSocket Endpoint ───────────────────────────────────────────────────────
+
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):

@@ -1,11 +1,9 @@
 import json
 from orchestration.state import SharedState
-from tools.client_gemini import ask_llm, ask_llm_json
+from tools.client_gemini import ask_llm_json
 from prompts.task_director_prompt import (
     understand_task_prompt, revise_subgoal_prompt, finalize_task_prompt,
-    UNDERSTAND_SYSTEM_PROMPT, REVISE_SYSTEM_PROMPT, FINALIZE_SYSTEM_PROMPT
-)
-from utils.rag.retrieve import get_context
+    UNDERSTAND_SYSTEM_PROMPT, REVISE_SYSTEM_PROMPT, FINALIZE_SYSTEM_PROMPT)
 from loggings.scripts.logger import log_event
 import asyncio
 from datetime import datetime, timezone
@@ -13,26 +11,12 @@ from datetime import datetime, timezone
 async def task_director_node(state: SharedState) -> dict:
     #logging
     timestamp_start = datetime.now(timezone.utc).isoformat()
-
     user_task = state["user_task"]
-    current_url = state.get("current_url", "")
-    
-    
-    saas_context = state.get("saas_context", "no information")
-            
+    saas_context = state.get("saas_context", "no information")       
     subgoals = state.get("subgoals", [])
     current_index = state.get("current_subgoal_index", 0)
     task_status = state.get("task_status", "pending")
 
-    
-    # --- DEBUG: Print Context ---
-    if not subgoals:
-        print("\n[TaskDirector] RAG SaaS Context Received:")
-        print(saas_context)
-        print("-" * 50)
-    # -------------------------------------------------
-
-    
 
     #Mode: Task Completion or Impossibility
     if task_status in ("completed", "task_impossible") or state.get("step_count", 0) >= 30:
@@ -40,11 +24,10 @@ async def task_director_node(state: SharedState) -> dict:
         prompt = finalize_task_prompt(user_task, subgoals, memory)
         response, usage = await ask_llm_json(
             prompt=prompt,
-            system_prompt=FINALIZE_SYSTEM_PROMPT,
-            model="gemini-3.5-flash"
+            system_prompt=FINALIZE_SYSTEM_PROMPT
         )
         final_message = response.get("final_message", "Task completed.")
-       
+        
         asyncio.create_task(log_event(
             state=state, node_name="task_director", phase="finalize",
             timestamp_start=timestamp_start, gen_ai_model=usage.get("model")if isinstance(usage, dict) else None,
@@ -58,30 +41,19 @@ async def task_director_node(state: SharedState) -> dict:
             "task_status": "finalized"
         }
 
-
     #Mode: Initial Understanding
     if not subgoals:
         conversation_history = state.get("conversation_history", [])
         prompt = understand_task_prompt(user_task, saas_context, conversation_history)
         response, usage = await ask_llm_json(
             prompt=prompt,
-            system_prompt=UNDERSTAND_SYSTEM_PROMPT,
-            model="gemini-3.5-flash"
+            system_prompt=UNDERSTAND_SYSTEM_PROMPT
         )
-
         mode   = response.get("mode", "EXECUTE").upper()
-        reasoning = response.get("reasoning", "No reasoning provided")
         answer = response.get("answer", "")
-        
-        print(f"\n[TaskDirector] Reasoning: {reasoning}")
-       
-
         if mode in ("QUESTION", "IMPOSSIBLE"):
-            print(f"[TaskDirector]  Final Answer: {answer}\n")
-        
-            
             asyncio.create_task(log_event(
-                state=state, node_name="task_director", phase="understand_fast",
+                state=state, node_name="task_director", phase="understand",
                 timestamp_start=timestamp_start, gen_ai_model=usage.get("model") if isinstance(usage, dict) else None,
                 gen_ai_input_tokens=usage.get("input_tokens") if isinstance(usage, dict) else None,
                 gen_ai_output_tokens=usage.get("output_tokens") if isinstance(usage, dict) else None,
@@ -93,7 +65,6 @@ async def task_director_node(state: SharedState) -> dict:
                 "task_status": "finalized"
             }
 
-    
         channel = state.get("channel")
         if channel:
             if mode == "GUIDE":
@@ -112,11 +83,6 @@ async def task_director_node(state: SharedState) -> dict:
                 "attempts": 0,
                 "failure_reason": None
             })
-
-        print("\n[TaskDirector] Generated Subgoals:")
-        for sg in generated_subgoals:
-            print(f"  - {sg['description']}")
-        print("-" * 50)
         asyncio.create_task(log_event(
             state=state, node_name="task_director", phase="understand",
             timestamp_start=timestamp_start, gen_ai_model=usage.get("model") if isinstance(usage, dict) else None,
@@ -133,6 +99,19 @@ async def task_director_node(state: SharedState) -> dict:
             
         }
 
+    # Guard: if index is out of bounds, all subgoals are done/impossible → finalize
+    if current_index >= len(subgoals):
+        memory = state.get("memory", [])
+        prompt = finalize_task_prompt(user_task, subgoals, memory)
+        response, usage = await ask_llm_json(
+            prompt=prompt,
+            system_prompt=FINALIZE_SYSTEM_PROMPT
+        )
+        final_message = response.get("final_message", "Task completed.")
+        return {
+            "final_message": final_message,
+            "task_status": "finalized"
+        }
 
     # Mode 2: Revision on Escalation
     blocked_subgoal = subgoals[current_index]
@@ -144,12 +123,9 @@ async def task_director_node(state: SharedState) -> dict:
     
     response, usage = await ask_llm_json(
         prompt=prompt,
-        system_prompt=REVISE_SYSTEM_PROMPT,
-        model="gemini-3.5-flash"
+        system_prompt=REVISE_SYSTEM_PROMPT
     )
-
     new_subgoals_data = response.get("new_subgoals", [])
-
     if not new_subgoals_data:
         asyncio.create_task(log_event(
             state=state, node_name="task_director", phase="revise_impossible",

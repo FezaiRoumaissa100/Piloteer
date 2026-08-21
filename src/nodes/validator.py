@@ -57,8 +57,7 @@ async def validator_node(state: SharedState) -> dict:
     )
     response, usage = await ask_llm_json(
         prompt=prompt,
-        system_prompt=VALIDATOR_INSTRUCTIONS,
-        model="gemini-3.5-flash"
+        system_prompt=VALIDATOR_INSTRUCTIONS
     )
 
     if isinstance(response, dict):
