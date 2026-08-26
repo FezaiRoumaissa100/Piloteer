@@ -8,3 +8,5 @@ node_modules/
 .DS_Store
 .playwright-mcp/
 rag_db/
+ai_core/loggings/database/
+ai_core/loggings/screenshots/

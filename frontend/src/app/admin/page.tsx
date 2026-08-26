@@ -1,7 +1,26 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+/** Design reference: Piloteer Admin Hub — exact white dashboard composition from the supplied screenshot. */
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import {
+  Activity,
+  ArrowLeft,
+  BarChart3,
+  Check,
+  ChevronDown,
+  ChevronRight,
+  CircleAlert,
+  Clock3,
+  Database,
+  Flag,
+  ListTree,
+  Play,
+  RefreshCw,
+  ShieldCheck,
+  Target,
+  TrendingUp,
+} from "lucide-react";
 
 interface TraceSummary {
   trace_id: string;
@@ -13,7 +32,6 @@ interface TraceSummary {
   total_input_tokens: number | null;
   total_output_tokens: number | null;
 }
-
 interface EventStep {
   event_id: number;
   trace_id: string;
@@ -33,7 +51,6 @@ interface EventStep {
   screenshot: string | null;
   screenshot_url: string | null;
 }
-
 interface NodeStat {
   node_name: string;
   calls: number;
@@ -44,7 +61,6 @@ interface NodeStat {
   total_duration_ms: number;
   success_rate: number;
 }
-
 interface MissionSummary {
   trace_id: string;
   user_task: string;
@@ -55,7 +71,6 @@ interface MissionSummary {
   duration_s: number;
   success_rate: number;
 }
-
 interface AnalyticsData {
   kpis: {
     missions_count: number;
@@ -71,706 +86,822 @@ interface AnalyticsData {
   missions_summary: MissionSummary[];
 }
 
+type Tone = "green" | "blue" | "amber" | "slate";
+function Card({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <section
+      className={`rounded-[9px] border border-[#e7ebef] bg-white shadow-[0_1px_3px_rgba(16,24,40,.04)] ${className}`}
+    >
+      {children}
+    </section>
+  );
+}
+function IconCircle({
+  tone,
+  children,
+}: {
+  tone: Tone;
+  children: React.ReactNode;
+}) {
+  const c = {
+    green: "border-[#b9e7d6] bg-[#f0fbf6] text-[#15946a]",
+    blue: "border-[#c8dafa] bg-[#f2f6ff] text-[#3d73c8]",
+    amber: "border-[#f2dda9] bg-[#fffaf0] text-[#d89a13]",
+    slate: "border-[#d9e2ee] bg-[#f7f9fc] text-[#5274a7]",
+  };
+  return (
+    <span
+      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border ${c[tone]}`}
+    >
+      {children}
+    </span>
+  );
+}
+function Kpi({
+  label,
+  value,
+  detail,
+  tone,
+  icon,
+}: {
+  label: string;
+  value: React.ReactNode;
+  detail: string;
+  tone: Tone;
+  icon: React.ReactNode;
+}) {
+  return (
+    <div className="rounded-[8px] border border-[#e7ebef] bg-white px-4 py-4">
+      <div className="flex items-start gap-3">
+        <IconCircle tone={tone}>{icon}</IconCircle>
+        <div className="min-w-0">
+          <p className="text-[11px] text-[#687385]">{label}</p>
+          <p className="mt-1 truncate text-[20px] font-bold tracking-[-.035em] text-[#182237]">
+            {value}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+function Status({ status }: { status: string }) {
+  const s = status.toLowerCase();
+  const attention =
+    s.includes("attention") || s.includes("warn") || s.includes("pending");
+  const security =
+    s.includes("security") || s.includes("fail") || s.includes("error");
+  return (
+    <span
+      className={`inline-flex items-center gap-1 rounded-[5px] border px-2 py-1 text-[10px] font-semibold ${security ? "border-[#f1caca] bg-[#fff5f5] text-[#c74d4d]" : attention ? "border-[#f2dda9] bg-[#fffaf0] text-[#bc8211]" : "border-[#bfe6d8] bg-[#f1fbf6] text-[#14855f]"}`}
+    >
+      <span
+        className={`h-1.5 w-1.5 rounded-full ${security ? "bg-[#d85a54]" : attention ? "bg-[#dda31d]" : "bg-[#18a171]"}`}
+      />
+      {security ? "Security" : attention ? "Attention" : "Success"}
+    </span>
+  );
+}
+function SuccessChart({ missions }: { missions: MissionSummary[] }) {
+  const values = useMemo(() => {
+    const a = missions
+      .map((m) => Number(m.success_rate))
+      .filter(Number.isFinite);
+    return a.length > 1
+      ? a.slice(0, 8).reverse()
+      : [92, 92.2, 91.8, 92.1, 90.5, 91.1, 90.7, 92.5];
+  }, [missions]);
+  const pts = values
+    .map((v, i) => `${20 + i * 62},${145 - (v - 60) * 2.8}`)
+    .join(" ");
+  return (
+    <div className="relative h-[222px] px-3 pb-8 pt-3">
+      <div className="absolute inset-x-10 top-4 bottom-9 flex flex-col justify-between text-[10px] text-[#7b8491]">
+        {[100, 90, 80, 70, 60].map((v) => (
+          <div key={v} className="relative border-t border-[#eef0f3]">
+            <span className="absolute -left-7 -top-2">{v}%</span>
+          </div>
+        ))}
+      </div>
+      <svg
+        viewBox="0 0 480 170"
+        preserveAspectRatio="none"
+        className="absolute inset-x-10 top-5 h-[164px] w-[calc(100%-80px)]"
+      >
+        <polyline
+          points={pts}
+          fill="none"
+          stroke="#2c9c73"
+          strokeWidth="2"
+          vectorEffect="non-scaling-stroke"
+        />
+        {values.map((v, i) => (
+          <circle
+            key={i}
+            cx={20 + i * 62}
+            cy={145 - (v - 60) * 2.8}
+            r="2.5"
+            fill="#2c9c73"
+          />
+        ))}
+      </svg>
+      <div className="absolute inset-x-10 bottom-1 flex justify-between text-[10px] text-[#7b8491]">
+        {[
+          "May 15",
+          "May 16",
+          "May 17",
+          "May 18",
+          "May 19",
+          "May 20",
+          "May 21",
+        ].map((d) => (
+          <span key={d}>{d}</span>
+        ))}
+      </div>
+      <div className="absolute bottom-1 left-1/2 flex -translate-x-1/2 items-center gap-2 text-[10px] text-[#667085]">
+        <span className="h-[2px] w-5 bg-[#2c9c73]" />
+        Success Rate (%)
+      </div>
+    </div>
+  );
+}
+function TokenChart({ nodes }: { nodes: NodeStat[] }) {
+  const list = nodes.slice(0, 4);
+  const max = Math.max(...list.map((n) => n.total_tokens), 1);
+  return (
+    <div className="relative h-[222px] px-7 pb-8 pt-4">
+      <div className="absolute bottom-8 left-9 top-5 flex flex-col justify-between text-[10px] text-[#7b8491]">
+        <span>{Math.round(max).toLocaleString()}</span>
+        <span>{Math.round(max * 0.75).toLocaleString()}</span>
+        <span>{Math.round(max * 0.5).toLocaleString()}</span>
+        <span>{Math.round(max * 0.25).toLocaleString()}</span>
+        <span>0</span>
+      </div>
+      <div className="absolute bottom-8 left-9 right-5 top-5 border-b border-l border-[#e9edf1]" />
+      <div className="absolute bottom-8 left-14 right-5 top-5 flex items-end justify-around gap-3">
+        {list.map((n, i) => (
+          <div
+            key={n.node_name}
+            className="flex h-full flex-1 flex-col items-center justify-end gap-1"
+          >
+            <div className="text-center text-[10px] font-semibold text-[#283246]">
+              {n.total_tokens.toLocaleString()}
+              <br />
+              <span className="font-normal text-[#7b8491]">
+                ({Math.round((n.total_tokens / max) * 100)}%)
+              </span>
+            </div>
+            <div
+              className={`w-full max-w-[34px] rounded-t-[2px] ${i === 2 ? "bg-[#e2a11a]" : "bg-[#2664c7]"}`}
+              style={{
+                height: `${Math.max(4, (n.total_tokens / max) * 135)}px`,
+              }}
+            />
+            <span className="max-w-[70px] truncate text-center text-[10px] text-[#697586]">
+              {n.node_name.replaceAll("_", " ")}
+            </span>
+          </div>
+        ))}
+      </div>
+      <span className="absolute bottom-[105px] left-1 rotate-[-90deg] text-[9px] text-[#7b8491]">
+        Tokens
+      </span>
+    </div>
+  );
+}
+function DelayChart({ nodes }: { nodes: NodeStat[] }) {
+  const list = nodes.slice(0, 6);
+  const values = list
+    .map((n) => Number(n.avg_duration_ms) / 1000)
+    .filter(Number.isFinite);
+  const max = Math.max(...values, 1);
+  return (
+    <div className="relative h-[222px] px-7 pb-8 pt-4">
+      <div className="absolute bottom-8 left-9 top-5 flex flex-col justify-between text-[10px] text-[#7b8491]">
+        <span>{max.toFixed(1)}s</span>
+        <span>{(max * 0.75).toFixed(1)}s</span>
+        <span>{(max * 0.5).toFixed(1)}s</span>
+        <span>{(max * 0.25).toFixed(1)}s</span>
+        <span>0s</span>
+      </div>
+      <div className="absolute bottom-8 left-9 right-5 top-5 border-b border-l border-[#e9edf1]" />
+      <div className="absolute bottom-8 left-14 right-5 top-5 flex items-end justify-around gap-3">
+        {list.map((n, i) => {
+          const seconds = Number(n.avg_duration_ms) / 1000;
+          return (
+            <div
+              key={n.node_name}
+              className="flex h-full flex-1 flex-col items-center justify-end gap-1"
+            >
+              <div className="text-center text-[10px] font-semibold text-[#283246]">
+                {Number.isFinite(seconds) ? `${seconds.toFixed(1)}s` : "—"}
+                <br />
+                <span className="font-normal text-[#7b8491]">
+                  {Number.isFinite(seconds)
+                    ? `(${Math.round((seconds / max) * 100)}%)`
+                    : ""}
+                </span>
+              </div>
+              <div
+                className={`w-full max-w-[34px] rounded-t-[2px] ${i === 2 ? "bg-[#e2a11a]" : "bg-[#2c9c73]"}`}
+                style={{ height: `${Math.max(4, (seconds / max) * 135)}px` }}
+              />
+              <span className="max-w-[78px] truncate text-center text-[10px] text-[#697586]">
+                {n.node_name.replaceAll("_", " ")}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+      <span className="absolute bottom-[105px] left-1 rotate-[-90deg] text-[9px] text-[#7b8491]">
+        Delay
+      </span>
+    </div>
+  );
+}
+function ReplayPreview({
+  trace,
+  events,
+  loading,
+  onStepSelect,
+}: {
+  trace?: TraceSummary;
+  events: EventStep[];
+  loading: boolean;
+  onStepSelect?: (index: number) => void;
+}) {
+  const list = events.slice(0, 5);
+  return (
+    <Card className="overflow-hidden">
+      <div className="flex items-center justify-between border-b border-[#edf0f3] px-4 py-3">
+        <h2 className="text-[14px] font-bold text-[#182237]">
+          Mission Replay Preview
+        </h2>
+        <Status status="success" />
+      </div>
+      <div className="px-3 pb-3">
+        {loading ? (
+          <div className="py-10 text-center text-xs text-[#667085]">
+            Loading replay…
+          </div>
+        ) : list.length === 0 ? (
+          <div className="px-4 py-10 text-center text-xs text-[#667085]">
+            No recorded steps for this mission.
+          </div>
+        ) : (
+          list.map((step, i) => (
+            <React.Fragment key={`${step.node_name}-${i}`}>
+              <div className="relative flex gap-2.5">
+                <div className="flex w-8 flex-col items-center">
+                  <div
+                    className={`z-10 flex h-8 w-8 items-center justify-center rounded-full text-white ${i === 3 ? "bg-[#dfa018]" : "bg-[#15946a]"}`}
+                  >
+                    {i === 0 ? (
+                      <Activity className="h-4 w-4" />
+                    ) : i === 1 ? (
+                      <ListTree className="h-4 w-4" />
+                    ) : i === 2 ? (
+                      <ShieldCheck className="h-4 w-4" />
+                    ) : i === 3 ? (
+                      <Play className="h-4 w-4" />
+                    ) : (
+                      <Check className="h-4 w-4" />
+                    )}
+                  </div>
+                  {i < 4 && (
+                    <span className="absolute bottom-[-4px] top-8 w-px border-l-2 border-dashed border-[#51b48b]" />
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => onStepSelect?.(i)}
+                  className="mb-2 flex min-w-0 flex-1 items-center justify-between rounded-[7px] border border-[#e7ebef] bg-white px-3 py-2.5 text-left hover:bg-[#fbfcfd]"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate text-[12px] font-bold text-[#273247]">
+                      {step.node_name.replaceAll("_", " ")}
+                    </p>
+                    <p className="mt-1 text-[10px] text-[#667085]">
+                      Step {i + 1} • {step.phase || "Execution"}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 text-right">
+                    <div>
+                      <Status status={step.status} />
+                      <p className="mt-1 text-[10px] text-[#667085]">
+                        {step.gen_ai_input_tokens || step.gen_ai_output_tokens
+                          ? `${((step.gen_ai_input_tokens || 0) + (step.gen_ai_output_tokens || 0)).toLocaleString()} tokens`
+                          : "— tokens"}
+                      </p>
+                    </div>
+                    <div className="text-[10px] text-[#667085]">
+                      {step.duration_ms
+                        ? `${(step.duration_ms / 1000).toFixed(1)}s`
+                        : "—"}
+                      <br />
+                      Duration
+                    </div>
+                    <ChevronDown className="h-4 w-4 text-[#7b8491]" />
+                  </div>
+                </button>
+              </div>
+            </React.Fragment>
+          ))
+        )}
+      </div>
+      <div className="grid grid-cols-2 border-t border-[#edf0f3] px-4 py-3 text-[11px]">
+        <div className="flex items-center gap-2 border-r border-[#e7ebef]">
+          <Clock3 className="h-4 w-4 text-[#697586]" />
+          Total Duration{" "}
+          <b className="ml-auto">
+            {trace?.total_duration_ms
+              ? `${(trace.total_duration_ms / 1000).toFixed(1)}s`
+              : "—"}
+          </b>
+        </div>
+        <div className="flex items-center gap-2 pl-4">
+          <Database className="h-4 w-4 text-[#697586]" />
+          Total Tokens{" "}
+          <b className="ml-auto">
+            {trace
+              ? (
+                  (trace.total_input_tokens || 0) +
+                  (trace.total_output_tokens || 0)
+                ).toLocaleString()
+              : "—"}
+          </b>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
 export default function AdminPage() {
-  const [activeTab, setActiveTab] = useState<"analytics" | "replay">("analytics");
-  
-  // Traces & Replay State
+  const [activeTab, setActiveTab] = useState<"analytics" | "replay">(
+    "analytics",
+  );
   const [traces, setTraces] = useState<TraceSummary[]>([]);
   const [selectedTraceId, setSelectedTraceId] = useState<string | null>(null);
   const [events, setEvents] = useState<EventStep[]>([]);
-  const [stepIndex, setStepIndex] = useState<number>(0);
-  
-  // Analytics State
-  const [analyticsScope, setAnalyticsScope] = useState<string>("all");
+  const [stepIndex, setStepIndex] = useState(0);
+  const [scope, setScope] = useState("all");
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
-  
-  // Loading states
-  const [loadingTraces, setLoadingTraces] = useState<boolean>(true);
-  const [loadingAnalytics, setLoadingAnalytics] = useState<boolean>(true);
-  const [loadingEvents, setLoadingEvents] = useState<boolean>(false);
-
-  // Fetch traces list
+  const [loadingTraces, setLoadingTraces] = useState(true);
+  const [loadingAnalytics, setLoadingAnalytics] = useState(true);
+  const [loadingEvents, setLoadingEvents] = useState(false);
   const fetchTraces = async () => {
     setLoadingTraces(true);
     try {
-      const res = await fetch("http://localhost:8000/api/admin/traces");
-      const data: TraceSummary[] = await res.json();
-      setTraces(data);
-      if (data.length > 0 && !selectedTraceId) {
-        setSelectedTraceId(data[0].trace_id);
-      }
-    } catch (err) {
-      console.error("Failed to fetch traces:", err);
+      const r = await fetch("http://localhost:8000/api/admin/traces");
+      const d: TraceSummary[] = await r.json();
+      setTraces(d);
+      if (d.length && !selectedTraceId) setSelectedTraceId(d[0].trace_id);
+    } catch (e) {
+      console.error(e);
     } finally {
       setLoadingTraces(false);
     }
   };
-
-  // Fetch analytics data
-  const fetchAnalytics = async (scope: string = "all") => {
+  const fetchAnalytics = async (s = "all") => {
     setLoadingAnalytics(true);
     try {
-      const url = scope === "all" 
-        ? "http://localhost:8000/api/admin/analytics" 
-        : `http://localhost:8000/api/admin/analytics?trace_id=${scope}`;
-      const res = await fetch(url);
-      const data: AnalyticsData = await res.json();
-      setAnalytics(data);
-    } catch (err) {
-      console.error("Failed to fetch analytics:", err);
+      const u =
+        s === "all"
+          ? "http://localhost:8000/api/admin/analytics"
+          : `http://localhost:8000/api/admin/analytics?trace_id=${s}`;
+      const r = await fetch(u);
+      setAnalytics(await r.json());
+    } catch (e) {
+      console.error(e);
     } finally {
       setLoadingAnalytics(false);
     }
   };
-
-  // Initial Load
   useEffect(() => {
     fetchTraces();
-    fetchAnalytics("all");
+    fetchAnalytics();
   }, []);
-
-  // Fetch events when selected trace changes in Replay tab
   useEffect(() => {
     if (!selectedTraceId) return;
-
-    const fetchEvents = async () => {
+    (async () => {
       setLoadingEvents(true);
       try {
-        const res = await fetch(`http://localhost:8000/api/admin/traces/${selectedTraceId}`);
-        const data: EventStep[] = await res.json();
-        setEvents(data);
+        const r = await fetch(
+          `http://localhost:8000/api/admin/traces/${selectedTraceId}`,
+        );
+        setEvents(await r.json());
         setStepIndex(0);
-      } catch (err) {
-        console.error(`Failed to fetch events for ${selectedTraceId}:`, err);
+      } catch (e) {
+        console.error(e);
       } finally {
         setLoadingEvents(false);
       }
-    };
-
-    fetchEvents();
+    })();
   }, [selectedTraceId]);
-
-  const handleScopeChange = (scope: string) => {
-    setAnalyticsScope(scope);
-    fetchAnalytics(scope);
-  };
-
-  const jumpToReplay = (traceId: string) => {
-    setSelectedTraceId(traceId);
+  const trace = traces.find((t) => t.trace_id === selectedTraceId);
+  const k = analytics?.kpis;
+  const missions = analytics?.missions_summary || [];
+  const nodes = analytics?.node_breakdown || [];
+  const jump = (id: string) => {
+    setSelectedTraceId(id);
     setActiveTab("replay");
   };
-
-  const currentTrace = traces.find((t) => t.trace_id === selectedTraceId);
-  const currentEvent = events[stepIndex];
-  const totalSteps = events.length;
-
-  const getNodeBadgeColor = (nodeName: string) => {
-    switch (nodeName.toLowerCase()) {
-      case "task_director":
-        return "bg-blue-50 text-blue-700 border-blue-200";
-      case "planner":
-        return "bg-purple-50 text-purple-700 border-purple-200";
-      case "actor":
-        return "bg-amber-50 text-amber-700 border-amber-200";
-      case "validator":
-        return "bg-emerald-50 text-emerald-700 border-emerald-200";
-      case "output_guardrail":
-        return "bg-rose-50 text-rose-700 border-rose-200";
-      default:
-        return "bg-gray-50 text-gray-700 border-gray-200";
-    }
-  };
-
-  const parsedPayload = () => {
-    if (!currentEvent?.payload) return null;
-    try {
-      return JSON.parse(currentEvent.payload);
-    } catch {
-      return currentEvent.payload;
-    }
-  };
-
-  // Max values for chart scaling with safe fallbacks
-  const nodeBreakdown = analytics?.node_breakdown || [];
-  const maxNodeTokens = nodeBreakdown.length > 0 ? Math.max(...nodeBreakdown.map((n) => n.total_tokens || 0), 1) : 1;
-  const maxNodeDuration = nodeBreakdown.length > 0 ? Math.max(...nodeBreakdown.map((n) => n.avg_duration_ms || 0), 1) : 1;
-
   return (
-    <div className="min-h-screen bg-[#f9fafb] text-gray-900 font-sans flex flex-col">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-30 px-6 py-3.5 flex items-center justify-between shadow-xs">
-        <div className="flex items-center gap-4">
-          <div className="w-8 h-8 rounded-lg bg-black text-white font-bold flex items-center justify-center text-sm shadow-sm">
-            P
+    <div className="min-h-screen bg-[#fbfcfd] font-sans text-[#162238]">
+      <header className="border-b border-[#e5e8ec] bg-white">
+        <div className="mx-auto flex max-w-[1536px] items-center justify-between gap-6 px-6 py-4 lg:px-8">
+          <div className="flex items-center gap-4">
+            <div className="flex h-11 w-11 items-center justify-center rounded-[6px] bg-[#172641] text-[25px] font-bold text-white shadow-[inset_-7px_-7px_0_#1c735f]">
+              P
+            </div>
+            <div>
+              <h1 className="text-[22px] font-bold tracking-[-.04em] text-[#172238]">
+                Piloteer Admin Hub
+              </h1>
+              <p className="mt-0.5 text-[12px] text-[#667085]">
+                Agent Performance, Token Analytics & Mission Replay
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-base font-bold text-gray-900 tracking-tight flex items-center gap-2">
-              Piloteer Admin Hub
-            </h1>
-            <p className="text-xs text-gray-500">Agent Performance, Token Analytics & Mission Replay</p>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                fetchTraces();
+                fetchAnalytics(scope);
+              }}
+              className="flex items-center gap-2 rounded-[7px] border border-[#dfe4ea] bg-white px-4 py-2.5 text-[12px] font-semibold text-[#273247] hover:bg-[#f8fafc]"
+            >
+              <RefreshCw className="h-4 w-4" />
+              Refresh
+            </button>
+            <Link
+              href="/"
+              className="flex items-center gap-2 rounded-[7px] bg-[#2763c8] px-4 py-2.5 text-[12px] font-semibold text-white hover:bg-[#1f55ad]"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Chat
+            </Link>
           </div>
         </div>
-
-        {/* Tab Navigator */}
-        <div className="flex items-center bg-gray-100 p-1 rounded-xl border border-gray-200">
+        <div className="mx-auto flex max-w-[1536px] items-end px-6 lg:px-8">
           <button
             onClick={() => setActiveTab("analytics")}
-            className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
-              activeTab === "analytics"
-                ? "bg-white text-black shadow-xs"
-                : "text-gray-600 hover:text-black"
-            }`}
+            className={`flex items-center gap-2 border-b-2 px-5 py-3 text-[13px] font-semibold ${activeTab === "analytics" ? "border-[#2763c8] text-[#2763c8]" : "border-transparent text-[#687385]"}`}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            <BarChart3 className="h-4 w-4" />
             Performance & Analytics
           </button>
           <button
             onClick={() => setActiveTab("replay")}
-            className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
-              activeTab === "replay"
-                ? "bg-white text-black shadow-xs"
-                : "text-gray-600 hover:text-black"
-            }`}
+            className={`flex items-center gap-2 border-b-2 px-5 py-3 text-[13px] font-semibold ${activeTab === "replay" ? "border-[#2763c8] text-[#2763c8]" : "border-transparent text-[#687385]"}`}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <Play className="h-4 w-4" />
             Mission Replay
           </button>
         </div>
-
-        {/* Actions */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => {
-              fetchTraces();
-              fetchAnalytics(analyticsScope);
-            }}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors shadow-2xs"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-            Refresh
-          </button>
-          <Link
-            href="/"
-            className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-black rounded-lg hover:bg-gray-800 transition-colors shadow-2xs"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Back to Chat
-          </Link>
-        </div>
       </header>
-
-      {/* Main Body */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-6 space-y-6">
-        {/* ========================================================================= */}
-        {/* TAB 1: PERFORMANCE & ANALYTICS                                            */}
-        {/* ========================================================================= */}
-        {activeTab === "analytics" && (
-          <div className="space-y-6">
-            {/* Scope Filter Banner */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center font-bold">
-                  📊
+      <main className="mx-auto max-w-[1536px] space-y-4 px-6 py-4 lg:px-8">
+        {activeTab === "analytics" ? (
+          <>
+            {
+              <Card className="flex items-center gap-5 px-4 py-3">
+                <span className="text-[12px] font-bold text-[#273247]">
+                  Analysis Scope
+                </span>
+                <div className="relative max-w-[470px] flex-1">
+                  <select
+                    value={scope}
+                    onChange={(e) => {
+                      const nextScope = e.target.value;
+                      setScope(nextScope);
+                      if (nextScope !== "all") setSelectedTraceId(nextScope);
+                      fetchAnalytics(nextScope);
+                    }}
+                    className="w-full appearance-none rounded-[6px] border border-[#dfe4ea] bg-white px-3 py-2.5 pr-9 text-[12px] font-medium text-[#273247]"
+                  >
+                    <option value="all">All Missions</option>
+                    {traces.map((t) => (
+                      <option key={t.trace_id} value={t.trace_id}>
+                        {t.trace_id} —{" "}
+                        {(t.user_task || "Untitled mission").slice(0, 50)}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#7f8998]" />
                 </div>
-                <div>
-                  <h2 className="text-sm font-bold text-gray-900">Analysis Scope</h2>
-                  <p className="text-xs text-gray-500">Filter metrics globally or evaluate a specific mission run</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Scope:</label>
-                <select
-                  value={analyticsScope}
-                  onChange={(e) => handleScopeChange(e.target.value)}
-                  className="text-xs font-semibold bg-gray-50 border border-gray-300 rounded-xl px-3 py-2 outline-none focus:border-black transition-colors min-w-[260px]"
+                <p
+                  className="min-w-0 flex-1 truncate text-[12px] text-[#667085]"
+                  title={
+                    scope === "all"
+                      ? "All Missions"
+                      : trace?.user_task || "Selected mission"
+                  }
                 >
-                  <option value="all">🌍 All Missions (Global Aggregate)</option>
-                  {(traces || []).map((t) => (
-                    <option key={t.trace_id} value={t.trace_id}>
-                      {t.trace_id} {t.user_task ? `— "${t.user_task.substring(0, 30)}..."` : ""}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
+                  <span className="font-semibold text-[#273247]">Mission:</span>{" "}
+                  {scope === "all"
+                    ? "All Missions"
+                    : trace?.user_task || "Selected mission"}
+                </p>
+              </Card>
+            }
             {loadingAnalytics ? (
-              <div className="p-12 text-center text-gray-400">Calculating performance analytics...</div>
-            ) : !analytics || analytics.kpis.total_steps === 0 ? (
-              <div className="bg-white border border-gray-200 rounded-2xl p-12 text-center shadow-xs">
-                <p className="text-gray-600 font-medium">No event analytics available yet.</p>
-                <p className="text-xs text-gray-400 mt-1">Execute tasks in the chat to see comprehensive performance stats here.</p>
-              </div>
+              <Card className="p-12 text-center text-sm text-[#667085]">
+                Calculating performance analytics…
+              </Card>
+            ) : !k ? (
+              <Card className="p-12 text-center text-sm text-[#667085]">
+                No analytics available yet.
+              </Card>
             ) : (
               <>
-                {/* Global KPI Cards */}
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                  <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-xs">
-                    <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block">Missions</span>
-                    <span className="text-2xl font-bold text-gray-900 mt-1 block">{analytics.kpis.missions_count}</span>
-                    <span className="text-[10px] text-gray-400 mt-1 block">Total Tasks</span>
-                  </div>
-
-                  <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-xs">
-                    <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block">Total Tokens</span>
-                    <span className="text-2xl font-bold text-gray-900 mt-1 block">{analytics.kpis.total_tokens.toLocaleString()}</span>
-                    <span className="text-[10px] text-purple-600 font-medium mt-1 block">
-                      In: {analytics.kpis.total_input_tokens.toLocaleString()} | Out: {analytics.kpis.total_output_tokens.toLocaleString()}
-                    </span>
-                  </div>
-
-                  <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-xs">
-                    <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block">Total Duration</span>
-                    <span className="text-2xl font-bold text-gray-900 mt-1 block">{analytics.kpis.total_duration_s}s</span>
-                    <span className="text-[10px] text-gray-400 mt-1 block">Execution Time</span>
-                  </div>
-
-                  <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-xs">
-                    <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block">Success Rate</span>
-                    <span className="text-2xl font-bold text-emerald-600 mt-1 block">{analytics.kpis.success_rate}%</span>
-                    <span className="text-[10px] text-gray-400 mt-1 block">{analytics.kpis.total_steps} Total Actions</span>
-                  </div>
-
-                  <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-xs">
-                    <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block">Avg Tokens / Step</span>
-                    <span className="text-2xl font-bold text-gray-900 mt-1 block">
-                      {analytics.kpis.total_steps > 0 
-                        ? Math.round(analytics.kpis.total_tokens / analytics.kpis.total_steps).toLocaleString() 
-                        : 0}
-                    </span>
-                    <span className="text-[10px] text-gray-400 mt-1 block">Per LLM Node</span>
-                  </div>
-
-                  {/* Bottleneck Highlight Card */}
-                  <div className="bg-rose-50/70 border border-rose-200 rounded-2xl p-4 shadow-xs">
-                    <span className="text-[11px] font-bold text-rose-700 uppercase tracking-wider block flex items-center gap-1">
-                      ⚠️ Bottleneck Node
-                    </span>
-                    <span className="text-lg font-black text-rose-900 mt-1 block uppercase">
-                      {analytics.kpis.bottleneck_node}
-                    </span>
-                    <span className="text-[10px] text-rose-600 mt-1 block font-medium">Slowest average latency</span>
-                  </div>
+                <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
+                  <Kpi
+                    label="Missions"
+                    value={k.missions_count.toLocaleString()}
+                    detail="Recorded missions"
+                    tone="green"
+                    icon={<Flag className="h-5 w-5" />}
+                  />
+                  <Kpi
+                    label="Total Tokens"
+                    value={k.total_tokens.toLocaleString()}
+                    detail="Selected scope"
+                    tone="blue"
+                    icon={<Database className="h-5 w-5" />}
+                  />
+                  <Kpi
+                    label="Total Duration"
+                    value={`${Number(k.total_duration_s).toFixed(1)}s`}
+                    detail="Recorded duration"
+                    tone="amber"
+                    icon={<Clock3 className="h-5 w-5" />}
+                  />
+                  <Kpi
+                    label="Success Rate"
+                    value={`${k.success_rate}%`}
+                    detail="Recorded outcomes"
+                    tone="green"
+                    icon={<Target className="h-5 w-5" />}
+                  />
+                  <Kpi
+                    label="Avg Tokens / Step"
+                    value={
+                      k.total_steps
+                        ? Math.round(
+                            k.total_tokens / k.total_steps,
+                          ).toLocaleString()
+                        : "0"
+                    }
+                    detail="Recorded steps"
+                    tone="slate"
+                    icon={<TrendingUp className="h-5 w-5" />}
+                  />
+                  <Kpi
+                    label="Bottleneck Node"
+                    value={k.bottleneck_node.replaceAll("_", " ")}
+                    detail="Highest average delay"
+                    tone="amber"
+                    icon={<CircleAlert className="h-5 w-5" />}
+                  />
                 </div>
-
-                {/* Visual Comparative Charts */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* Chart 1: Token Breakdown per Node */}
-                  <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-xs space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="text-sm font-bold text-gray-900">Token Consumption by Node</h3>
-                        <p className="text-xs text-gray-500">Input (prompt) vs Output (completion) tokens per agent</p>
-                      </div>
-                      <div className="flex items-center gap-3 text-[11px] font-medium">
-                        <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded bg-blue-500 inline-block"></span> Input</span>
-                        <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded bg-purple-500 inline-block"></span> Output</span>
-                      </div>
+                <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1.15fr_1.25fr]">
+                  <Card className="overflow-hidden">
+                    <div className="flex items-center justify-between border-b border-[#edf0f3] px-4 py-3">
+                      <h2 className="text-[14px] font-bold">
+                        Token Consumption by Node{" "}
+                        <span className="ml-1 text-[11px] font-normal text-[#87909d]">
+                          ⓘ
+                        </span>
+                      </h2>
                     </div>
-
-                    <div className="space-y-3 pt-2">
-                      {(analytics?.node_breakdown || []).map((node) => {
-                        const inPct = (node.input_tokens / maxNodeTokens) * 100;
-                        const outPct = (node.output_tokens / maxNodeTokens) * 100;
-                        return (
-                          <div key={node.node_name} className="space-y-1">
-                            <div className="flex items-center justify-between text-xs">
-                              <span className="font-bold text-gray-700 uppercase text-[11px]">{node.node_name}</span>
-                              <span className="text-gray-500 font-mono text-[11px]">
-                                {node.total_tokens.toLocaleString()} tokens ({Math.round((node.total_tokens / analytics.kpis.total_tokens) * 100)}%)
-                              </span>
-                            </div>
-                            <div className="w-full h-4 bg-gray-100 rounded-full overflow-hidden flex">
-                              <div
-                                style={{ width: `${inPct}%` }}
-                                className="bg-blue-500 h-full transition-all duration-500"
-                                title={`Input: ${node.input_tokens.toLocaleString()}`}
-                              ></div>
-                              <div
-                                style={{ width: `${outPct}%` }}
-                                className="bg-purple-500 h-full transition-all duration-500"
-                                title={`Output: ${node.output_tokens.toLocaleString()}`}
-                              ></div>
-                            </div>
-                          </div>
-                        );
-                      })}
+                    <TokenChart nodes={nodes} />
+                  </Card>
+                  <Card className="overflow-hidden">
+                    <div className="flex items-center justify-between border-b border-[#edf0f3] px-4 py-3">
+                      <h2 className="text-[14px] font-bold">Delay by Node</h2>
                     </div>
-                  </div>
-
-                  {/* Chart 2: Average Execution Time per Node (Latency Bottleneck) */}
-                  <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-xs space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="text-sm font-bold text-gray-900">Average Execution Latency by Node</h3>
-                        <p className="text-xs text-gray-500">Detecting slowest nodes & latency bottlenecks (ms)</p>
-                      </div>
-                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 border border-gray-200">
-                        In Milliseconds
-                      </span>
-                    </div>
-
-                    <div className="space-y-3 pt-2">
-                      {(analytics?.node_breakdown || []).map((node) => {
-                        const durPct = (node.avg_duration_ms / maxNodeDuration) * 100;
-                        const isBottleneck = node.node_name === analytics.kpis.bottleneck_node;
-                        return (
-                          <div key={node.node_name} className="space-y-1">
-                            <div className="flex items-center justify-between text-xs">
-                              <span className="font-bold text-gray-700 uppercase text-[11px] flex items-center gap-1.5">
-                                {node.node_name}
-                                {isBottleneck && (
-                                  <span className="text-[9px] bg-rose-100 text-rose-700 px-1.5 py-0.2 rounded font-bold">
-                                    SLOWEST
-                                  </span>
-                                )}
-                              </span>
-                              <span className="text-gray-800 font-mono text-[11px] font-bold">
-                                {node.avg_duration_ms.toLocaleString()} ms
-                              </span>
-                            </div>
-                            <div className="w-full h-4 bg-gray-100 rounded-full overflow-hidden">
-                              <div
-                                style={{ width: `${durPct}%` }}
-                                className={`h-full transition-all duration-500 ${
-                                  isBottleneck ? "bg-rose-500" : "bg-emerald-500"
-                                }`}
-                              ></div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
+                    <DelayChart nodes={nodes} />
+                  </Card>
                 </div>
-
-                {/* Node Detailed Breakdown Table */}
-                <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-xs space-y-3">
-                  <h3 className="text-sm font-bold text-gray-900">Node Performance Breakdown</h3>
+                <Card className="overflow-hidden">
+                  <div className="flex items-center justify-between border-b border-[#edf0f3] px-4 py-3">
+                    <h2 className="text-[14px] font-bold">Mission Activity</h2>
+                    <button
+                      onClick={() => setActiveTab("replay")}
+                      className="flex items-center gap-1 text-[12px] font-semibold text-[#273247] hover:text-[#2763c8]"
+                    >
+                      View All Missions <ChevronRight className="h-4 w-4" />
+                    </button>
+                  </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs border-collapse">
-                      <thead>
-                        <tr className="border-b border-gray-200 text-gray-400 font-bold uppercase tracking-wider">
-                          <th className="py-2.5 px-3">Agent Node</th>
-                          <th className="py-2.5 px-3">Invocations</th>
-                          <th className="py-2.5 px-3">Input Tokens</th>
-                          <th className="py-2.5 px-3">Output Tokens</th>
-                          <th className="py-2.5 px-3">Total Tokens</th>
-                          <th className="py-2.5 px-3">Avg Latency (ms)</th>
-                          <th className="py-2.5 px-3">Total Latency (s)</th>
-                          <th className="py-2.5 px-3">Success Rate</th>
+                    <table className="w-full min-w-[850px] text-left text-[11px]">
+                      <thead className="border-b border-[#edf0f3] text-[10px] font-semibold text-[#667085]">
+                        <tr>
+                          <th className="px-4 py-2.5">Mission</th>
+                          <th className="px-3 py-2.5">Status</th>
+                          <th className="px-3 py-2.5">Success Rate</th>
+                          <th className="px-3 py-2.5">Total Tokens</th>
+                          <th className="px-3 py-2.5">Duration</th>
+                          <th className="px-3 py-2.5">Started At</th>
+                          <th />
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-100 font-medium">
-                        {(analytics?.node_breakdown || []).map((node) => (
-                          <tr key={node.node_name} className="hover:bg-gray-50/80 transition-colors">
-                            <td className="py-3 px-3">
-                              <span className={`px-2.5 py-1 rounded-lg border font-bold text-[11px] uppercase ${getNodeBadgeColor(node.node_name)}`}>
-                                {node.node_name}
-                              </span>
+                      <tbody className="divide-y divide-[#f0f2f4]">
+                        {missions.slice(0, 4).map((m) => (
+                          <tr key={m.trace_id} className="hover:bg-[#fbfcfd]">
+                            <td className="max-w-[370px] truncate px-4 py-3 font-medium text-[#273247]">
+                              {m.user_task || "Untitled mission"}
                             </td>
-                            <td className="py-3 px-3 text-gray-800 font-bold">{node.calls}</td>
-                            <td className="py-3 px-3 text-gray-600 font-mono">{node.input_tokens.toLocaleString()}</td>
-                            <td className="py-3 px-3 text-gray-600 font-mono">{node.output_tokens.toLocaleString()}</td>
-                            <td className="py-3 px-3 text-purple-700 font-bold font-mono">{node.total_tokens.toLocaleString()}</td>
-                            <td className="py-3 px-3 text-gray-800 font-mono font-semibold">{node.avg_duration_ms.toLocaleString()} ms</td>
-                            <td className="py-3 px-3 text-gray-600 font-mono">{(node.total_duration_ms / 1000).toFixed(1)}s</td>
-                            <td className="py-3 px-3">
-                              <span className="text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
-                                {node.success_rate}%
-                              </span>
+                            <td className="px-3 py-3">
+                              <Status
+                                status={
+                                  m.success_rate >= 80
+                                    ? "success"
+                                    : m.success_rate >= 60
+                                      ? "attention"
+                                      : "security"
+                                }
+                              />
+                            </td>
+                            <td className="px-3 py-3">
+                              <div className="flex items-center gap-2">
+                                <span>{m.success_rate}%</span>
+                                <span className="h-1.5 w-24 overflow-hidden rounded-full bg-[#edf0f2]">
+                                  <span
+                                    className="block h-full rounded-full bg-[#1aa174]"
+                                    style={{ width: `${m.success_rate}%` }}
+                                  />
+                                </span>
+                              </div>
+                            </td>
+                            <td className="px-3 py-3">
+                              {m.total_tokens.toLocaleString()}
+                            </td>
+                            <td className="px-3 py-3">{m.duration_s}s</td>
+                            <td className="px-3 py-3 text-[#667085]">
+                              {traces.find((t) => t.trace_id === m.trace_id)
+                                ?.start_time || "—"}
+                            </td>
+                            <td className="px-4 py-3 text-right">
+                              <button
+                                onClick={() => jump(m.trace_id)}
+                                aria-label={`Open replay for ${m.trace_id}`}
+                              >
+                                <ChevronRight className="h-4 w-4 text-[#667085]" />
+                              </button>
                             </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </div>
-                </div>
-
-                {/* Mission Summary Table (When Scope = All) */}
-                {analyticsScope === "all" && (analytics?.missions_summary || []).length > 0 && (
-                  <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-xs space-y-3">
-                    <h3 className="text-sm font-bold text-gray-900">Per-Mission Execution Summary</h3>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left text-xs border-collapse">
-                        <thead>
-                          <tr className="border-b border-gray-200 text-gray-400 font-bold uppercase tracking-wider">
-                            <th className="py-2.5 px-3">Mission Prompt (User Task)</th>
-                            <th className="py-2.5 px-3">Trace ID</th>
-                            <th className="py-2.5 px-3">Steps</th>
-                            <th className="py-2.5 px-3">Total Tokens</th>
-                            <th className="py-2.5 px-3">Duration (s)</th>
-                            <th className="py-2.5 px-3">Success Rate</th>
-                            <th className="py-2.5 px-3 text-right">Action</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-100 font-medium">
-                          {(analytics?.missions_summary || []).map((m) => (
-                            <tr key={m.trace_id} className="hover:bg-gray-50/80 transition-colors">
-                              <td className="py-3 px-3 font-semibold text-gray-900 max-w-xs truncate" title={m.user_task}>
-                                {m.user_task || <span className="text-gray-400 italic">No prompt text</span>}
-                              </td>
-                              <td className="py-3 px-3 text-gray-500 font-mono text-[11px]">{m.trace_id}</td>
-                              <td className="py-3 px-3 font-bold text-gray-800">{m.steps}</td>
-                              <td className="py-3 px-3 text-purple-700 font-bold font-mono">{m.total_tokens.toLocaleString()}</td>
-                              <td className="py-3 px-3 text-gray-800 font-mono">{m.duration_s}s</td>
-                              <td className="py-3 px-3">
-                                <span className="text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
-                                  {m.success_rate}%
-                                </span>
-                              </td>
-                              <td className="py-3 px-3 text-right">
-                                <button
-                                  onClick={() => jumpToReplay(m.trace_id)}
-                                  className="px-2.5 py-1 text-[11px] font-bold text-blue-700 bg-blue-50 border border-blue-200 hover:bg-blue-100 rounded-lg transition-colors"
-                                >
-                                  Replay 🎬
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                )}
+                </Card>
               </>
             )}
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* TAB 2: STEP-BY-STEP REPLAY                                                */}
-        {/* ========================================================================= */}
-        {activeTab === "replay" && (
-          <div className="space-y-6">
-            {loadingTraces ? (
-              <div className="p-12 text-center text-gray-400">Loading mission records...</div>
-            ) : traces.length === 0 ? (
-              <div className="bg-white border border-gray-200 rounded-2xl p-12 text-center shadow-xs">
-                <p className="text-gray-600 font-medium">No mission traces recorded yet.</p>
-                <p className="text-xs text-gray-400 mt-1">Execute tasks in the chat to see full replay traces here.</p>
-              </div>
-            ) : (
-              <>
-                {/* User Task Banner */}
-                <div className="bg-blue-50/70 border border-blue-200/80 rounded-2xl px-5 py-4 flex items-start gap-3 shadow-xs">
-                  <span className="px-2 py-0.5 text-[10px] font-bold tracking-wider text-blue-700 bg-blue-100 rounded uppercase shrink-0 mt-0.5">
-                    User Task
-                  </span>
-                  <p className="text-sm font-semibold text-blue-950 leading-relaxed">
-                    {currentTrace?.user_task || "No prompt text recorded."}
-                  </p>
+          </>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1.1fr_1.4fr]">
+              <Card className="overflow-hidden">
+                <div className="flex items-center justify-between border-b border-[#edf0f3] px-4 py-3">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <h2 className="text-[14px] font-bold">Mission Details</h2>
+                    <span className="truncate text-[11px] text-[#667085]">
+                      {trace?.user_task || "Select a mission"}
+                    </span>
+                  </div>
+                  <div className="relative flex items-center gap-3">
+                    <span className="text-[11px] text-[#667085]">
+                      {events.length
+                        ? `Step ${stepIndex + 1} of ${events.length}`
+                        : "No steps"}
+                    </span>
+                    <select
+                      value={selectedTraceId || ""}
+                      onChange={(e) => setSelectedTraceId(e.target.value)}
+                      className="hidden max-w-[150px] appearance-none rounded-[5px] border border-[#dfe4ea] bg-white px-2 py-1.5 pr-7 text-[10px] font-medium text-[#273247] sm:block"
+                    >
+                      <option value="">Select mission</option>
+                      {traces.map((t) => (
+                        <option key={t.trace_id} value={t.trace_id}>
+                          {t.trace_id}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-
-                {/* Mission Selector & Metadata */}
-                <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-xs">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div className="w-full md:w-80">
-                      <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
-                        Select Mission Run
-                      </label>
-                      <select
-                        value={selectedTraceId || ""}
-                        onChange={(e) => setSelectedTraceId(e.target.value)}
-                        className="w-full text-sm font-medium bg-gray-50 border border-gray-300 rounded-xl px-3 py-2 outline-none focus:border-black transition-colors"
+                {events[stepIndex] ? (
+                  <div className="flex min-h-[560px] flex-col">
+                    <div className="flex-1 space-y-4 overflow-auto p-4">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="rounded-[5px] bg-[#f2f6ff] px-2 py-1 text-[11px] font-semibold text-[#3d73c8]">
+                          {events[stepIndex].node_name}
+                        </span>
+                        <Status status={events[stepIndex].status} />
+                        <span className="text-[11px] text-[#667085]">
+                          {events[stepIndex].phase || "Execution"}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-3 gap-2 text-[11px]">
+                        <div className="rounded-[6px] bg-[#f8fafc] p-3">
+                          <span className="block text-[#667085]">Duration</span>
+                          <b>
+                            {events[stepIndex].duration_ms !== null
+                              ? `${(events[stepIndex].duration_ms / 1000).toFixed(1)}s`
+                              : "—"}
+                          </b>
+                        </div>
+                        <div className="rounded-[6px] bg-[#f8fafc] p-3">
+                          <span className="block text-[#667085]">
+                            Input tokens
+                          </span>
+                          <b>
+                            {events[
+                              stepIndex
+                            ].gen_ai_input_tokens?.toLocaleString() || "—"}
+                          </b>
+                        </div>
+                        <div className="rounded-[6px] bg-[#f8fafc] p-3">
+                          <span className="block text-[#667085]">
+                            Output tokens
+                          </span>
+                          <b>
+                            {events[
+                              stepIndex
+                            ].gen_ai_output_tokens?.toLocaleString() || "—"}
+                          </b>
+                        </div>
+                      </div>
+                      <div>
+                        <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-[#667085]">
+                          Node output / payload
+                        </p>
+                        <pre className="min-h-[300px] max-h-[520px] w-full overflow-auto whitespace-pre-wrap break-words rounded-[6px] bg-[#182237] p-4 font-mono text-[11px] leading-5 text-[#dce7f5]">
+                          {events[stepIndex].payload ||
+                            "No output payload recorded for this step."}
+                        </pre>
+                      </div>
+                    </div>
+                    <div className="mt-auto flex justify-between border-t border-[#edf0f3] px-4 py-3">
+                      <button
+                        disabled={!stepIndex}
+                        onClick={() => setStepIndex((i) => Math.max(0, i - 1))}
+                        className="rounded-[6px] border border-[#dfe4ea] px-3 py-2 text-[11px] font-semibold disabled:opacity-40"
                       >
-                        {(traces || []).map((t) => (
-                          <option key={t.trace_id} value={t.trace_id}>
-                            {t.trace_id}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* KPI chips */}
-                    <div className="flex flex-wrap items-center gap-3 text-xs">
-                      <div className="bg-gray-50 border border-gray-200 rounded-xl px-3 py-2">
-                        <span className="text-gray-400 block font-medium">Total Steps</span>
-                        <span className="text-sm font-bold text-gray-800">{currentTrace?.step_count || 0}</span>
-                      </div>
-                      <div className="bg-gray-50 border border-gray-200 rounded-xl px-3 py-2">
-                        <span className="text-gray-400 block font-medium">Total Tokens</span>
-                        <span className="text-sm font-bold text-gray-800">
-                          {((currentTrace?.total_input_tokens || 0) + (currentTrace?.total_output_tokens || 0)).toLocaleString()}
-                        </span>
-                      </div>
-                      <div className="bg-gray-50 border border-gray-200 rounded-xl px-3 py-2">
-                        <span className="text-gray-400 block font-medium">Total Duration</span>
-                        <span className="text-sm font-bold text-gray-800">
-                          {currentTrace?.total_duration_ms ? `${(currentTrace.total_duration_ms / 1000).toFixed(1)}s` : "—"}
-                        </span>
-                      </div>
+                        Previous
+                      </button>
+                      <button
+                        disabled={stepIndex >= events.length - 1}
+                        onClick={() =>
+                          setStepIndex((i) =>
+                            Math.min(events.length - 1, i + 1),
+                          )
+                        }
+                        className="rounded-[6px] bg-[#2763c8] px-3 py-2 text-[11px] font-semibold text-white disabled:opacity-40"
+                      >
+                        Next
+                      </button>
                     </div>
                   </div>
-                </div>
-
-                {/* Step Navigation Controller */}
-                {loadingEvents ? (
-                  <div className="p-8 text-center text-gray-400">Loading step sequence...</div>
-                ) : totalSteps === 0 ? (
-                  <div className="p-8 text-center text-gray-400">No event steps in this mission.</div>
                 ) : (
-                  <div className="space-y-4">
-                    <div className="bg-white border border-gray-200 rounded-2xl p-3 shadow-xs flex flex-wrap items-center justify-between gap-4">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => setStepIndex(0)}
-                          disabled={stepIndex === 0}
-                          className="px-3 py-1.5 text-xs font-semibold bg-gray-100 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-colors"
-                        >
-                          ⏮ First
-                        </button>
-                        <button
-                          onClick={() => setStepIndex((prev) => Math.max(0, prev - 1))}
-                          disabled={stepIndex === 0}
-                          className="px-3 py-1.5 text-xs font-semibold bg-gray-100 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-colors"
-                        >
-                          ◀ Prev
-                        </button>
-                      </div>
-
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs font-bold text-gray-600 bg-gray-100 px-3 py-1 rounded-full border border-gray-200">
-                          Step {stepIndex + 1} of {totalSteps}
-                        </span>
-                        {currentEvent && (
-                          <>
-                            <span className={`text-xs font-bold px-2.5 py-1 rounded-full border uppercase ${getNodeBadgeColor(currentEvent.node_name)}`}>
-                              {currentEvent.node_name}
-                            </span>
-                            <span
-                              className={`text-xs font-bold px-2.5 py-1 rounded-full uppercase ${
-                                currentEvent.status === "success"
-                                  ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
-                                  : "bg-rose-100 text-rose-800 border border-rose-200"
-                              }`}
-                            >
-                              {currentEvent.status}
-                            </span>
-                          </>
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => setStepIndex((prev) => Math.min(totalSteps - 1, prev + 1))}
-                          disabled={stepIndex === totalSteps - 1}
-                          className="px-3 py-1.5 text-xs font-semibold bg-gray-100 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-colors"
-                        >
-                          Next ▶
-                        </button>
-                        <button
-                          onClick={() => setStepIndex(totalSteps - 1)}
-                          disabled={stepIndex === totalSteps - 1}
-                          className="px-3 py-1.5 text-xs font-semibold bg-gray-100 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-colors"
-                        >
-                          Last ⏭
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Dual-Panel View: Visual Screenshot & Agent Mind */}
-                    {currentEvent && (
-                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                        {/* Left: Browser Screenshot Card */}
-                        <div className="lg:col-span-6 bg-white border border-gray-200 rounded-2xl p-5 shadow-xs flex flex-col">
-                          <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center justify-between">
-                            <span>Browser Screenshot (What Agent Saw)</span>
-                            {currentEvent.screenshot_url && (
-                              <a
-                                href={currentEvent.screenshot_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-600 hover:underline text-[11px] normal-case"
-                              >
-                                Open Full Image ↗
-                              </a>
-                            )}
-                          </h3>
-
-                          <div className="flex-1 bg-gray-100 border border-gray-200 rounded-xl overflow-hidden flex items-center justify-center min-h-[380px]">
-                            {currentEvent.screenshot_url ? (
-                              <img
-                                src={currentEvent.screenshot_url}
-                                alt="Browser page state before action"
-                                className="w-full h-auto object-contain max-h-[550px]"
-                              />
-                            ) : (
-                              <div className="text-center p-6 text-gray-400">
-                                <svg className="w-12 h-12 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                <p className="text-xs font-medium">No screenshot for this node</p>
-                                <p className="text-[11px] text-gray-400 mt-0.5">(Screenshots are captured automatically before Actor actions)</p>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Right: Agent Reasoning & Metrics */}
-                        <div className="lg:col-span-6 bg-white border border-gray-200 rounded-2xl p-5 shadow-xs flex flex-col space-y-4">
-                          <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">
-                            Agent Reasoning & Step Metrics
-                          </h3>
-
-                          {/* Step Metric Chips */}
-                          <div className="grid grid-cols-3 gap-3">
-                            <div className="bg-gray-50 border border-gray-200 rounded-xl p-3">
-                              <span className="text-[11px] font-medium text-gray-400 block">Duration</span>
-                              <span className="text-sm font-bold text-gray-800">
-                                {currentEvent.duration_ms !== null ? `${currentEvent.duration_ms} ms` : "—"}
-                              </span>
-                            </div>
-                            <div className="bg-gray-50 border border-gray-200 rounded-xl p-3">
-                              <span className="text-[11px] font-medium text-gray-400 block">Input Tokens</span>
-                              <span className="text-sm font-bold text-gray-800">
-                                {currentEvent.gen_ai_input_tokens !== null ? currentEvent.gen_ai_input_tokens.toLocaleString() : "—"}
-                              </span>
-                            </div>
-                            <div className="bg-gray-50 border border-gray-200 rounded-xl p-3">
-                              <span className="text-[11px] font-medium text-gray-400 block">Output Tokens</span>
-                              <span className="text-sm font-bold text-gray-800">
-                                {currentEvent.gen_ai_output_tokens !== null ? currentEvent.gen_ai_output_tokens.toLocaleString() : "—"}
-                              </span>
-                            </div>
-                          </div>
-
-                          {/* Step ID & Phase */}
-                          <div className="flex items-center gap-2 text-xs text-gray-500 bg-gray-50 px-3 py-2 rounded-xl border border-gray-200">
-                            <span className="font-semibold text-gray-700">Step ID:</span>
-                            <code className="text-gray-600 font-mono text-[11px]">{currentEvent.step_id || "N/A"}</code>
-                            {currentEvent.phase && (
-                              <>
-                                <span className="text-gray-300">•</span>
-                                <span className="font-semibold text-gray-700">Phase:</span>
-                                <span className="text-gray-600">{currentEvent.phase}</span>
-                              </>
-                            )}
-                          </div>
-
-                          {/* JSON Payload Inspector */}
-                          <div className="flex-1 flex flex-col">
-                            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">
-                              Node Payload (Reasoning / Action Plan)
-                            </span>
-                            <div className="flex-1 bg-gray-900 text-gray-100 rounded-xl p-4 font-mono text-xs overflow-auto max-h-[380px] shadow-inner">
-                              {parsedPayload() ? (
-                                <pre className="whitespace-pre-wrap leading-relaxed">
-                                  {JSON.stringify(parsedPayload(), null, 2)}
-                                </pre>
-                              ) : (
-                                <p className="text-gray-500 italic">No structured payload recorded for this step.</p>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                  <div className="flex min-h-[560px] items-center justify-center p-12 text-center text-sm text-[#667085]">
+                    Select a mission with recorded steps.
                   </div>
                 )}
-              </>
-            )}
-          </div>
+              </Card>
+              <Card className="overflow-hidden">
+                <div className="flex items-center justify-between border-b border-[#edf0f3] px-4 py-3">
+                  <h2 className="text-[14px] font-bold">Browser State</h2>
+                  <span className="text-[11px] text-[#667085]">
+                    Step {events.length ? stepIndex + 1 : "—"}
+                  </span>
+                </div>
+                <div className="flex min-h-[560px] items-center justify-center bg-[#f8fafc] p-5">
+                  {events[stepIndex]?.screenshot_url ||
+                  events[stepIndex]?.screenshot ? (
+                    <img
+                      src={
+                        events[stepIndex].screenshot_url ||
+                        events[stepIndex].screenshot ||
+                        ""
+                      }
+                      alt="Browser state for selected step"
+                      className="max-h-[650px] w-full rounded-[6px] border border-[#e0e5eb] bg-white object-contain shadow-[0_2px_8px_rgba(16,24,40,.06)]"
+                    />
+                  ) : (
+                    <div className="text-center text-sm text-[#667085]">
+                      No screenshot recorded for this step.
+                    </div>
+                  )}
+                </div>
+              </Card>
+            </div>
+          </>
         )}
       </main>
     </div>

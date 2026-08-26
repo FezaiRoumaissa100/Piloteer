@@ -1,60 +1,36 @@
-# Piloteer
+# Piloteer — Autonomous Web Agent
 
-Piloteer is an autonomous, AI-driven web navigation agent developed as part of a summer internship project. 
+## 1. What is Piloteer?
+Piloteer is an advanced, autonomous web navigation agent designed to interact seamlessly with complex SaaS platforms. 
 
-**Project Title:** Conception et développement d'un agent IA de navigation web autonome pour guider et exécuter des démonstrations produit en temps réel.
+**Missions:**
+- **EXECUTE Mode**: Autonomously navigate web applications, fill out forms, and click buttons to achieve a user's target objective (e.g., "Add a new employee").
+- **GUIDE Mode**: Act as an interactive, step-by-step instructor. Instead of silently executing the task, it narrates the process and spotlights UI elements to teach the user how to use the platform.
+- **QUESTION Mode**: Act as a knowledgeable assistant, instantly answering factual questions about the software based on its internal knowledge base.
 
-## Project Context & Objectives
+**Design Goal:**
+To bridge the gap between complex software interfaces and natural language. Piloteer aims to make enterprise software instantly usable by anyone through text or voice, while maintaining strict enterprise-grade security and transparency.
 
-The primary goal of Piloteer is to act as an intelligent commercial or support assistant. It is capable of understanding a user's natural language request, analyzing the web interface of a SaaS application, identifying the correct interactive elements (buttons, inputs, menus, tables), and autonomously guiding or executing actions to perform real-time product demonstrations.
+---
 
-Key objectives of the project include:
-1. **Perception:** Building a web navigation agent based on the browser's **Accessibility Tree** rather than raw DOM or pure visual analysis, ensuring deterministic detection of interactive elements.
-2. **Execution:** Generating an action plan from a user prompt and executing those actions reliably using Playwright.
-3. **Safety & Auditing:** Adding a security layer to prevent destructive or unintended actions, and creating a logging/replay system to review exactly what the agent did.
+## 2. Main Technologies Used and Why
 
-## The Problematic: Building the "Motor AI"
+| Technology | Role | Why we chose it |
+|------------|------|-----------------|
+| **Gemini (LLM)** | The core brain (Planner, Validator, TaskDirector) | Provides state-of-the-art reasoning, enabling the agent to adapt dynamically to unexpected pop-ups or layout changes without rigid scripts. |
+| **Playwright & MCP** | Browser automation | **Playwright** captures clean Accessibility Trees (AOM) instead of raw HTML, drastically reducing token usage. **MCP** (Model Context Protocol) provides a standardized, decoupled bridge between the AI logic and the browser instance. |
+| **RAG (ChromaDB)** | SaaS Knowledge Base | Prevents hallucination. By scraping official documentation and injecting relevant chunks into the prompt using semantic search, the agent "learns" the software dynamically rather than relying on pre-training. |
+| **Semantic Guardrails** | Security | Uses vector embeddings to score the intent of every planned action against a blacklist of dangerous actions (e.g., mass deletions, leaving the domain). If a risk is detected, it enforces a **Human-in-the-Loop (HITL)** pause. |
+| **LangGraph** | Orchestration | Creates a robust, stateful loop (Plan → Act → Validate). It enables advanced fallback strategies, like retrying a failed click 3 times before escalating back to the high-level planner for a new strategy. |
+| **Gemini Live (Voice)** | Real-time STT / TTS | Powers a seamless, Siri-like voice interface over WebSockets, allowing hands-free operation and natural language HITL resolutions. |
 
-To achieve these objectives, traditional web automation (Selenium, basic scripts) is insufficient as it breaks when a website's layout changes. 
+---
 
-### Why the Accessibility Tree? (Replacing Raw DOM & Screenshots)
-Early versions of AI agents attempted to solve navigation using two flawed approaches:
-- **Pure Vision (Screenshots):** Passing screenshots to multimodal models is expensive, introduces high latency, and creates a "grounding problem" (the model can see a button but cannot accurately click its exact X/Y coordinates without complex coordinate-mapping hacks).
-- **Raw DOM Parsing:** Passing the full HTML of a modern SaaS application often exceeds 100,000 tokens. It is filled with noisy, non-interactive layout tags (`<div>`, `<span>`) that dilute the LLM's context window and trigger severe rate limits.
+## 3. Benchmarking 
 
-Piloteer abandons both in favor of the **Accessibility Tree (AXTree)**. The AXTree is a native browser structure that acts as a semantic distillatory of the page. It strips away presentational noise and exposes only what matters: interactive elements (buttons, links, inputs) and their accessible names. This allows the LLM to "read" the page exactly as a screen reader would, guaranteeing perfect alignment between the agent's intent and the physical element reference.
+To ensure reliability, Piloteer was evaluated against a standardized testing suite. 
 
-### The "Motor AI" Loop
-Piloteer focuses on building a robust **"Motor AI"** — the underlying logic engine that drives the agent. Instead of planning long, fragile sequences of actions, Piloteer uses a strict **one-step-per-iteration hierarchical loop**. By combining the deterministic perception of the pruned Accessibility Tree with an LLM's reasoning, Piloteer can handle unexpected popups, modal overlays, and changing UIs on the fly. 
-
-When Piloteer encounters a failure, it doesn't just guess; it feeds raw technical diagnostics back into its memory, allowing the Planner to self-correct its approach in real-time.
-
-## Architecture
-
-Piloteer is built around a continuous **Planner → Actor → Validator** loop orchestrated by LangGraph.
-
-1. **Tree Pruning (Perception):**
-   Before the Planner sees the page, the raw Accessibility Tree (~20,000 tokens) is passed through a deterministic Python Level-1 Pruner. This module strips out decorative elements and empty layout containers, keeping only interactive elements (buttons, inputs, links) and vital context (dialogs, headings). This reduces the payload to ~2,000 tokens, preventing LLM rate limits and hallucination.
-
-2. **The Planner (Decision):**
-   The Planner (LLM) receives the pruned tree, the user's target task, and the memory of previous attempts. It generates exactly **one** immediate action to take. It evaluates the current state of the page to decide if the task is already complete or what the next logical step is.
-
-3. **The Actor (Execution):**
-   The Actor receives the instruction and executes it via the Model Context Protocol (MCP) using Playwright. It captures the exact outcome of the action, including a hard boolean `isError` flag if the browser engine fails to execute the step.
-
-4. **The Validator (Evaluation):**
-   The Validator analyzes the Accessibility Tree **before** and **after** the action.
-   - If a technical error occurred, it extracts the raw causal error.
-   - If the action succeeded, it verifies if the target state (User Task) has been reached.
-   This reasoning is appended to the agent's memory, and the loop restarts until the Validator confirms the task is done.
-
-## Technologies Used
-
-Based on the project specifications, Piloteer leverages the following stack:
-
-- **AI Models:** Gemini / Gemini Live (used for dynamic reasoning, planning, and validation).
-- **Automation Engine:** Playwright / Puppeteer (executing physical clicks and navigation).
-- **Languages:** Python (Core Agent Logic) & JavaScript/TypeScript (Next.js for potential UI/Replay interfaces).
-- **Orchestration:** LangGraph (for stateful, cyclic multi-agent loops).
-- **Perception & Context:** DOM Parser (Accessibility Tree), Screenshot analysis, and RAG architectures.
-- **Protocol:** Model Context Protocol (MCP) for standardizing browser control.
+- **Benchmark**: OrangeHRM-Benchmark v4.0
+- **Test Platform**: OrangeHRM (opensource-demo.orangehrmlive.com)
+- **Model Used**: `gemini-3.5-flash-lite` (fallback: `gemini-2.5-flash`)
+- **Total Scenarios**: 33 rigorous tasks.
